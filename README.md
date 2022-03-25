@@ -8,11 +8,12 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 - Bryan Hernández
 - Jaasiel Guerra
 
-## Link formulario requerimientos básicos
-- <https://docs.google.com/forms/d/e/1FAIpQLSfnlOkZS8DEzeqkuvPmAtidKP80AYcJ6_ObyRruSLbIR52pxA/viewform?pli=1>
 
 ## Herramienta para bocetos
 - <https://pencil.evolus.vn/>
+
+## Carpeta de documentos
+- <https://drive.google.com/drive/u/1/folders/1FjTb60voq80e9eIToVAd8zFHRRn0BjNz>
 
 ## Historial de cambios
 
@@ -30,6 +31,11 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 
 ### Cambios
 
+Jaasiel Guerra 24.03.2022:
+
+- Se cambio la ubicacion de documentos a Drive
+- Realizacion del listado de entidades y sus funciones
+- Realizacion de diagrama ER
 
 Jaasiel Guerra 16.03.2022:
 
