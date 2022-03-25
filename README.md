@@ -31,10 +31,13 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 
 ### Cambios
 
+Jaasiel Guerra 25.03.2022:
+- Se arregló el ER
+
 Jaasiel Guerra 24.03.2022:
 
 - Se cambio la ubicacion de documentos a Drive
-- Realizacion del listado de entidades y sus funciones
+- Realizacion del listado de entidades y sus funciones <https://docs.google.com/spreadsheets/d/12fbRofNl_88W73xumem6WJrlvyeKHP1JB0O42tKFj8Q/edit?usp=sharing>
 - Realizacion de diagrama ER
 
 Jaasiel Guerra 16.03.2022:
