@@ -33,6 +33,7 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 
 Jaasiel Guerra 25.03.2022:
 - Se arregló el ER
+- Realizacion de casos de uso
 
 Jaasiel Guerra 24.03.2022:
 
