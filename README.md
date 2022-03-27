@@ -41,6 +41,9 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 
 ### Cambios
 
+Brian Hernandez 26.03.2022
+- Realizacion de vocetos
+
 Jaasiel Guerra 25.03.2022:
 - Se arregló el ER
 - Realizacion de casos de uso
