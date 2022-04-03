@@ -15,6 +15,15 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 ## Carpeta de documentos
 - <https://drive.google.com/drive/u/1/folders/1FjTb60voq80e9eIToVAd8zFHRRn0BjNz>
 
+## Explicación para subir cambios
+
+1. Crear una rama nueva con el nombre de la tarea asignada y el número de issue (#), ejemplo `git checkout -b nombre-tarea#xx`
+2. Con el comando `git add .` se prepara los cambios que se quieren subir
+3. Se confirman los cambios `git commit -m "mensaje #xx"` recordar poner el numero de issue (#) en el mensaje
+4. Enviar los cambios a GitHub `git push origin nombre-rama` recordar que se debe color el nombre de la rama creada en el paso 1
+5. Notificar al equipo los cambios subidos al repositorio
+
+
 ## Historial de cambios
 
 ### Explicación para escribir:
@@ -35,6 +44,14 @@ Brian Hernandez 02.04.2022
 - Realizacion de bocetos registro de alumnos
 - Reliazacion de bocetos registro de bimestre
 - Realizacion de bocetos registro de ciclos
+
+Jaasiel Guerra 31.03.2022
+- Se relaciono ciclo_escolar con algunas tablas para saber a que ciclo pertenecen esos registros
+
+Jaasiel Guerra 30.03.2022
+- SE agregaron tablas al ER para crear evaluaciones
+- Se agregaron tabblas al ER para control de punteo actitudinal del alumno
+
 
 Brian Hernandez 26.03.2022
 - Realizacion de vocetos
