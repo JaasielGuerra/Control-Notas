@@ -40,6 +40,9 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 
 ### Cambios
 
+Jaasiel Guerra 04.04.2022
+- Agregago campo disponibnilidad a tabla libro
+
 Jaasiel Guerra 30.03.2022
 - SE agregaron tablas al ER para crear evaluaciones
 - Se agregaron tabblas al ER para control de punteo actitudinal del alumno
