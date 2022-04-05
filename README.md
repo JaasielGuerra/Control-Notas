@@ -40,40 +40,4 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 
 ### Cambios
 
-Jaasiel Guerra 04.04.2022
-- Agregago campo disponibnilidad a tabla libro
-
-Brian Hernandez 04.04.2022
-- Realizacion de boceto, crud libros
-
-Brian Hernandez 02.04.2022
-- Realizacion de bocetos registro de alumnos
-- Reliazacion de bocetos registro de bimestre
-- Realizacion de bocetos registro de ciclos
-
-Jaasiel Guerra 31.03.2022
-- Se relaciono ciclo_escolar con algunas tablas para saber a que ciclo pertenecen esos registros
-
-Jaasiel Guerra 30.03.2022
-- SE agregaron tablas al ER para crear evaluaciones
-- Se agregaron tabblas al ER para control de punteo actitudinal del alumno
-
-
-Brian Hernandez 26.03.2022
-- Realizacion de vocetos
-
-Jaasiel Guerra 25.03.2022:
-- Se arregló el ER
-- Realizacion de casos de uso
-
-Jaasiel Guerra 24.03.2022:
-
-- Se cambio la ubicacion de documentos a Drive
-- Realizacion del listado de entidades y sus funciones <https://docs.google.com/spreadsheets/d/12fbRofNl_88W73xumem6WJrlvyeKHP1JB0O42tKFj8Q/edit?usp=sharing>
-- Realizacion de diagrama ER
-
-Jaasiel Guerra 16.03.2022:
-
-- Se creo el repositorio GitHub
-- Adjuntados los documentos recolectados
-- Creación de plantilla en proyecto GitHub para aplicar SCRUM
+<https://docs.google.com/document/d/1Bb8L_F424W81hbzdZFRzzNHzTSBEwfBfqpTih2xe0t4/edit?usp=sharing>
