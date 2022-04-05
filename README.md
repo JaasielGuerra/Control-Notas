@@ -40,6 +40,9 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 
 ### Cambios
 
+Brian Hernandez 04.04.2022
+- Realizacion de boceto, crud libros
+
 Brian Hernandez 02.04.2022
 - Realizacion de bocetos registro de alumnos
 - Reliazacion de bocetos registro de bimestre
