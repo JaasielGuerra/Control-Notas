@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+<!-- aqui va el head -->
+<div th:replace="layout/head :: head">...</div>
+
+<!-- titulo de la pagina -->
+<title>Página no encontrada</title>
+
+<body>
+<main>
+
+    <!-- aqui va el nav -->
+    <div th:replace="layout/nav :: nav">...</div>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <section class="section is-medium">
+                            <h1 class="title is-1 has-text-centered	">404</h1>
+                            <h3 class="subtitle is-3 has-text-centered	">Página no encontrada :(</h3>
+                        </section>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <div th:replace="layout/footer :: footer">...</div>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<div th:replace="layout/jquery :: script">...</div>
+
+</body>
+</html>

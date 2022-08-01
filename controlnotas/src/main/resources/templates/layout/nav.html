@@ -1,0 +1,184 @@
+<nav class="navbar is-info is-fixed-top" role="navigation" aria-label="main navigation" xmlns:th="http://www.thymeleaf.org" th:fragment="nav">
+
+    <div class="navbar-brand">
+        <a class="navbar-item" href="#">
+            <img th:src="${'/img/icons8-test-100.png'}">
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+           data-target="navbarBasicExample">
+            <span aria-hidden="true" class="has-text-white"></span>
+            <span aria-hidden="true" class="has-text-white"></span>
+            <span aria-hidden="true" class="has-text-white"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    <i class="fas fa-graduation-cap mr-1"></i>
+                    Alumnos
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Consultar alumnos
+                    </a>
+                    <a class="navbar-item">
+                        Registrar alumno
+                    </a>
+                    <a class="navbar-item">
+                        Expediente
+                    </a>
+                    <a class="navbar-item">
+                        Asignación grado y sección
+                    </a>
+                    <a class="navbar-item">
+                        Asistencia
+                    </a>
+                    <a class="navbar-item" href="#">
+                        Conducta
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link ">
+                    <i class="fas fa-book-reader mr-1"></i>
+                    Lectura
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Asignación de libro
+                    </a>
+                    <a class="navbar-item" href="#">
+                        Control de lectura
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link ">
+                    <i class="fas fa-tasks mr-1"></i>
+                    Actividades
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Plan de trabajo
+                    </a>
+                    <a class="navbar-item" href="#">
+                        Calificación de actividades
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link ">
+                    <i class="fas fa-clipboard-list mr-1"></i>
+                    Evaluaciones
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Consultar evaluaciones
+                    </a>
+                    <a class="navbar-item" href="#">
+                        Crear evaluación
+                    </a>
+                    <a class="navbar-item" href="#">
+                        Calificar evaluaciones
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link ">
+                    <i class="fas fa-file-invoice mr-1"></i>
+                    Reportes
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Notas de bimestre
+                    </a>
+                    <a class="navbar-item">
+                        Notas de fin de año
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link ">
+                    <i class="fas fa-cog mr-1"></i>
+                    Configuración
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Gestionar grados y secciónes
+                    </a>
+                    <a class="navbar-item">
+                        Datos Institución
+                    </a>
+                    <a class="navbar-item">
+                        Gestionar materias
+                    </a>
+                    <a class="navbar-item">
+                        Gestionar catálogo de libros
+                    </a>
+                    <a class="navbar-item">
+                        Gestionar Bimestres
+                    </a>
+                    <a class="navbar-item">
+                        Gestionar Ciclo
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    <i class="fas fa-users mr-1"></i>
+                    Usuarios
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        Gestionar usuarios
+                    </a>
+                    <a class="navbar-item">
+                        Asignación de materias
+                    </a>
+                    <a class="navbar-item">
+                        Control de permisos
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item is-right dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                    <button class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu3">
+                            <span class="icon is-small">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        <span>Nombre del usuario</span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+                    <div class="dropdown-content">
+                        <div class="dropdown-item">
+                            <p><strong>Nombre usuario</strong></p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Cerrar sesión
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
