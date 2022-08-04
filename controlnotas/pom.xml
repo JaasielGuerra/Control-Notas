@@ -15,6 +15,7 @@
 	<description>Herramienta de software control notas</description>
 	<properties>
 		<java.version>11</java.version>
+        <liquibase.propertyFile>${project.basedir}/src/main/resources/liquibase.properties</liquibase.propertyFile>
 	</properties>
 	<dependencies>
 
@@ -60,13 +61,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--
+
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 			<version>4.11.0</version>
 		</dependency>
-		-->
+
 	</dependencies>
 
 	<build>
@@ -83,6 +84,13 @@
 					</excludes>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <configuration>
+                    <propertyFile>${liquibase.propertyFile}</propertyFile>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
