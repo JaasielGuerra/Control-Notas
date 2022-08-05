@@ -1,12 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Consultar alumnos</h1>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
 
-<h3 th:text="${saludo}"></h3>
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">Consultar alumno</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <di>
+                            <table >
+                                <p class="subtitle is-5">Datos del alumno</p>
+
+                                <thead class="table is-narrow">
+                                    <tr >
+                                        <td >ID</td>
+                                        <td>Codigo</td>
+                                        <td>Nombre</td>
+                                        <td>Apellido</td>
+                                        <td class=" table-cell-text-align center ">Configuraciones</td>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>145654-5165</td>
+                                    <td>Jose manuel</td>
+                                    <td>Cruz santos</td>
+                                    <td>
+                                        <a class="button is-warning is-small"> Editar</a>
+                                        <a   class="button is-danger is-small"> Eliminar</a>
+                                        <a class="button is-info is-small">expediente</a>
+                                        <a class="button is-success is-small"> Cambiar grado</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </di>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/jquery :: script"></script>
+
 </body>
 </html>

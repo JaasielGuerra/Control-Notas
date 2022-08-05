@@ -1,10 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+                        <!-- AQUI ARRIBA NO SE TOCA  -->
+                        <h4 class="title has-text-centered is-4">Registrar Alumnos</h4>
+                        <hr class="dropdown-divider">
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
+                        <p class="subtitle is-5">Datos del alumno</p>
+                        <div class="columns">
+                            <div class="column is-5 center">
+                                <label> *Codigo</label>
+                                <div class="control">
+                                    <input class="input" type="number" placeholder="Codigo" id="codigo">
+                                </div>
+                            </div>
+                            <div class="column is-5 right">
+                                <label> *Validación de expediente</label>
+                                <div class="control">
+                                    <p class="control">
+                                        <a class="button is-primary is-medium is-fullwidth">
+                                            Validar
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-5">
+                                <label> *Nombre</label>
+                                <div class="control">
+                                    <input class="input " type="text" placeholder="Nombre" id="nombre">
+                                </div>
+                            </div>
+                            <div class="column is-5">
+                                <label> *Apellido</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Apellido" id="apellido">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-10 center">
+                                <label> *Direccion</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Direccion" id="direccion">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-5 ">
+                                <label> *Fecha Nacimiento</label>
+                                <div class="control has-text-info">
+                                    <input class="input" type="date" placeholder="Fecha nacimieto" id="fechanac">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- aqui ba la seguna-->
+                        <hr class="dropdown-divider">
+                        <p class="subtitle is-5">Asignacion de grado y seccion</p>
+                        <div class="columns">
+                            <div class="column is-5 ">
+                                <label> *Grado</label>
+                                <div class="control">
+                                    <div class="select is-medium is-fullwidth">
+                                        <select name="select" id="grado">
+                                            <option>Primero</option>
+                                            <option>Segundo</option>
+                                            <option>Tercero</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-5">
+                                <label> *Seccion</label>
+                                <div class="control">
+                                    <div class="select is-medium is-fullwidth">
+                                        <select name="select" id="seccion">
+                                            <option>Seccion A</option>
+                                            <option>Seccion B</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-3 is-offset-3 ">
+                                <input  class="button  is-success is-large is-fullwidth" type="submit" value="Guardar">
+                            </div>
+                            <div class="column is-3 ">
+                                <input  class="button  is-light is-large is-fullwidth" type="submit" value="Cancelar">
+                            </div>
+                        </div>
+
+
+                        <!-- AQUI ABAJONO SE TOCA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/jquery :: script"></script>
 
 </body>
 </html>
