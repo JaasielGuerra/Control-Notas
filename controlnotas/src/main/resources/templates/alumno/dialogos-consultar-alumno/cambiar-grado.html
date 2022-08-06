@@ -1,0 +1,48 @@
+<div class="modal" id="modal-grado" xmlns:th="http://www.thymeleaf.org" th:fragment="cambiar-grado">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <h4 class="modal-card-title title has-text-centered is-4">Cambiar grado alumno</h4>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="columns">
+        <div class="column is-5 ">
+          <label> *Grado</label>
+          <div class="control">
+            <div class="select is-smoll is-fullwidth ">
+              <select name="select" id="grado">
+                <option>Primero</option>
+                <option>Segundo</option>
+                <option>Tercero</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="column is-5">
+          <label> *Seccion</label>
+          <div class="control">
+            <div class="select is-smoll is-fullwidth ">
+              <select name="select" id="seccion">
+                <option>Seccion A</option>
+                <option>Seccion B</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+    <footer class="modal-card-foot">
+      <div class="columns">
+        <div class="column is-6 is-offset-1 ">
+          <input class="button  is-success is-smoll " type="submit" value="Guardar">
+        </div>
+        <div class="column is-1 ">
+          <input class="button  is-danger is-smoll " type="submit" value="Cancelar">
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>l>
