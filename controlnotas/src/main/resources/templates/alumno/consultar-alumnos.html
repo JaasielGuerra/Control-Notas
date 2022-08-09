@@ -21,36 +21,39 @@
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                         <di>
-                            <table >
+                            <table>
                                 <p class="subtitle is-5">Datos del alumno</p>
 
                                 <thead class="table is-narrow">
-                                    <tr >
-                                        <td >ID</td>
-                                        <td>Codigo</td>
-                                        <td>Nombre</td>
-                                        <td>Apellido</td>
-                                        <td class=" table-cell-text-align center ">Configuraciones</td>
-                                    </tr>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Codigo</td>
+                                    <td>Nombre</td>
+                                    <td>Apellido</td>
+                                    <td class=" align-content: end ">Configuraciones</td>
+                                </tr>
 
                                 </thead>
 
                                 <tbody>
                                 <tr>
-                                    <td>1</td>
-                                    <td>145654-5165</td>
-                                    <td>Jose manuel</td>
-                                    <td>Cruz santos</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
-                                        <a class="button is-warning is-small"> Editar</a>
-                                        <a   class="button is-danger is-small"> Eliminar</a>
-                                        <a class="button is-info is-small">expediente</a>
-                                        <a class="button is-success is-small"> Cambiar grado</a>
+                                        <a th:href="@{/consultar-alumnos/editar-alumno}" class="button is-warning is-small"> Editar</a>
+                                        <a class="button is-danger is-small"> Eliminar</a>
+                                        <a  data-target="modal-expediente" onclick="verExpediente()" class="button is-info is-small">expediente</a>
+                                        <a data-target="cambiar-grado" onclick="cambiarGradoAlumno()"  class="button is-success is-small"> Cambiar grado</a>
+
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </di>
+
+                        <!-- Aqui no se toca-->
                     </div>
                 </div>
             </div>
@@ -61,9 +64,35 @@
 
 </main>
 
+<!-- vista modal de expediente-->
+<div th:replace="alumno/dialogos-consultar-alumno/expediente :: expediente-alumno"></div>
+
+<div th:replace="alumno/dialogos-consultar-alumno/cambiar-grado:: cambiar-grado"></div>
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/jquery :: script"></script>
+
+<!-- aqui va funciones para modales-->
+<script src="/js/modal.js"></script>
+
+
+<script type="text/javascript">
+
+    <!-- aqui va funcion para expediente-->
+    function verExpediente() {
+
+        //abrir modal
+        openModal('modal-expediente');
+    }
+
+    <!-- aqui va funciones paraalumno-->
+    function cambiarGradoAlumno() {
+
+        openModal('modal-grado')
+    }
+
+
+</script>
 
 </body>
 </html>

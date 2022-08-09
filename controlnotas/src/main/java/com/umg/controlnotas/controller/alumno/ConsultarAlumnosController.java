@@ -16,5 +16,10 @@ public class ConsultarAlumnosController {
 
         return "/alumno/consultar-alumnos";
     }
+    @GetMapping(value = "/editar-alumno")
+    public String EditarAlumno(){
+        return "/alumno/editar-alumno";
+    }
+
 
 }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+                        <!-- aqui no se toca -->
+                        <h4 class="title has-text-centered is-4">Editar Alumno</h4>
+                        <hr class="dropdown-divider">
+                        <!-- aqui no se toca -->
+                        <p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
+                        <p class="subtitle is-5">Datos del alumno a actualizar</p>
+                        <div class="columns">
+                            <div class="column is-5 center">
+                                <label> *Codigo</label>
+                                <div class="control">
+                                    <input class="input" type="number" placeholder="Codigo" id="codigo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-5">
+                                <label> *Nombre</label>
+                                <div class="control">
+                                    <input class="input " type="text" placeholder="Nombre" id="nombre">
+                                </div>
+                            </div>
+                            <div class="column is-5">
+                                <label> *Apellido</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Apellido" id="apellido">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-10 center">
+                                <label> *Direccion</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Direccion" id="direccion">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-5 ">
+                                <label> *Fecha Nacimiento</label>
+                                <div class="control has-text-info">
+                                    <input class="input" type="date" placeholder="Fecha nacimieto" id="fechanac">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-3 is-offset-3 ">
+                                <input class="button  is-success is-large is-fullwidth" type="submit" value="Actualizar">
+                            </div>
+                            <div class="column is-3 ">
+                                <input class="button  is-light is-large is-fullwidth" type="submit" value="Cancelar">
+                            </div>
+                        </div>
+                        <!-- aqui no se toca -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/jquery :: script"></script>
+
+</body>
+</html>
