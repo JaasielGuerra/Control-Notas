@@ -12,6 +12,10 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "alumno")
 public class Alumno {
+
+    public static final int ACTIVO = 1;
+    public static final int INACTIVO = 2;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_alumno", nullable = false)
