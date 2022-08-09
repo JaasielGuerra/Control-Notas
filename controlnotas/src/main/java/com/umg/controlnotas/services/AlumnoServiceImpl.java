@@ -32,11 +32,11 @@ public class AlumnoServiceImpl implements AlumnoService {
         Usuario usuario = usuarioRepository.getReferenceById(1L);
 
         Alumno a = new Alumno();
-        a.setNombre(alumno.getNombre());
-        a.setApellido(alumno.getApellido());
-        a.setDireccion(alumno.getDireccion());
+        a.setNombre(alumno.getNombre().trim());
+        a.setApellido(alumno.getApellido().trim());
+        a.setDireccion(alumno.getDireccion().trim());
         a.setFechaNacimiento(alumno.getNacimiento());
-        a.setCodigoAlumno(alumno.getCodigo());
+        a.setCodigoAlumno(alumno.getCodigo().trim());
         a.setEstado(Alumno.ACTIVO);
         a.setFechaCommit(LocalDate.now());
         a.setHoraCommit(LocalTime.now());
