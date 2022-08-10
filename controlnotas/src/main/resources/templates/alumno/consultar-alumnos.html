@@ -30,6 +30,7 @@
                                     <td>Codigo</td>
                                     <td>Nombre</td>
                                     <td>Apellido</td>
+                                    <td>Expediente</td>
                                     <td class=" align-content: end ">Configuraciones</td>
                                 </tr>
 
@@ -41,6 +42,27 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td>
+
+                                        <article class="message is-success">
+                                            <div class="message-header">
+                                                <p>Expediente completo</p>
+                                                <button class="delete" aria-label="delete"></button>
+                                            </div>
+                                            <div class="message-body">
+                                               Hace falra DPI
+                                            </div>
+                                        </article>
+                                        <article class="message is-warning">
+                                            <div class="message-header">
+                                                <p>Expediente inconpleto</p>
+                                                <button class="delete is-small" aria-label="delete"></button>
+                                            </div>
+                                            <div class="message-body">
+                                             iu
+                                            </div>
+                                        </article>
+                                    </td>
                                     <td>
                                         <a th:href="@{/consultar-alumnos/editar-alumno}" class="button is-warning is-small"> Editar</a>
                                         <a class="button is-danger is-small"> Eliminar</a>
