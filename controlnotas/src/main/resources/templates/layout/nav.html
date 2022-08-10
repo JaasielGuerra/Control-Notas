@@ -140,7 +140,7 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item">
+                    <a class="navbar-item"  th:href="@{/consultar-usuarios}">
                         Gestionar usuarios
                     </a>
                     <a class="navbar-item">
@@ -156,13 +156,17 @@
         </div>
 
         <div class="navbar-end">
+
             <div class="navbar-item is-right dropdown is-hoverable">
+
                 <div class="dropdown-trigger">
-                    <button class="button is-dark" aria-haspopup="true" aria-controls="dropdown-menu3">
+
+                    <button class="button " aria-haspopup="true" aria-controls="dropdown-menu3">
                             <span class="icon is-small">
                                 <i class="fas fa-user"></i>
                             </span>
-                        <span>Nombre del usuario</span>
+
+
                     </button>
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu3" role="menu">
