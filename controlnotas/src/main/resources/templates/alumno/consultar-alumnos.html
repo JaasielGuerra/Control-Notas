@@ -16,65 +16,91 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">Consultar alumno</h4>
+                        <h4 class="title has-text-centered is-4">Consultar Alumnos</h4>
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <di>
-                            <table>
+
+
+                        <form th:action="@{/alumno/consultar}" method="get">
+                            <div class="columns">
+                                <div class="column is-2 is-offset-2 has-text-right">
+                                    <label>Grado y sección:</label>
+                                </div>
+                                <div class="column is-4">
+                                    <div class="select is-small is-fullwidth">
+                                        <select id="grado-seccion" name="gradoseccion">
+                                            <option th:each="s: ${grados}" th:value="${s.idSeccion}"
+                                                    th:text="${s.descripcionGrado +' '+ s.descripcionSeccion}"
+                                                    th:attrappend="selected=${seleccion eq s.idSeccion ? 'selected' : ''}">
+                                            </option>
+                                            <option value="0"
+                                                    th:attrappend="selected=${seleccion eq 0 or seleccion eq null? 'selected' : ''}">
+                                                SIN ASIGNACIÓN
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <button class="button is-info is-small" title="Consultar alumnos"
+                                            type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <div th:if="${not alumnos.isEmpty()}" id="tbl-container">
+
+                            <article class="message is-warning">
+                                <div class="message-body">
+                                    Hay alumnos con expediente incompleto.
+                                </div>
+                            </article>
+
+                            <table id="tbl-alumnos" class="table display" style="width:100%">
                                 <p class="subtitle is-5">Datos del alumno</p>
-
-                                <thead class="table is-narrow">
+                                <thead class="is-narrow">
                                 <tr>
-                                    <td>ID</td>
-                                    <td>Codigo</td>
-                                    <td>Nombre</td>
-                                    <td>Apellido</td>
-                                    <td>Expediente</td>
-                                    <td class=" align-content: end ">Configuraciones</td>
+                                    <th>ID</th>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Observación</th>
+                                    <th>Expediente</th>
+                                    <th>Grado</th>
+                                    <th class="has-text-right">Opciones</th>
                                 </tr>
-
                                 </thead>
 
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-
-                                        <article class="message is-success">
-                                            <div class="message-header">
-                                                <p>Expediente completo</p>
-                                                <button class="delete" aria-label="delete"></button>
-                                            </div>
-                                            <div class="message-body">
-                                               Hace falra DPI
-                                            </div>
-                                        </article>
-                                        <article class="message is-warning">
-                                            <div class="message-header">
-                                                <p>Expediente inconpleto</p>
-                                                <button class="delete is-small" aria-label="delete"></button>
-                                            </div>
-                                            <div class="message-body">
-                                             iu
-                                            </div>
-                                        </article>
+                                <tr th:each="a: ${alumnos}">
+                                    <td th:text="${a.id}">#</td>
+                                    <td th:text="${a.codigo}">demo</td>
+                                    <td th:text="${a.nombre +' '+a.apellido}">demo</td>
+                                    <td th:text="${a.observacionExpediente}">
+                                        lorem ipsum dolor sit amet, consectet
                                     </td>
                                     <td>
-                                        <a th:href="@{/consultar-alumnos/editar-alumno}" class="button is-warning is-small"> Editar</a>
+                                        <span class="tag is-success">Completo</span>
+                                        <span class="tag is-warning">Inpcompleto</span>
+                                    </td>
+                                    <td th:text="${a.descripcionGradoSeccion ne null ? a.descripcionGradoSeccion : '*NO ASIGNADO*'}">
+                                    </td>
+                                    <td class="has-text-right">
+                                        <a th:href="@{/consultar-alumnos/editar-alumno}"
+                                           class="button is-warning is-small">Visualizar</a>
                                         <a class="button is-danger is-small"> Eliminar</a>
-                                        <a  data-target="modal-expediente" onclick="verExpediente()" class="button is-info is-small">expediente</a>
-                                        <a data-target="cambiar-grado" onclick="cambiarGradoAlumno()"  class="button is-success is-small"> Cambiar grado</a>
-
+                                        <a data-target="modal-expediente" onclick="verExpediente()"
+                                           class="button is-info is-small">expediente</a>
+                                        <a data-target="cambiar-grado" onclick="cambiarGradoAlumno()"
+                                           class="button is-success is-small">Grado</a>
                                     </td>
                                 </tr>
+
                                 </tbody>
                             </table>
-                        </di>
-
+                        </div>
                         <!-- Aqui no se toca-->
                     </div>
                 </div>
@@ -97,22 +123,37 @@
 <!-- aqui va funciones para modales-->
 <script src="/js/modal.js"></script>
 
+<!-- datatables -->
+<script type="text/javascript" src="/js/datatables.min.js"></script>
 
 <script type="text/javascript">
 
-    <!-- aqui va funcion para expediente-->
+    $('#tbl-alumnos').DataTable({
+        lengthMenu: [5, 10, 25, 50],
+        language: {
+            lengthMenu: "Mostrar _MENU_ alumnos",
+            search: "Buscar: _INPUT_",
+            emptyTable: "No hay registros para mostrar",
+            sZeroRecords: "No se encontron resultados",
+            paginate: {
+                previous: "Página anterior",
+                next: "Página siguiente"
+            },
+            info: "Mostrando _START_ de _END_ de _TOTAL_ alumnos"
+        }
+    });
+
+
     function verExpediente() {
 
         //abrir modal
         openModal('modal-expediente');
     }
 
-    <!-- aqui va funciones paraalumno-->
     function cambiarGradoAlumno() {
 
         openModal('modal-grado')
     }
-
 
 </script>
 
