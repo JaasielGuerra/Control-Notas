@@ -33,7 +33,7 @@ public class ConsultarAlumnosController {
         List<GradoSeccion> gradosSecciones = seccionRepository.findGradosSeccionesByEstadoGrado(Grado.ACTIVO);
         model.addAttribute("grados", gradosSecciones);
 
-        List<AlumnoConsultar> alumnos = alumnoService.consultarAlumnos(gradoseccion).orElse(new ArrayList<>());
+        List<AlumnoConsultar> alumnos = alumnoService.consultarAlumnos(gradoseccion).orElse(null);
         model.addAttribute("alumnos", alumnos);
 
         model.addAttribute("seleccion", gradoseccion);
