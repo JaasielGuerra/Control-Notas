@@ -50,8 +50,13 @@
                             </div>
                         </form>
 
+                        <article th:if="${alumnos ne null and alumnos.isEmpty()}" class="message is-info">
+                            <div class="message-body">
+                                No se encontraron registros con los parámetros indicados.
+                            </div>
+                        </article>
 
-                        <div th:if="${not alumnos.isEmpty()}" id="tbl-container">
+                        <div th:if="${alumnos ne null and not alumnos.isEmpty()}" id="tbl-container">
 
                             <article class="message is-warning">
                                 <div class="message-body">
