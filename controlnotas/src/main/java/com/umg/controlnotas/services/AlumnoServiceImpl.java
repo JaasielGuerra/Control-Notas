@@ -63,6 +63,10 @@ public class AlumnoServiceImpl implements AlumnoService {
             alumnos = alumnoRepository.findAlumnosActivosNoAsignados();
         }
 
+        if (idSeccion == null) {
+            alumnos = alumnoRepository.findAlumnosActivos();
+        }
+
         return Optional.ofNullable(alumnos);
     }
 
