@@ -28,31 +28,25 @@
                                 <div class="column is-5 center">
                                     <label> *Código</label>
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Código" id="codigo" required name="codigo">
+                                        <input class="input" type="text" placeholder="Código" id="codigo" required
+                                               name="codigo">
                                     </div>
                                 </div>
-                                <div class="column is-offset-2 is-3 right">
-                                    <label>Validación de expediente</label>
-                                    <div class="control">
-                                        <p class="control">
-                                            <a class="button is-primary is-medium is-fullwidth">
-                                                Validar
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="columns">
                                 <div class="column is-5">
                                     <label> *Nombre</label>
                                     <div class="control">
-                                        <input class="input " type="text" placeholder="Nombre" id="nombre" required name="nombre">
+                                        <input class="input " type="text" placeholder="Nombre" id="nombre" required
+                                               name="nombre">
                                     </div>
                                 </div>
                                 <div class="column is-5">
                                     <label> *Apellido</label>
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Apellido" id="apellido" required name="apellido">
+                                        <input class="input" type="text" placeholder="Apellido" id="apellido" required
+                                               name="apellido">
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +54,8 @@
                                 <div class="column is-10 center">
                                     <label>Dirección</label>
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Dirección" id="direccion" name="direccion">
+                                        <input class="input" type="text" placeholder="Dirección" id="direccion"
+                                               name="direccion">
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +78,9 @@
                                         <div class="select is-medium is-fullwidth">
                                             <select name="grado" id="grado" required>
                                                 <option disabled selected>- Seleccione -</option>
-                                                <option th:each="g : ${grados}" th:value="${g.id}" th:text="${g.descripcion}">Primero</option>
+                                                <option th:each="g : ${grados}" th:value="${g.id}"
+                                                        th:text="${g.descripcion}">Primero
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -99,9 +96,51 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <!-- expediente-->
+                            <hr class="dropdown-divider">
+                            <p class="subtitle is-5">Validación de expediente</p>
+                            <div class="columns">
+                                <div class="column is-4 ">
+
+                                    <div class="control">
+                                        <p class="control">
+                                            <a data-target="validar-expediente" onclick="validar()" class="button is-primary is-medium is-fullwidth">Validar Expediente </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-6 ">
+                                    <label class="label"> ¿El expediente está completo? </label>
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="answer">
+                                            Si
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="answer">
+                                            NO
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-10">
+                                    <label> Observacón</label>
+                                    <div class="control">
+                                        <input class="input" type="text" id="observacion" required
+                                               name="obser">
+                                    </div>
+                                </div>
+
+                            </div>
+
                             <div class="columns">
                                 <div class="column is-3 is-offset-3 ">
-                                    <button class="button  is-success is-large is-fullwidth" type="submit" id="btn-submit">
+                                    <button class="button  is-success is-large is-fullwidth" type="submit"
+                                            id="btn-submit">
                                         Registrar
                                     </button>
                                 </div>
@@ -111,6 +150,7 @@
                                     </a>
                                 </div>
                             </div>
+
 
                         </form>
 
@@ -127,9 +167,15 @@
 
 </main>
 
+<div th:replace="/alumno/dialogos-registrar-alumno/validar-expediente::validar-expediente"></div>
+
+
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+
+<!-- aqui va funciones para modales-->
+<script src="/js/modal.js"></script>
 
 <!-- para validar formulario -->
 <script src="/js/jquery.validate.min.js"></script>
@@ -138,5 +184,13 @@
 <script src="/js/utilidades.js"></script>
 <script src="/js/registrar-alumno.js"></script>
 
+<script type="text/javascript">
+
+    function validar() {
+
+        //abrir modal
+        openModal('validar-expediente');
+    }
+</script>
 </body>
 </html>
