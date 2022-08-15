@@ -23,31 +23,37 @@
 
 
                         <form th:action="@{/alumno/consultar}" method="get">
-                            <div class="columns">
-                                <div class="column is-2 is-offset-2 has-text-right">
-                                    <label>Grado y sección:</label>
-                                </div>
-                                <div class="column is-4">
-                                    <div class="select is-small is-fullwidth">
-                                        <select id="grado-seccion" name="gradoseccion">
-                                            <option th:each="s: ${grados}" th:value="${s.idSeccion}"
-                                                    th:text="${s.descripcionGrado +' '+ s.descripcionSeccion}"
-                                                    th:attrappend="selected=${seleccion eq s.idSeccion ? 'selected' : ''}">
-                                            </option>
-                                            <option value="0"
-                                                    th:attrappend="selected=${seleccion eq 0 or seleccion eq null? 'selected' : ''}">
-                                                SIN ASIGNACIÓN
-                                            </option>
-                                        </select>
+                            <section class="section">
+                                <div class="columns">
+                                    <div class="column is-2 is-offset-2">
+                                        <label>Grado y sección:</label>
+                                    </div>
+                                    <div class="column is-3">
+                                        <div class="select is-small is-fullwidth">
+                                            <select id="grado-seccion" name="gradoseccion">
+                                                <option value=""
+                                                        th:attrappend="selected=${seleccion eq null? 'selected' : ''}">
+                                                    TODOS
+                                                </option>
+                                                <option th:each="s: ${grados}" th:value="${s.idSeccion}"
+                                                        th:text="${s.descripcionGrado +' '+ s.descripcionSeccion}"
+                                                        th:attrappend="selected=${seleccion eq s.idSeccion ? 'selected' : ''}">
+                                                </option>
+                                                <option value="0"
+                                                        th:attrappend="selected=${seleccion eq 0 ? 'selected' : ''}">
+                                                    SIN ASIGNACIÓN
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <button class="button is-link is-small is-rounded" title="Consultar alumnos"
+                                                type="submit">
+                                            Listar alumnos
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="column">
-                                    <button class="button is-info is-small" title="Consultar alumnos"
-                                            type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            </section>
                         </form>
 
                         <article th:if="${alumnos ne null and alumnos.isEmpty()}" class="message is-info">
