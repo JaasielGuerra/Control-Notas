@@ -96,4 +96,11 @@ public class AlumnoServiceImpl implements AlumnoService {
         return alumnoJSON;
     }
 
+
+    @Transactional
+    @Override
+    public void eliminarAlumno(long idAlumno) {
+        alumnoRepository.eliminar(idAlumno);
+    }
+
 }

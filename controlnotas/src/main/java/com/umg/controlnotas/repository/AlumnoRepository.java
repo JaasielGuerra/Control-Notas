@@ -5,6 +5,7 @@ import com.umg.controlnotas.model.custom.AlumnoConsultar;
 import com.umg.controlnotas.model.custom.AlumnoEditar;
 import com.umg.controlnotas.model.custom.AlumnoJSON;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -70,4 +71,12 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
             "WHERE " +
             "a.id = ?1 ")
     public AlumnoEditar findAlumno(Long id);
+
+    @Modifying
+    @Query("UPDATE " +
+            "Alumno a " +
+            "SET a.estado = 0 " +
+            "WHERE " +
+            "a.id = ?1")
+    public  void eliminar(Long id);
 }

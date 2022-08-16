@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -77,6 +75,22 @@ public class ConsultarAlumnosController {
         model.addAttribute("alumnoEdit", alumnoEditar);
 
         return "/alumno/editar-alumno";
+    }
+
+    @PostMapping("/eliminar")
+    public String eliminarAlumno(@ModelAttribute("idAlumno") Long id) {
+
+        logger.info("ID eliminar: " + id);
+
+        try {
+            alumnoService.eliminarAlumno(id);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
+
+        return "redirect:/alumno/consultar";
     }
 
 
