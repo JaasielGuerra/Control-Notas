@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <section class="section is-medium">
+                            <h1 class="title is-1 has-text-centered	">400</h1>
+                            <h3 class="subtitle is-3 has-text-centered	">La solicitud no puede ser procesada por el servidor.</h3>
+                        </section>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+</body>
+</html>
