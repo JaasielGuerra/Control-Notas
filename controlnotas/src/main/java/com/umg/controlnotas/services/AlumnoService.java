@@ -18,4 +18,7 @@ public interface AlumnoService {
 
     Optional<List<AlumnoConsultar>> consultarAlumnos(Long idSeccion);
     public AlumnoEditar obtenerAlumnoEditar(Long id);
+
+    @Transactional
+    void eliminarAlumno(long idAlumno);
 }

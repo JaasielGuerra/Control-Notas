@@ -14,7 +14,7 @@ import java.time.LocalTime;
 public class Alumno {
 
     public static final int ACTIVO = 1;
-    public static final int INACTIVO = 2;
+    public static final int INACTIVO = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

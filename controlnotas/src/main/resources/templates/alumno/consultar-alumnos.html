@@ -101,7 +101,10 @@
                                     <td class="has-text-right">
                                         <a th:href="@{/alumno/editar/{id}(id=*{a.id})}"
                                            class="button is-warning is-small">Visualizar</a>
-                                        <a class="button is-danger is-small">Eliminar</a>
+                                        <a class="button is-danger is-small" th:onclick="preEliminarAlumno([[${a.id}]])">
+                                            <input type="hidden" th:value="${2}">
+                                            Eliminar
+                                        </a>
                                         <a data-target="modal-expediente" onclick="verExpediente()"
                                            class="button is-info is-small">Expediente</a>
                                         <a data-target="cambiar-grado" onclick="cambiarGradoAlumno()"
@@ -128,6 +131,8 @@
 
 <div th:replace="alumno/dialogos-consultar-alumno/cambiar-grado:: cambiar-grado"></div>
 
+<div th:replace="alumno/dialogos-consultar-alumno/confirmacion:: confirmacion-eliminar"></div>
+
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
 
@@ -137,36 +142,7 @@
 <!-- datatables -->
 <script type="text/javascript" src="/js/datatables.min.js"></script>
 
-<script type="text/javascript">
-
-    $('#tbl-alumnos').DataTable({
-        lengthMenu: [5, 10, 25, 50],
-        language: {
-            lengthMenu: "Mostrar _MENU_ alumnos",
-            search: "Buscar: _INPUT_",
-            emptyTable: "No hay registros para mostrar",
-            sZeroRecords: "No se encontron resultados",
-            paginate: {
-                previous: "Página anterior",
-                next: "Página siguiente"
-            },
-            info: "Mostrando _START_ de _END_ de _TOTAL_ alumnos"
-        }
-    });
-
-
-    function verExpediente() {
-
-        //abrir modal
-        openModal('modal-expediente');
-    }
-
-    function cambiarGradoAlumno() {
-
-        openModal('modal-grado')
-    }
-
-</script>
+<script type="text/javascript" src="/js/consultar-alumnos.js"></script>
 
 </body>
 </html>

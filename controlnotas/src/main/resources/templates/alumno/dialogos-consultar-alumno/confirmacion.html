@@ -1,0 +1,25 @@
+<!-- MOdal -->
+<div class="modal" id="modal-confirmacion-eliminar" xmlns:th="http://www.thymeleaf.org"
+     th:fragment="confirmacion-eliminar">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">Confirmación</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+
+            <h3>¿Está seguro de realizar esta operación?</h3>
+
+        </section>
+
+        <footer class="modal-card-foot">
+            <form th:action="@{/alumno/eliminar/}" method="post">
+                <input type="hidden" id="id-alumno-eliminar" name="idAlumno">
+                <button class="button is-danger" type="submit">Si, eliminar</button>
+                <button class="button is-dark" type="button">No, cancelar</button>
+            </form>
+        </footer>
+    </div>
+</div>
