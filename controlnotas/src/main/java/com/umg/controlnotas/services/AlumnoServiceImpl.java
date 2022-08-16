@@ -4,6 +4,7 @@ import com.umg.controlnotas.model.Alumno;
 import com.umg.controlnotas.model.Seccion;
 import com.umg.controlnotas.model.Usuario;
 import com.umg.controlnotas.model.custom.AlumnoConsultar;
+import com.umg.controlnotas.model.custom.AlumnoEditar;
 import com.umg.controlnotas.model.custom.AlumnoJSON;
 import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.repository.SeccionRepository;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,16 +36,30 @@ public class AlumnoServiceImpl implements AlumnoService {
         Usuario usuario = usuarioRepository.getReferenceById(1L);
 
         Alumno a = new Alumno();
-        a.setNombre(alumno.getNombre().trim());
-        a.setApellido(alumno.getApellido().trim());
-        a.setDireccion(alumno.getDireccion().trim());
+        a.setNombre(alumno.getNombre().strip());
+        a.setApellido(alumno.getApellido().strip());
+        a.setDireccion(alumno.getDireccion().strip());
         a.setFechaNacimiento(alumno.getNacimiento());
-        a.setCodigoAlumno(alumno.getCodigo().trim());
+        a.setCodigoAlumno(alumno.getCodigo().strip());
         a.setEstado(Alumno.ACTIVO);
         a.setFechaCommit(LocalDate.now());
         a.setHoraCommit(LocalTime.now());
         a.setIdSeccion(seccion);
         a.setIdUsuario(usuario);
+
+        alumnoRepository.save(a);
+    }
+
+    @Transactional
+    @Override
+    public void actualizarAlumno(AlumnoJSON alumno) {
+
+        Alumno a = alumnoRepository.findById(alumno.getId()).orElseThrow();
+        a.setCodigoAlumno(alumno.getCodigo().strip());
+        a.setNombre(alumno.getNombre().strip());
+        a.setApellido(alumno.getApellido().strip());
+        a.setDireccion(alumno.getDireccion().strip());
+        a.setFechaNacimiento(alumno.getNacimiento());
 
         alumnoRepository.save(a);
     }
@@ -68,6 +82,18 @@ public class AlumnoServiceImpl implements AlumnoService {
         }
 
         return Optional.ofNullable(alumnos);
+    }
+
+    @Override
+    public AlumnoEditar obtenerAlumnoEditar(Long id) {
+
+        AlumnoEditar alumnoJSON = null;
+
+        if (id != null) {
+            alumnoJSON = alumnoRepository.findAlumno(id);
+        }
+
+        return alumnoJSON;
     }
 
 }

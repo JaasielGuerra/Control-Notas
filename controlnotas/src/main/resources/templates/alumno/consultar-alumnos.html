@@ -86,10 +86,10 @@
 
                                 <tbody>
                                 <tr th:each="a: ${alumnos}">
-                                    <td th:text="${a.id}">#</td>
-                                    <td th:text="${a.codigo}">demo</td>
-                                    <td th:text="${a.nombre +' '+a.apellido}">demo</td>
-                                    <td th:text="${a.observacionExpediente}">
+                                    <td th:text="*{a.id}">#</td>
+                                    <td th:text="*{a.codigo}">demo</td>
+                                    <td th:text="*{a.nombre +' '+a.apellido}">demo</td>
+                                    <td th:text="*{a.observacionExpediente}">
                                         lorem ipsum dolor sit amet, consectet
                                     </td>
                                     <td>
@@ -99,9 +99,9 @@
                                     <td th:text="${a.descripcionGradoSeccion ne null ? a.descripcionGradoSeccion : '*NO ASIGNADO*'}">
                                     </td>
                                     <td class="has-text-right">
-                                        <a th:href="@{/consultar-alumnos/editar-alumno}"
+                                        <a th:href="@{/alumno/editar/{id}(id=*{a.id})}"
                                            class="button is-warning is-small">Visualizar</a>
-                                        <a class="button is-danger is-small"> Eliminar</a>
+                                        <a class="button is-danger is-small">Eliminar</a>
                                         <a data-target="modal-expediente" onclick="verExpediente()"
                                            class="button is-info is-small">Expediente</a>
                                         <a data-target="cambiar-grado" onclick="cambiarGradoAlumno()"

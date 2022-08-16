@@ -26,7 +26,7 @@ public class AlumnoController {
     private GradoRepository gradoRepository;
 
     @GetMapping(value = "/nuevo")
-    public String nuevoAlumno(Model model){
+    public String nuevoAlumno(Model model) {
 
         model.addAttribute("grados", gradoRepository.findByEstado(Grado.ACTIVO));
 
@@ -35,20 +35,41 @@ public class AlumnoController {
 
     @PostMapping(value = "/registrar")
     @ResponseBody
-    public ResponseEntity<AlumnoJSON> RegistrarAlumno(@RequestBody AlumnoJSON alumno){
+    public ResponseEntity<AlumnoJSON> RegistrarAlumno(@RequestBody AlumnoJSON alumno) {
 
         try {
 
             alumnoService.registrarAlumno(alumno);
             logger.info("Alumno registrado con exito");
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
 
             logger.error("error registro alumno: " + ex.getMessage());
-            return  ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().build();
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(alumno);
+    }
+
+
+    @PostMapping(value = "/actualizar")
+    @ResponseBody
+    public ResponseEntity<AlumnoJSON> actualizarAlumno(@RequestBody AlumnoJSON alumno) {
+
+        logger.info("ID: " + alumno.getId());
+        logger.info("feccha: " + alumno.getNacimiento());
+
+        try {
+            alumnoService.actualizarAlumno(alumno);
+            logger.info("Alumno actualizado con exito");
+
+        } catch (Exception ex) {
+
+            logger.error("error actualizacion alumno: " + ex.getMessage());
+            return ResponseEntity.internalServerError().body(alumno);
+        }
+
+        return ResponseEntity.ok(alumno);
     }
 
 }
