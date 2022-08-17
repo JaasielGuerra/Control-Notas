@@ -5,12 +5,7 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 ## Integrantes de equipo
 
 - Angel Chacon
-- Bryan Hernández
 - Jaasiel Guerra
-
-
-## Herramienta para bocetos
-- <https://pencil.evolus.vn/>
 
 ## Carpeta de documentos
 - <https://drive.google.com/drive/u/1/folders/1FjTb60voq80e9eIToVAd8zFHRRn0BjNz>
@@ -22,22 +17,3 @@ Sistema para el control de notas en I.N.E.B. de Telesecundaria “Manuel Jose Ar
 3. Se confirman los cambios `git commit -m "mensaje #xx"` recordar poner el numero de issue (#) en el mensaje
 4. Enviar los cambios a GitHub `git push origin nombre-rama` recordar que se debe color el nombre de la rama creada en el paso 1
 5. Notificar al equipo los cambios subidos al repositorio
-
-
-## Historial de cambios
-
-### Explicación para escribir:
-~~~
-1. El cambio más reciente siempre debe ir arriba y no como último registro.
-
-2. Se debe escribir el título con su nombre y fecha (formato dd.MM.yyyy), ejemplo: Jaasiel Guerra 12.02.2022.
-
-3. Luego del título se debe escribir la descripción en forma de listado, ejemplo: 
-    - Se resolvio el error al guardar código de alumno.
-    - Formulario para ingreso de alumno terminado.
-    - Etc...
-~~~
-
-### Cambios
-
-<https://docs.google.com/document/d/1Bb8L_F424W81hbzdZFRzzNHzTSBEwfBfqpTih2xe0t4/edit?usp=sharing>
