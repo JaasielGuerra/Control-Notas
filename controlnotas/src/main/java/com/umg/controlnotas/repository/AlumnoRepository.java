@@ -1,6 +1,7 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Alumno;
+import com.umg.controlnotas.model.Seccion;
 import com.umg.controlnotas.model.custom.AlumnoConsultar;
 import com.umg.controlnotas.model.custom.AlumnoEditar;
 import com.umg.controlnotas.model.custom.AlumnoJSON;
@@ -78,5 +79,17 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
             "SET a.estado = 0 " +
             "WHERE " +
             "a.id = ?1")
-    public  void eliminar(Long id);
+    public void eliminar(Long id);
+
+    @Query("SELECT a.idSeccion.id FROM Alumno  a WHERE a.id = ?1")
+    Long obtenerIdSeccion(long id);
+
+
+    @Modifying
+    @Query("UPDATE " +
+            "Alumno a " +
+            "SET a.idSeccion = ?1 " +
+            "WHERE " +
+            "a.id = ?2")
+    public void updateSecccion(Seccion seccion, Long id);
 }
