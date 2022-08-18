@@ -1,10 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">Crear plan de trabajo</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <p class="subtitle is-5">Plan trabajo actividades</p>
+                        <div class="columns">
+
+                            <div class="column is-5 ">
+                                <label>Grado</label>
+                                <div class="control">
+                                    <div class="select is-smoll is-fullwidth ">
+                                        <select name="select" id="grado">
+                                            <option>PRIMERO</option>
+                                            <option>SEGUNDO</option>
+                                            <option>TERCERO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-10">
+                                <label> Descripcón</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="descripcion" required
+                                           name="obser">
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <p class="subtitle is-5">Actividades</p>
+                        <div class="columns">
+                            <div class="column">
+                                <label> Tarea</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="tarea" required
+                                           name="tarea">
+                                </div>
+                            </div>
+                            <div class="column">
+                                <label> Punteo</label>
+                                <div class="control">
+                                    <input class="input" type="number" id="punteo" required
+                                           name="punteo">
+                                </div>
+                            </div>
+                            <div class="column">
+                                <label>Materia</label>
+                                <div class="control">
+                                    <div class="select is-smoll is-fullwidth ">
+                                        <select name="select" id="materia">
+                                            <option>Matemáticas</option>
+                                            <option>Sociales</option>
+                                            <option>Ingles</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column ">
+                                <br>
+                                <div class="control">
+                                    <button class="button  is-success is-smoll " type="submit"
+                                            id="">
+                                        Agregar
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="columns">
+                            <table class="table display" >
+                                <thead  class="is-narrow">
+                                <tr>
+                                    <th>Descripcón actividad</th>
+                                    <th>Valor</th>
+                                    <th>Materia</th>
+                                    <th>Operación</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <th>a</th>
+                                    <th>12</th>
+                                    <th>213</th>
+                                    <th>
+                                        <a class="button is-danger is-small"> Eliminar</a>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                        <div class="columns">
+                            <div class="column is-3 is-offset-3 ">
+                                <button class="button  is-success is-large is-fullwidth" type="submit"
+                                        id="btn-submit"  data-target="confirmar-plan" onclick="confirmar()">
+                                    Guardar
+                                </button>
+                            </div>
+                            <div class="column is-3 ">
+                                <a class="button  is-light is-large is-fullwidth" type="button" href="consultar-plan-trabajo.html">
+                                    Consultar
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<div th:replace="/actividades/dialogos-plan-trabajo/confirmar-plan::confirmar-plan"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+<script src="/js/modal.js"></script>
+<script type="text/javascript">
+
+    function confirmar() {
+
+        //abrir modal
+        openModal('confirmar-plan');
+    }
+
+
+</script>
 
 </body>
 </html>

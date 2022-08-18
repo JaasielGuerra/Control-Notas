@@ -1,0 +1,28 @@
+<!-- MOdal -->
+<div class="modal" id="confirmar-plan" xmlns:th="http://www.thymeleaf.org" th:fragment="confirmar-plan">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">Confirmar creación</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    Al crear estén plan de trabajo, no se podrá editar, excepto las actividades, por favor asegurarse de
+                    que todos los datos sean correctos
+                </div>
+            </div>
+        </div>
+
+        <footer class="modal-card-foot ">
+
+            <button class="button  is-success" value="Guardar">Crear</button>
+
+            <button class="button  is-danger" value="Cancelar"> Cancelar</button>
+
+        </footer>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<!-- MOdal -->
+<div class="modal" id="actividad" xmlns:th="http://www.thymeleaf.org" th:fragment="actividadad">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">Agregar o editar actividades</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p class="subtitle is-5">Actividades</p>
+                    <div class="columns">
+                        <div class="column is-4">
+                            <label> Tarea</label>
+                            <div class="control">
+                                <input class="input" type="text" id="tarea" required
+                                       name="tarea">
+                            </div>
+                        </div>
+                        <div class="column is-2">
+                            <label> Punteo</label>
+                            <div class="control">
+                                <input class="input" type="number" id="punteo" required
+                                       name="punteo">
+                            </div>
+                        </div>
+                        <div class="column is-4">
+                            <label>Materia</label>
+                            <div class="control">
+                                <div class="select is-smoll is-fullwidth ">
+                                    <select name="select" id="materia">
+                                        <option>Matemáticas</option>
+                                        <option>Sociales</option>
+                                        <option>Ingles</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column ">
+                            <br>
+                            <div class="control">
+                                <button class="button  is-success is-smoll " type="submit"
+                                        id="">
+                                    Agregar
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-fullwidth">
+
+                            <table class="table display" >
+                                <thead  class="is-narrow">
+                                <tr>
+                                    <th>Descripcón actividad</th>
+                                    <th>Valor</th>
+                                    <th>Materia</th>
+                                    <th>Operación</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <th>a</th>
+                                    <th>12</th>
+                                    <th>213</th>
+                                    <th>
+                                        <a class="button is-danger is-small"> Eliminar</a>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <footer class="modal-card-foot ">
+
+            <button class="button  is-success" value="Guardar">Guardar</button>
+
+            <button class="button  is-danger" value="Cancelar"> Cancelar</button>
+
+        </footer>
+    </div>
+    </div>
+</div>
