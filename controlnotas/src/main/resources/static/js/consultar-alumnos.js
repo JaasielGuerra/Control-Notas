@@ -65,12 +65,9 @@ function reasignarAlumno() {
         dataType: 'json',
         data: JSON.stringify(asignacion),
         success: function (response) {
-            notif({
-                msg: "¡Alumno reasignado con éxito!",
-                type: "success"
-            });
 
             removeLoadingBtn("#btn-guardar-reasignacion");
+            alert("¡Alumno reasignado con éxito!");
             window.location = "/alumno/consultar";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
