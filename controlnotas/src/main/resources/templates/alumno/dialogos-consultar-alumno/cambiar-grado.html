@@ -1,48 +1,31 @@
 <div class="modal" id="modal-grado" xmlns:th="http://www.thymeleaf.org" th:fragment="cambiar-grado">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <h4 class="modal-card-title title has-text-centered is-4">Cambiar grado alumno</h4>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
-      <div class="columns">
-        <div class="column is-5 ">
-          <label> *Grado</label>
-          <div class="control">
-            <div class="select is-smoll is-fullwidth ">
-              <select name="select" id="grado">
-                <option>Primero</option>
-                <option>Segundo</option>
-                <option>Tercero</option>
-              </select>
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title title has-text-centered is-4">Cambiar grado alumno</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="columns">
+                <div class="column is-12">
+                    <label>* Grado y sección</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="select" id="gradoSeccionReasignar">
+                                <option value="">SIN ASIGNACIÓN</option>
+                            </select>
+                            <input type="hidden" id="idAlumnoReasignar">
+                        </div>
+                    </div>
+                </div>
+
             </div>
-          </div>
-        </div>
-        <div class="column is-5">
-          <label> *Sección</label>
-          <div class="control">
-            <div class="select is-smoll is-fullwidth ">
-              <select name="select" id="seccion">
-                <option>Sección A</option>
-                <option>Sección B</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
-    </section>
-    <footer class="modal-card-foot">
-      <div class="columns">
-        <div class="column is-6 is-offset-1 ">
-          <input class="button  is-success is-smoll " type="submit" value="Guardar">
-        </div>
-        <div class="column is-1 ">
-          <input class="button  is-danger is-smoll " type="submit" value="Cancelar">
-        </div>
-      </div>
-    </footer>
-  </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button  is-success" type="button" id="btn-guardar-reasignacion" onclick="reasignarAlumno()">Guardar</button>
+            <button class="button  is-danger" type="button">Cancelar</button>
+        </footer>
+    </div>
 </div>l>

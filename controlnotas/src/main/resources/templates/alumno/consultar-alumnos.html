@@ -107,7 +107,7 @@
                                         </a>
                                         <a data-target="modal-expediente" onclick="verExpediente()"
                                            class="button is-info is-small">Expediente</a>
-                                        <a data-target="cambiar-grado" onclick="cambiarGradoAlumno()"
+                                        <a data-target="cambiar-grado" th:onclick="cambiarGradoAlumno([[${a.id}]])"
                                            class="button is-success is-small">Grado</a>
                                     </td>
                                 </tr>
@@ -138,6 +138,9 @@
 
 <!-- aqui va funciones para modales-->
 <script src="/js/modal.js"></script>
+
+<!-- utilidades -->
+<script src="/js/utilidades.js"></script>
 
 <!-- datatables -->
 <script type="text/javascript" src="/js/datatables.min.js"></script>

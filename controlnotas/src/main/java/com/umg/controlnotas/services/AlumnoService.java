@@ -1,8 +1,10 @@
 package com.umg.controlnotas.services;
 
+import com.umg.controlnotas.model.Seccion;
 import com.umg.controlnotas.model.custom.AlumnoConsultar;
 import com.umg.controlnotas.model.custom.AlumnoEditar;
 import com.umg.controlnotas.model.custom.AlumnoJSON;
+import com.umg.controlnotas.model.custom.AsignacionAlumno;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,4 +23,10 @@ public interface AlumnoService {
 
     @Transactional
     void eliminarAlumno(long idAlumno);
+
+
+    AsignacionAlumno obtenerAsignacion(long idAlumno);
+
+    @Transactional
+    void cambiarAsignacionAlumno(Long idSeccion, long idAlumno);
 }
