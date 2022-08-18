@@ -3,6 +3,7 @@ package com.umg.controlnotas.controller.alumno;
 import com.umg.controlnotas.model.Grado;
 import com.umg.controlnotas.model.custom.AlumnoConsultar;
 import com.umg.controlnotas.model.custom.AlumnoEditar;
+import com.umg.controlnotas.model.custom.AsignacionAlumno;
 import com.umg.controlnotas.model.custom.GradoSeccion;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.services.AlumnoService;
@@ -10,12 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/alumno")
@@ -93,5 +96,44 @@ public class ConsultarAlumnosController {
         return "redirect:/alumno/consultar";
     }
 
+    @GetMapping("obtenerAsignacionAlumno")
+    @ResponseBody
+    public AsignacionAlumno obtenerAsignacion(@RequestParam Long idAlumno) {
+
+        AsignacionAlumno asignacionAlumno = null;
+
+        try {
+            logger.info("obteniendo asignacion alumno id: " + idAlumno);
+            asignacionAlumno = alumnoService.obtenerAsignacion(idAlumno);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
+
+        return asignacionAlumno;
+    }
+
+    @PostMapping("cambiarAsignacion")
+    @ResponseBody
+    public ResponseEntity<AsignacionAlumno> cambiarAsignacionAlumno(@RequestBody AsignacionAlumno asignacionAlumno) {
+
+        try {
+
+            logger.info("id alumno: " + asignacionAlumno.getIdAlumno());
+            logger.info("id seccion: " + asignacionAlumno.getIdSeccionAlumno());
+
+            alumnoService.cambiarAsignacionAlumno(asignacionAlumno.getIdSeccionAlumno(), asignacionAlumno.getIdAlumno());
+
+            logger.info("Alumno reasignado");
+
+        } catch (Exception ex) {
+
+            logger.error("error reasignando alumno: " + ex.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+
+        return ResponseEntity.ok().body(asignacionAlumno);
+    }
 
 }

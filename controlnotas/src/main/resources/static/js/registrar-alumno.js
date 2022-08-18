@@ -8,9 +8,11 @@ $("#grado").change((event) => {
         url: `/consultas/secciones?idGrado=${idGrado}`,
         dataType: 'json',
         success: function (data) {
+
+            let $seccion = $("#seccion");
+            $seccion.find("option").slice(1).remove();//slice para saltar primer item
+
             for (const i of data) {
-                let $seccion = $("#seccion");
-                $seccion.find("option").slice(1).remove();
                 $seccion.append(new Option(i["descripcion"], i["id"]));
             }
         },
@@ -77,7 +79,6 @@ $("#form-nuevo-alumno").validate({
 
     }
 });
-
 
 
 function submitFormAjax(formJSON) {
