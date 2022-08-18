@@ -1,10 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
 
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">Consultar plan de trabajo</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <p class="subtitle is-5">Consultar Planes de trabajo</p>
+                        <article class="message is-warning">
+                            <div class="message-body">
+                                El grado de primero basico no tiene plan de trabajo
+                            </div>
+                        </article>
+
+                        <div class="columns">
+                            <div class="column">
+
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Primero
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <label>Descripcón</label>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <a class=" button card-footer-item is-danger ">Borrar</a>
+                                        <a class=" button card-footer-item is-info"  data-target="Activiadad" onclick="Actividades()">Actividades</a>
+                                    </footer>
+                                </div>
+
+                            </div>
+
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Segundo
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <label>Descripcón</label>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <a class=" button card-footer-item is-danger ">Borrar</a>
+                                        <a class=" button card-footer-item is-info"  data-target="Actividad" onclick="Actividades()"  >Actividades</a>
+                                    </footer>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Tercero
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <label>Descripcón</label>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <a class=" button card-footer-item is-danger ">Borrar</a>
+                                        <a class=" button card-footer-item is-info " data-target="Actividad" onclick="Actividades()" > Actividades</a>
+                                    </footer>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<div th:replace="/actividades/dialogos-plan-trabajo/actividades::actividadad"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+<script src="/js/modal.js"></script>
+<script type="text/javascript">
+
+    function Actividades() {
+
+        //abrir modal
+        openModal('actividad');
+    }
+
+
+</script>
 </body>
 </html>
