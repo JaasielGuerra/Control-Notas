@@ -1,4 +1,5 @@
-<nav class="navbar is-info is-fixed-top" role="navigation" aria-label="main navigation" xmlns:th="http://www.thymeleaf.org" th:fragment="nav">
+<nav class="navbar is-info is-fixed-top" role="navigation" aria-label="main navigation"
+     xmlns:th="http://www.thymeleaf.org" th:fragment="nav" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <div class="navbar-brand">
         <a class="navbar-item" href="#">
@@ -140,7 +141,7 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item"  th:href="@{/consultar-usuarios}">
+                    <a class="navbar-item" th:href="@{/consultar-usuarios}">
                         Gestionar usuarios
                     </a>
                     <a class="navbar-item">
@@ -165,21 +166,22 @@
                             <span class="icon is-small">
                                 <i class="fas fa-user"></i>
                             </span>
-
-
+                        <span sec:authentication="principal.nombreCompleto">Nombre del usuario</span>
                     </button>
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu3" role="menu">
                     <div class="dropdown-content">
                         <div class="dropdown-item">
-                            <p><strong>Nombre usuario</strong></p>
+                            <p sec:authentication="principal.nombreCompleto"></p>
+                            <p><strong sec:authentication="principal.authorities"></strong></p>
                         </div>
                         <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Cerrar sesión
-
-                        </a>
+                        <form th:action="@{/logout}" method="post">
+                            <a class="dropdown-item" onclick="this.parentNode.submit();">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Cerrar sesión
+                            </a>
+                        </form>
                     </div>
                 </div>
             </div>
