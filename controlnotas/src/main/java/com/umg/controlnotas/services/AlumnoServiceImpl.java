@@ -11,6 +11,7 @@ import com.umg.controlnotas.model.custom.AsignacionAlumno;
 import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.repository.UsuarioRepository;
+import com.umg.controlnotas.web.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,8 @@ public class AlumnoServiceImpl implements AlumnoService {
     private SeccionRepository seccionRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UserFacade userFacade;
 
     /**
      * Metodo transaccional para registrar un alumnno
@@ -40,7 +43,7 @@ public class AlumnoServiceImpl implements AlumnoService {
     public void registrarAlumno(AlumnoJSON alumno) {
 
         Seccion seccion = seccionRepository.getReferenceById(alumno.getSeccion());
-        Usuario usuario = usuarioRepository.getReferenceById(1L);
+        Usuario usuario = usuarioRepository.getReferenceById(userFacade.getUserSession().getIdUsuario());
 
         Alumno a = new Alumno();
         a.setNombre(alumno.getNombre().strip());

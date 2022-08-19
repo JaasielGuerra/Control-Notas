@@ -18,20 +18,33 @@
 
         <div class="colum is-6">
 
-            <form action="" class="box">
+            <form th:action="@{/login}" method="post" class="box">
 
                 <h4 class="title has-text-centered is-3">Login</h4>
-                <figure class="image mt-4" style="margin: auto; width: 35%">
+                <figure class="image mt-4" style="margin: auto; width: 70%">
                     <img th:src="${'/img/logo.png'}">
                 </figure>
+
+                <article class="message is-danger" th:if="${param.error}">
+                    <div class="message-body">
+                        Usuario o contraseña inválido.
+                    </div>
+                </article>
+
+                <article class="message is-info" th:if="${param.logout}">
+                    <div class="message-body">
+                        Sesión cerrada correctamente.
+                    </div>
+                </article>
+
                 <div class="field">
                     <label class="label">
                         Usuario
                     </label>
                     <div class="control has-icons-left">
-                        <input type="text" class="input" placeholder="usuario">
+                        <input type="text" class="input" placeholder="usuario" name="username">
                         <span class="icon is-small is-left">
-                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-user"></i>
                         </span>
                     </div>
                 </div>
@@ -40,19 +53,13 @@
                         Contraseña
                     </label>
                     <div class="control has-icons-left">
-                        <input type="password" class="input" placeholder="usuario">
+                        <input type="password" class="input" placeholder="usuario" name="password">
                         <span class="icon is-small is-left">
                             <i class="fa fa-lock"></i>
                         </span>
                     </div>
                 </div>
-                <div class="field">
-                    <label class="label">
-                        <input type="checkbox" class="checkbox">
-                        Recordarme
-                    </label>
-                    <a href=""> Recuperear contraseña</a>
-                </div>
+
                 <div class="columns">
                     <div class="column is-12 ">
                         <input class="button  is-success  is-fullwidth " type="submit" value="Entrar">
