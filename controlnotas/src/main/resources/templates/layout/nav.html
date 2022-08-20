@@ -2,7 +2,7 @@
      xmlns:th="http://www.thymeleaf.org" th:fragment="nav" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <div class="navbar-brand">
-        <a class="navbar-item" href="#">
+        <a class="navbar-item" th:href="@{/}">
             <img th:src="${'/img/icons8-test-100.png'}">
         </a>
 
@@ -30,17 +30,11 @@
                     <a class="navbar-item" th:href="@{/alumno/nuevo}">
                         Registrar alumno
                     </a>
-                    <a class="navbar-item">
-                        Expediente
-                    </a>
-                    <a class="navbar-item">
-                        Asignación grado y sección
+                    <a class="navbar-item" href="#">
+                        Conducta
                     </a>
                     <a class="navbar-item">
                         Asistencia
-                    </a>
-                    <a class="navbar-item" href="#">
-                        Conducta
                     </a>
                 </div>
             </div>
@@ -52,10 +46,10 @@
 
                 <div class="navbar-dropdown">
                     <a class="navbar-item">
-                        Asignación de libro
+                        Control de lectura
                     </a>
                     <a class="navbar-item" href="#">
-                        Control de lectura
+                        Catálogo de libros
                     </a>
                 </div>
             </div>
@@ -67,13 +61,13 @@
 
                 <div class="navbar-dropdown">
                     <a class="navbar-item" th:href="@{/plan-trabajo/nuevo}">
-                        Plan de trabajo
+                        Nuevo plan de trabajo
                     </a>
                     <a class="navbar-item" th:href="@{/consultar-plan/consultar}">
-                        Consultar plan  de trabajo
+                        Consultar plan de trabajo
                     </a>
                     <a class="navbar-item" th:href="@{/calificacion/actividades}" >
-                        Calificación de actividades
+                        Calificar actividades
                     </a>
                 </div>
             </div>
@@ -89,9 +83,6 @@
                     </a>
                     <a class="navbar-item" href="#">
                         Crear evaluación
-                    </a>
-                    <a class="navbar-item" href="#">
-                        Calificar evaluaciones
                     </a>
                 </div>
             </div>
@@ -118,45 +109,16 @@
 
                 <div class="navbar-dropdown">
                     <a class="navbar-item">
-                        Gestionar grados y secciónes
+                        Gestionar usuarios
                     </a>
                     <a class="navbar-item">
                         Datos Institución
-                    </a>
-                    <a class="navbar-item">
-                        Gestionar materias
-                    </a>
-                    <a class="navbar-item">
-                        Gestionar catálogo de libros
-                    </a>
-                    <a class="navbar-item">
-                        Gestionar Bimestres
                     </a>
                     <a class="navbar-item">
                         Gestionar Ciclo
                     </a>
                 </div>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    <i class="fas fa-users mr-1"></i>
-                    Usuarios
-                </a>
-
-                <div class="navbar-dropdown">
-                    <a class="navbar-item" th:href="@{/consultar-usuarios}">
-                        Gestionar usuarios
-                    </a>
-                    <a class="navbar-item">
-                        Asignación de materias
-                    </a>
-                    <a class="navbar-item">
-                        Control de permisos
-                    </a>
-                </div>
-            </div>
-
-
         </div>
 
         <div class="navbar-end">
