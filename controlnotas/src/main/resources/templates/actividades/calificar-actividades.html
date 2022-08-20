@@ -1,10 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">Calificar actividades</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <article class="message is-link">
+                            <div class="message-body">
+                                A continuación se listan las materias que tiene asignadas
+                            </div>
+                        </article>
+
+                        <div class="columns">
+                            <div class="column">
+
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Matemáticas
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article class="message is-warning">
+                                            <div class="message-body">
+                                                INFO: De click en las actividades para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+
+                            </div>
+
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Garífuna
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()" >actividada 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article class="message is-warning">
+                                            <div class="message-body">
+                                                INFO: De clic en las actividades para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- si lña otra-->
+                        <div class="columns">
+                            <div class="column">
+
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Matemáticas
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article class="message is-warning">
+                                            <div class="message-body">
+                                                INFO: De clic en las actividades para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+
+                            </div>
+
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            Garífuna
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()" >actividad 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article class="message is-warning">
+                                            <div class="message-body">
+                                                INFO: De clic en las actividades para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<div th:replace="/actividades/dialogos-actividad/calificar-actividad::calificar-actividad"></div>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+<script src="/js/modal.js"></script>
+<script type="text/javascript">
+    function calificar(){
+        openModal('calificar-actividad');
+    }
+</script>
 
 </body>
 </html>

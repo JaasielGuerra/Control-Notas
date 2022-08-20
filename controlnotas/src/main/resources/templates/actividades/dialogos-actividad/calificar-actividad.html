@@ -1,0 +1,46 @@
+<!-- MOdal -->
+<div class="modal" id="calificar-actividad" xmlns:th="http://www.thymeleaf.org" th:fragment="calificar-actividad">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">Calificación de actividades</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <h4 class="title has-text is-4">Actividad: </h4>
+                    <h4 class="title has-text is-4">Punteo: </h4>
+                    <hr class="dropdown-divider">
+                    <table  class="table display  is-striped" style="width:100%">
+                        <thead class="is-narrow">
+                        <tr>
+                            <th>Alumno</th>
+                            <th>Punteo</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>Angel Chacon</td>
+                            <td><input type="number" placeholder="Ingresar punteo" ></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <footer class="modal-card-foot ">
+
+            <button class="button  is-success" value="Guardar">Guardar cambios</button>
+
+            <button class="button  is-danger" value="Cancelar"> Cancelar</button>
+
+        </footer>
+    </div>
+</div>
