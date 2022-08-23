@@ -56,17 +56,20 @@
                             </section>
                         </form>
 
-                        <article th:if="${alumnos ne null and alumnos.isEmpty()}" class="message is-info">
-                            <div class="message-body">
+                        <section class="section is-medium" th:if="${alumnos ne null and alumnos.isEmpty()}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
                                 No se encontraron registros con los parámetros indicados.
-                            </div>
-                        </article>
+                            </p>
+                        </section>
 
                         <div th:if="${alumnos ne null and not alumnos.isEmpty()}" id="tbl-container">
 
-                            <article class="message is-warning">
+                            <article class="message is-warning" th:if="${expedienteIncompleto ne 0}">
                                 <div class="message-body">
-                                    Hay alumnos con expediente incompleto.
+                                    Hay <strong th:text="${expedienteIncompleto}"></strong> alumnos con expediente incompleto o no definido.
                                 </div>
                             </article>
 
@@ -93,15 +96,20 @@
                                         lorem ipsum dolor sit amet, consectet
                                     </td>
                                     <td>
-                                        <span class="tag is-success">Completo</span>
-                                        <span class="tag is-warning">Incompleto</span>
+                                        <span class="tag is-success"
+                                              th:if="${a.estadoExpediente eq '1'}">Completo</span>
+                                        <span class="tag is-warning"
+                                              th:if="${a.estadoExpediente eq '0'}">Incompleto</span>
+                                        <span class="tag is-dark"
+                                              th:if="${a.estadoExpediente eq null}">No definido</span>
                                     </td>
                                     <td th:text="${a.descripcionGradoSeccion ne null ? a.descripcionGradoSeccion : '*NO ASIGNADO*'}">
                                     </td>
                                     <td class="has-text-right">
                                         <a th:href="@{/alumno/editar/{id}(id=*{a.id})}"
                                            class="button is-warning is-small">Visualizar</a>
-                                        <a class="button is-danger is-small" th:onclick="preEliminarAlumno([[${a.id}]])">
+                                        <a class="button is-danger is-small"
+                                           th:onclick="preEliminarAlumno([[${a.id}]])">
                                             <input type="hidden" th:value="${2}">
                                             Eliminar
                                         </a>

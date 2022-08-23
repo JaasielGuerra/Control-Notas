@@ -21,5 +21,7 @@ public class AlumnoJSON {
     private LocalDate nacimiento;
     private Long grado;
     private Long seccion;
+    private Integer expediente;
+    private String observacion;
 
 }

@@ -48,9 +48,16 @@ $("#form-nuevo-alumno").validate({
             required: "Campo requerido.",
             maxlength: "Máxino 150 caracteres."
         },
-        nacimiento: "Campo requerido.",
+        nacimiento: {
+            required: "Campo requerido.",
+            dateISO: "Formato de fecha inválido."
+        },
         seccion: "Seleccione una opción.",
-        grado: "Seleccione una opción."
+        grado: "Seleccione una opción.",
+        observacion: {
+            maxlength: "Máxino 150 caracteres.",
+            required: "Campo requerido."
+        },
     },
     rules: {
         codigo: {
@@ -63,6 +70,9 @@ $("#form-nuevo-alumno").validate({
             maxlength: 150
         },
         direccion: {
+            maxlength: 150
+        },
+        observacion: {
             maxlength: 150
         },
     },

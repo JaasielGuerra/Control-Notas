@@ -5,6 +5,7 @@ import com.umg.controlnotas.model.custom.AlumnoConsultar;
 import com.umg.controlnotas.model.custom.AlumnoEditar;
 import com.umg.controlnotas.model.custom.AsignacionAlumno;
 import com.umg.controlnotas.model.custom.GradoSeccion;
+import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.services.AlumnoService;
 import org.slf4j.Logger;
@@ -29,11 +30,14 @@ public class ConsultarAlumnosController {
     private SeccionRepository seccionRepository;
     @Autowired
     private AlumnoService alumnoService;
+    @Autowired
+    private AlumnoRepository alumnoRepository;
 
     @GetMapping(value = "/consultar")
     public String consultarAlumnos(Model model, Long gradoseccion) {
 
         logger.info("Consultando seccion ID: " + gradoseccion);
+        logger.info("Alumnos sin expediente: " + alumnoRepository.contarAlumnosExpedienteIncompleto());
 
         try {
 
@@ -42,6 +46,8 @@ public class ConsultarAlumnosController {
 
             List<AlumnoConsultar> alumnos = alumnoService.consultarAlumnos(gradoseccion).orElse(null);
             model.addAttribute("alumnos", alumnos);
+
+            model.addAttribute("expedienteIncompleto", alumnoRepository.contarAlumnosExpedienteIncompleto());
 
             model.addAttribute("seleccion", gradoseccion);
 

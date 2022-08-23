@@ -57,6 +57,11 @@ public class AlumnoServiceImpl implements AlumnoService {
         a.setIdSeccion(seccion);
         a.setIdUsuario(usuario);
 
+        if(alumno.getExpediente() != null) {
+            a.setEstadoExpediente(alumno.getExpediente());
+        }
+        a.setObservacionExpediente(alumno.getObservacion());
+
         alumnoRepository.save(a);
     }
 
