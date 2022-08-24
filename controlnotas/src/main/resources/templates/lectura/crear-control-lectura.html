@@ -1,10 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">CONTROL LECTURA</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+
+                        <div class="columns">
+
+                            <div class="column">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <h4 class="title is-4 ">
+                                            Primero
+                                        </h4>
+                                        <h6 class="subtitle is-6 "> Alumnos:</h6>
+                                        <hr class="dropdown-divider">
+                                        <div class="content">
+                                            <label>Descripción</label>
+                                        </div>
+                                        <a class=" button card-footer-item is-info" >Listar Alumnos</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <h4 class="title is-4 ">
+                                            Segundo
+                                        </h4>
+                                        <h6 class="subtitle is-6 "> Alumnos:</h6>
+                                        <hr class="dropdown-divider">
+                                        <div class="content">
+                                            <label>Descripción</label>
+                                        </div>
+                                        <a class=" button card-footer-item is-info" >Listar Alumnos</a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="column ">
+                                <div class="card ">
+                                    <div class="card-content">
+                                        <h4 class="title has-text-centered  is-4">
+                                            Tercero
+                                        </h4>
+                                        <h6 class="subtitle has-text-centered is-6 "> Alumnos:</h6>
+                                        <hr class="dropdown-divider">
+                                        <div class="content">
+                                            <label>Descripción</label>
+                                        </div>
+
+                                        <a class=" button card-footer-item is-info" >Listar Alumnos</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="dropdown-divider">
+                        <h5 class="title is-5 my-6">Listado de lectura de alumnos</h5>
+
+                        <table class="table display" style="width:100%">
+                            <thead class="is-narrow">
+                            <tr>
+                                <th>Nombre Alumno</th>
+                                <th> Código</th>
+                                <th>Libros leídos</th>
+                                <th>Libro actual</th>
+                                <th> Avance actual</th>
+                                <th>Operaciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Angel</td>
+                                <td>11244-444</td>
+                                <td>2 libro</td>
+                                <td> El ojo del uracan</td>
+                                <td>24 páginas</td>
+                                <td><a  class="button is-success" data-target="Activiadad"
+                                        onclick="Registrar()"> Registro lectura</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- aqui no se toca-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<!-- vista modal de libro control-->
+<div th:replace="lectura/dialogo-control-lectura/registro-lectura :: registro-lectura"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+<script src="/js/modal.js"></script>
+<script type="text/javascript">
+
+    function Registrar() {
+
+        //abrir modal
+        openModal('registro-lectura');
+    }
+
+
+</script>
 
 </body>
 </html>
