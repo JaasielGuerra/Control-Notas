@@ -1,140 +1,36 @@
 <!-- MOdal -->
 <div class="modal" id="validar-expediente" xmlns:th="http://www.thymeleaf.org" th:fragment="validar-expediente">
     <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
+    <form id="modal-checklist-expediente">
+        <div class="modal-card">
 
-            <h4 class="modal-card-title title has-text-centered is-4">VALIDAR EXPEDIENTE </h4>
-            <button class="delete" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
+            <header class="modal-card-head">
+                <h4 class="modal-card-title title has-text-centered is-4">VALIDAR EXPEDIENTE </h4>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="columns" th:each="d: ${docmentos}">
+                    <div class="column is-6" th:each="i: ${d}">
+                        <label class="label" th:text="*{i.descripcion}"></label>
+                        <div class="control">
+                            <label class="radio">
+                                <input type="radio" th:id="${i.id}" th:name="${i.id}" th:value="${1}">
+                                Si
+                            </label>
+                            <label class="radio">
+                                <input type="radio" th:id="${i.id}" th:name="${i.id}" th:value="${0}" checked>
+                                NO
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="columns">
-                <div class="column is-6 center">
-                    <label class="label"> Certificacion de sexto primaria</label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            Si
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
+            <footer class="modal-card-foot">
+                <button class="button  is-success" type="button">Aceptar</button>
+                <button class="button  is-danger" type="button">Cancelar</button>
+            </footer>
 
-                <div class="column is-5 right">
-                    <label class="label"> Documento 2</label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            SI
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-6 center">
-                    <label class="label"> Documento 3</label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            SI
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
-                <div class="column is-5 right">
-                    <label class="label"> Documento 4</label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            Si
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-6 center">
-                    <label class="label"> Documento 5</label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            SI
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
-                <div class="column is-6 ">
-                    <label class="label"> Certificacion de cuarto primaria </label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            Si
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="columns">
-                <div class="column is-6 center">
-                    <label class="label"> Documento 7</label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            SI
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
-                <div class="column is-6 ">
-                    <label class="label"> Documento 8 </label>
-                    <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            Si
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="answer">
-                            NO
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <footer class="modal-card-foot">
-            <div class="columns">
-                <div class="column is-6 is-offset-10 ">
-                    <input class="button  is-success is-smoll " type="submit" value="Guardar">
-                </div>
-                <div class="column is-1 ">
-                    <input class="button  is-danger is-smoll " type="submit" value="Cancelar">
-                </div>
-            </div>
-        </footer>
-    </div>
+        </div>
+    </form>
 </div>

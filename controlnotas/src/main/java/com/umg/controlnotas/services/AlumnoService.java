@@ -1,10 +1,6 @@
 package com.umg.controlnotas.services;
 
-import com.umg.controlnotas.model.Seccion;
-import com.umg.controlnotas.model.custom.AlumnoConsultar;
-import com.umg.controlnotas.model.custom.AlumnoEditar;
-import com.umg.controlnotas.model.custom.AlumnoJSON;
-import com.umg.controlnotas.model.custom.AsignacionAlumno;
+import com.umg.controlnotas.model.custom.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,4 +25,13 @@ public interface AlumnoService {
 
     @Transactional
     void cambiarAsignacionAlumno(Long idSeccion, long idAlumno);
+
+    List<DocumentoChecklist[]> consultarDocumentosChecklist();
+
+    List<DetalleExpedienteEditar[]> consultarExpedienteAlumno(long idAlumno);
+
+    AlumnoJSON obtenerDatosExpedienteAlumno(long idAlumno);
+
+    @Transactional
+    void guardarChecklistExpediente(AlumnoJSON alumno);
 }

@@ -12,6 +12,10 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "documento_expediente")
 public class DocumentoExpediente {
+
+    public static int ACTIVO = 1;
+    public static int INACTIVO = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_documento_expediente", nullable = false)

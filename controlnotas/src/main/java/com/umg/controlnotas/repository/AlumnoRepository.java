@@ -4,6 +4,7 @@ import com.umg.controlnotas.model.Alumno;
 import com.umg.controlnotas.model.Seccion;
 import com.umg.controlnotas.model.custom.AlumnoConsultar;
 import com.umg.controlnotas.model.custom.AlumnoEditar;
+import com.umg.controlnotas.model.custom.DatosExpediente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -97,4 +98,20 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
 
     @Query(value = "SELECT func_contar_alumnos_expediente_incompleto()", nativeQuery = true)
     int contarAlumnosExpedienteIncompleto();
+
+    @Query("SELECT a.id AS idAlumno, " +
+            "a.estadoExpediente AS estadoExpediente, " +
+            "a.observacionExpediente AS observacionExpediente " +
+            "FROM Alumno a " +
+            "WHERE a.id = ?1")
+    DatosExpediente findByIdAlumno(Long id);
+
+    @Modifying
+    @Query("UPDATE " +
+            "Alumno a " +
+            "SET a.estadoExpediente = ?1 ," +
+            "a.observacionExpediente = ?2 " +
+            "WHERE " +
+            "a.id = ?3")
+    public void updateDatosExpediente(Integer estadoExpediente, String observacion, Long id);
 }

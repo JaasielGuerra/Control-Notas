@@ -85,6 +85,10 @@ $("#form-nuevo-alumno").validate({
 
         // enviar form con AJAX
         let formJSON = formToJSON(form);
+
+        let formChecklistJSON = formToJSON('#modal-checklist-expediente');
+        formJSON["plantillaChecklists"] = llenarPlantillaChecklist(formChecklistJSON);
+
         submitFormAjax(formJSON);
 
     }
@@ -125,3 +129,11 @@ function submitFormAjax(formJSON) {
     });
 }
 
+// funcion para llenar plantillaChecklists
+function llenarPlantillaChecklist(formJSON) {
+    let plantilla = [];//limpiar array
+    Object.keys(formJSON).forEach(function (key) {
+        plantilla.push({idDocumentoExpediente: key, estado: formJSON[key]});
+    });
+    return plantilla;
+}

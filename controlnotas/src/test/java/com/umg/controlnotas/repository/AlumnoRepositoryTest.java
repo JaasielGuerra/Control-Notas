@@ -15,4 +15,9 @@ class AlumnoRepositoryTest {
     void obtenerIdSeccion() {
         assertNotNull(alumnoRepository.obtenerIdSeccion(1L));
     }
+
+    @Test
+    void findByIdAlumno() {
+        assertNotNull(alumnoRepository.findByIdAlumno(1L));
+    }
 }

@@ -1,17 +1,17 @@
 package com.umg.controlnotas.model.custom;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AlumnoJSON {
 
-    public AlumnoJSON() {
-    }
 
     private Long id;
     private String codigo;
@@ -23,5 +23,5 @@ public class AlumnoJSON {
     private Long seccion;
     private Integer expediente;
     private String observacion;
-
+    private List<PlantillaChecklist> plantillaChecklists;
 }

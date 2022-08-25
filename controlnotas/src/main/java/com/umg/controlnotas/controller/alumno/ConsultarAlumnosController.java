@@ -1,10 +1,7 @@
 package com.umg.controlnotas.controller.alumno;
 
 import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.custom.AlumnoConsultar;
-import com.umg.controlnotas.model.custom.AlumnoEditar;
-import com.umg.controlnotas.model.custom.AsignacionAlumno;
-import com.umg.controlnotas.model.custom.GradoSeccion;
+import com.umg.controlnotas.model.custom.*;
 import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.services.AlumnoService;
@@ -140,6 +137,40 @@ public class ConsultarAlumnosController {
         }
 
         return ResponseEntity.ok().body(asignacionAlumno);
+    }
+
+    @GetMapping("/obtenerExpedienteAlumno")
+    @ResponseBody
+    public ResponseEntity<AlumnoJSON> obtenerExpedienteAlumno(@RequestParam Long idAlumno) {
+
+        AlumnoJSON expedienteAlumno = null;
+
+        try {
+            logger.info("obteniendo expediente alumno id: " + idAlumno);
+            expedienteAlumno = alumnoService.obtenerDatosExpedienteAlumno(idAlumno);
+
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
+
+        return ResponseEntity.ok(expedienteAlumno);
+    }
+
+    @PostMapping(value = "/guardarChecklistExpediente")
+    @ResponseBody
+    public ResponseEntity<AlumnoJSON> RegistrarAlumno(@RequestBody AlumnoJSON alumno) {
+
+        try {
+            logger.info("guardando expediente alumno id: " + alumno.getId());
+            alumnoService.guardarChecklistExpediente(alumno);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
+        return ResponseEntity.ok(alumno);
     }
 
 }

@@ -113,7 +113,7 @@
                                             <input type="hidden" th:value="${2}">
                                             Eliminar
                                         </a>
-                                        <a data-target="modal-expediente" onclick="verExpediente()"
+                                        <a data-target="modal-expediente" th:onclick="verExpediente([[${a.id}]])"
                                            class="button is-info is-small">Expediente</a>
                                         <a data-target="cambiar-grado" th:onclick="cambiarGradoAlumno([[${a.id}]])"
                                            class="button is-success is-small">Grado</a>

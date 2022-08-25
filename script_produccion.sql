@@ -859,3 +859,34 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-08-21 20:27:40
+
+
+
+
+-- -----------------------------------------------------
+-- Funciones
+-- -----------------------------------------------------
+DROP function IF EXISTS `func_contar_alumnos_expediente_incompleto`;
+DELIMITER $$
+CREATE FUNCTION `func_contar_alumnos_expediente_incompleto`() RETURNS int(11)
+BEGIN
+    RETURN (
+
+        SELECT
+            COUNT(a.id_alumno)
+        FROM
+            alumno a
+        WHERE
+                a.estado = 1
+          AND
+            (
+                        a.estado_expediente = 0
+                    OR
+                        a.estado_expediente IS NULL
+                )
+    );
+END$$
+
+DELIMITER ;
+;
+
