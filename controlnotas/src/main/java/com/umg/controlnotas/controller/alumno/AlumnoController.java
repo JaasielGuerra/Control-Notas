@@ -4,7 +4,6 @@ import com.umg.controlnotas.model.Grado;
 import com.umg.controlnotas.model.custom.AlumnoJSON;
 import com.umg.controlnotas.repository.GradoRepository;
 import com.umg.controlnotas.services.AlumnoService;
-import com.umg.controlnotas.services.AlumnoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping(value = "/alumno")
@@ -28,7 +28,16 @@ public class AlumnoController {
     @GetMapping(value = "/nuevo")
     public String nuevoAlumno(Model model) {
 
-        model.addAttribute("grados", gradoRepository.findByEstado(Grado.ACTIVO));
+        try {
+
+            model.addAttribute("docmentos", alumnoService.consultarDocumentosChecklist());
+            model.addAttribute("grados", gradoRepository.findByEstado(Grado.ACTIVO));
+
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
 
         return "/alumno/registrar-alumno";
     }

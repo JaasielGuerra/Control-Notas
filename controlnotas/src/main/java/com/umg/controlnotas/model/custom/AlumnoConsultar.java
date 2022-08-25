@@ -8,5 +8,6 @@ public interface AlumnoConsultar {
     String getApellido();
     String getObservacionExpediente();
     String getDescripcionGradoSeccion();
+    String getEstadoExpediente();
 
 }

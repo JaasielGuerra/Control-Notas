@@ -1,10 +1,8 @@
 package com.umg.controlnotas.controller.alumno;
 
 import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.custom.AlumnoConsultar;
-import com.umg.controlnotas.model.custom.AlumnoEditar;
-import com.umg.controlnotas.model.custom.AsignacionAlumno;
-import com.umg.controlnotas.model.custom.GradoSeccion;
+import com.umg.controlnotas.model.custom.*;
+import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.services.AlumnoService;
 import org.slf4j.Logger;
@@ -29,11 +27,14 @@ public class ConsultarAlumnosController {
     private SeccionRepository seccionRepository;
     @Autowired
     private AlumnoService alumnoService;
+    @Autowired
+    private AlumnoRepository alumnoRepository;
 
     @GetMapping(value = "/consultar")
     public String consultarAlumnos(Model model, Long gradoseccion) {
 
         logger.info("Consultando seccion ID: " + gradoseccion);
+        logger.info("Alumnos sin expediente: " + alumnoRepository.contarAlumnosExpedienteIncompleto());
 
         try {
 
@@ -42,6 +43,8 @@ public class ConsultarAlumnosController {
 
             List<AlumnoConsultar> alumnos = alumnoService.consultarAlumnos(gradoseccion).orElse(null);
             model.addAttribute("alumnos", alumnos);
+
+            model.addAttribute("expedienteIncompleto", alumnoRepository.contarAlumnosExpedienteIncompleto());
 
             model.addAttribute("seleccion", gradoseccion);
 
@@ -134,6 +137,40 @@ public class ConsultarAlumnosController {
         }
 
         return ResponseEntity.ok().body(asignacionAlumno);
+    }
+
+    @GetMapping("/obtenerExpedienteAlumno")
+    @ResponseBody
+    public ResponseEntity<AlumnoJSON> obtenerExpedienteAlumno(@RequestParam Long idAlumno) {
+
+        AlumnoJSON expedienteAlumno = null;
+
+        try {
+            logger.info("obteniendo expediente alumno id: " + idAlumno);
+            expedienteAlumno = alumnoService.obtenerDatosExpedienteAlumno(idAlumno);
+
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
+
+        return ResponseEntity.ok(expedienteAlumno);
+    }
+
+    @PostMapping(value = "/guardarChecklistExpediente")
+    @ResponseBody
+    public ResponseEntity<AlumnoJSON> RegistrarAlumno(@RequestBody AlumnoJSON alumno) {
+
+        try {
+            logger.info("guardando expediente alumno id: " + alumno.getId());
+            alumnoService.guardarChecklistExpediente(alumno);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
+        return ResponseEntity.ok(alumno);
     }
 
 }

@@ -1,16 +1,8 @@
 package com.umg.controlnotas.services;
 
-import com.umg.controlnotas.model.Alumno;
-import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.Seccion;
-import com.umg.controlnotas.model.Usuario;
-import com.umg.controlnotas.model.custom.AlumnoConsultar;
-import com.umg.controlnotas.model.custom.AlumnoEditar;
-import com.umg.controlnotas.model.custom.AlumnoJSON;
-import com.umg.controlnotas.model.custom.AsignacionAlumno;
-import com.umg.controlnotas.repository.AlumnoRepository;
-import com.umg.controlnotas.repository.SeccionRepository;
-import com.umg.controlnotas.repository.UsuarioRepository;
+import com.umg.controlnotas.model.*;
+import com.umg.controlnotas.model.custom.*;
+import com.umg.controlnotas.repository.*;
 import com.umg.controlnotas.web.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
@@ -32,6 +26,10 @@ public class AlumnoServiceImpl implements AlumnoService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private UserFacade userFacade;
+    @Autowired
+    private DocumentoExpedienteRepository documentoExpedienteRepository;
+    @Autowired
+    private DetalleExpedienteRepository detalleExpedienteRepository;
 
     /**
      * Metodo transaccional para registrar un alumnno
@@ -57,7 +55,29 @@ public class AlumnoServiceImpl implements AlumnoService {
         a.setIdSeccion(seccion);
         a.setIdUsuario(usuario);
 
+        if (alumno.getExpediente() != null) {
+            a.setEstadoExpediente(alumno.getExpediente());
+        }
+        a.setObservacionExpediente(alumno.getObservacion());
+
         alumnoRepository.save(a);
+
+        // registrar detalle de expediente del alumno
+        List<DetalleExpediente> detalleExpedienteList = new ArrayList<>();
+
+        // tomar plantillas de checklist y registrar detalle expediente
+        if (alumno.getPlantillaChecklists() != null) {
+            for (PlantillaChecklist plantillaChecklist : alumno.getPlantillaChecklists()) {
+                DetalleExpediente detalleExpediente = new DetalleExpediente();
+                detalleExpediente.setIdAlumno(a);
+                detalleExpediente.setEstado(plantillaChecklist.getEstado());
+                detalleExpediente.setIdDocumentoExpediente(documentoExpedienteRepository.getReferenceById(plantillaChecklist.getIdDocumentoExpediente()));
+                detalleExpedienteList.add(detalleExpediente);
+            }
+        }
+
+
+        detalleExpedienteRepository.saveAll(detalleExpedienteList);
     }
 
     /**
@@ -170,5 +190,136 @@ public class AlumnoServiceImpl implements AlumnoService {
 
         alumnoRepository.updateSecccion(seccion, idAlumno);
     }
+
+    /**
+     * Obtener todos los documentos de un expediente de par en par con el id del expediente
+     *
+     * @return List<DocumentoChecklist [ ]>
+     */
+    @Override
+    public List<DocumentoChecklist[]> consultarDocumentosChecklist() {
+
+        List<DocumentoChecklist[]> documentos = new ArrayList<>();
+
+        //obtener todos los documentos de checklist
+        List<DocumentoChecklist> documentoChecklists = documentoExpedienteRepository.findByEstado(DocumentoExpediente.ACTIVO);
+
+        // llenar de par en par los documentos de checklist en una lista
+        for (int i = 0; i < documentoChecklists.size(); i++) {
+
+            DocumentoChecklist[] documentosPar;
+
+            // si el indice es igual al tamaño de la lista menos 1, significa que es el ultimo elemento de la lista
+            if (i == documentoChecklists.size() - 1) {
+
+                documentosPar = new DocumentoChecklist[1];
+
+                // se asigna solo el primer elemento de la lista
+                documentosPar[0] = documentoChecklists.get(i);
+                documentos.add(documentosPar);
+
+                break;
+            }
+
+            documentosPar = new DocumentoChecklist[2];
+
+            // si el indice es menor al tamaño de la lista menos 1, significa que no es el ultimo elemento de la lista
+            documentosPar[0] = documentoChecklists.get(i);
+            documentosPar[1] = documentoChecklists.get(i + 1);
+
+            i++;// incrementar el indice para que no se repita el elemento
+
+            documentos.add(documentosPar);
+
+        }
+        return documentos;
+    }
+
+    /**
+     * Metodo para obtener el detalle de expediente de un alumno
+     *
+     * @param idAlumno el id del alumno
+     * @return un modelo con el detalle del expediente
+     */
+    @Override
+    public List<DetalleExpedienteEditar[]> consultarExpedienteAlumno(long idAlumno) {
+
+        List<DetalleExpedienteEditar[]> detalleExpedienteEditar = new ArrayList<>();
+
+
+        List<DetalleExpedienteEditar> expedienteAlumnoList = detalleExpedienteRepository.findByIdAlumnoId(idAlumno);
+
+        // llenar de par en par los documentos de checklist en una lista
+        for (int i = 0; i < expedienteAlumnoList.size(); i++) {
+
+            DetalleExpedienteEditar[] detalleExpedienteEditarPar;
+
+            // si el indice es igual al tamaño de la lista menos 1, significa que es el ultimo elemento de la lista
+            if (i == expedienteAlumnoList.size() - 1) {
+
+                detalleExpedienteEditarPar = new DetalleExpedienteEditar[1];
+
+                // se asigna solo el primer elemento de la lista
+                detalleExpedienteEditarPar[0] = expedienteAlumnoList.get(i);
+                detalleExpedienteEditar.add(detalleExpedienteEditarPar);
+
+                break;
+            }
+
+            detalleExpedienteEditarPar = new DetalleExpedienteEditar[2];
+            detalleExpedienteEditarPar[0] = expedienteAlumnoList.get(i);
+            detalleExpedienteEditarPar[1] = expedienteAlumnoList.get(i + 1);
+            i++;// incrementar el indice para que no se repita el elemento
+            detalleExpedienteEditar.add(detalleExpedienteEditarPar);
+        }
+        return detalleExpedienteEditar;
+    }
+
+    /**
+     * Obtener los datos del expediente del alumno, asi como su detalle de expediente
+     *
+     * @param idAlumno id del alumno
+     * @return Datos del expediente, estado, observacion y detalle de expediente
+     */
+    @Override
+    public AlumnoJSON obtenerDatosExpedienteAlumno(long idAlumno) {
+
+        // Obtener datos del expediente del alumno
+        DatosExpediente expedienteAlumnoEditar = alumnoRepository.findByIdAlumno(idAlumno);
+
+        // obtener el detalle del expediente del alumno y mapearlo a un modelo PlantillaChecklist
+        List<PlantillaChecklist> plantillaChecklists = detalleExpedienteRepository.findByIdAlumnoId(idAlumno)
+                .stream().map(d -> {
+
+                    PlantillaChecklist plantilla = new PlantillaChecklist();
+                    plantilla.setEstado(d.getEstado());
+                    plantilla.setIdDetalleExpediente(d.getId());
+                    plantilla.setDescripcionDocumento(d.getIdDocumentoExpedienteDescripcion());
+                    return plantilla;
+
+                }).collect(Collectors.toList());
+
+        // construir el modelo de datos del expediente del alumno
+        return AlumnoJSON.builder()
+                .id(expedienteAlumnoEditar.getIdAlumno())
+                .expediente(expedienteAlumnoEditar.getEstadoExpediente())
+                .observacion(expedienteAlumnoEditar.getObservacionExpediente())
+                .plantillaChecklists(plantillaChecklists)
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public void guardarChecklistExpediente(AlumnoJSON alumno) {
+
+        alumnoRepository.updateDatosExpediente(alumno.getExpediente(), alumno.getObservacion(), alumno.getId());
+
+        //recorrer la lista de plantillaChecklists y actualizar estado detalleExpediente
+        alumno.getPlantillaChecklists().forEach(p -> {
+            detalleExpedienteRepository.updateEstado(p.getEstado(), p.getIdDetalleExpediente());
+        } );
+
+    }
+
 
 }

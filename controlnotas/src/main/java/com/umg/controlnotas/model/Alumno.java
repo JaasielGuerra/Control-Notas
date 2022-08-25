@@ -15,6 +15,8 @@ public class Alumno {
 
     public static final int ACTIVO = 1;
     public static final int INACTIVO = 0;
+    public static final int COMPLETO = 1;
+    public static final int INCOMPLETO = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,5 +57,9 @@ public class Alumno {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario idUsuario;
+
+    @Column(name = "estado_expediente")
+    private Integer estadoExpediente;
+
 
 }
