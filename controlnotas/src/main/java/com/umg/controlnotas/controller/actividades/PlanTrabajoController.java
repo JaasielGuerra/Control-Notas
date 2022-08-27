@@ -10,7 +10,7 @@ public class PlanTrabajoController {
 
     @GetMapping(value = "/nuevo")
     public String Plan_trabajo(){
-        return "/actividades/nuevo-plan-trabajo";
+        return "actividades/nuevo-plan-trabajo";
     }
 
 }

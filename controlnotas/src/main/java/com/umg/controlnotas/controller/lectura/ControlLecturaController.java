@@ -10,6 +10,6 @@ public class ControlLecturaController {
 
     @GetMapping(value = "/control-lectura")
     public String ControlLectura(){
-        return "/lectura/crear-control-lectura";
+        return "lectura/crear-control-lectura";
     }
 }

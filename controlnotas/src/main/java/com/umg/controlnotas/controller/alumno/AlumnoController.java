@@ -39,7 +39,7 @@ public class AlumnoController {
             );
         }
 
-        return "/alumno/registrar-alumno";
+        return "alumno/registrar-alumno";
     }
 
     @PostMapping(value = "/registrar")

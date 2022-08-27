@@ -10,12 +10,13 @@
 	</parent>
 	<groupId>com.umg</groupId>
 	<artifactId>controlnotas</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>controlnotas</name>
 	<description>Herramienta de software control notas</description>
 	<properties>
 		<java.version>11</java.version>
         <liquibase.propertyFile>${project.basedir}/src/main/resources/liquibase.properties</liquibase.propertyFile>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 	<dependencies>
 

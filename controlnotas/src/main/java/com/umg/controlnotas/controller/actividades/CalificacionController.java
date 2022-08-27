@@ -10,6 +10,6 @@ public class CalificacionController {
 
     @GetMapping(value = "/actividades")
     public String CalificarActividad(){
-        return "/actividades/calificar-actividades";
+        return "actividades/calificar-actividades";
     }
 }
