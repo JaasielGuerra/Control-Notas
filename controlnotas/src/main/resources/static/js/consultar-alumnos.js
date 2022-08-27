@@ -22,8 +22,14 @@ function verExpediente(idAlumno) {
 
             //validar si plantillaChecklist está vacio
             if ($.isEmptyObject(data['plantillaChecklists'])) {
-                notif({
-                    msg: "No hay documentos para mostrar.", type: "warning", multiline: 1
+                bulmaToast.toast({
+                    message: "No hay documentos para mostrar.",
+                    type: "is-warning",
+                    position: 'top-center',
+                    dismissible: true,
+                    duration: 4000,
+                    pauseOnHover: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
                 return;
             }
@@ -36,10 +42,14 @@ function verExpediente(idAlumno) {
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            notif({
-                msg: "Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText,
-                type: "error",
-                multiline: 1,
+            bulmaToast.toast({
+                message: "Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText,
+                type: "is-danger",
+                position: 'top-center',
+                dismissible: true,
+                duration: 4000,
+                pauseOnHover: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
             });
         }
     });
@@ -179,10 +189,14 @@ $('#modal-checklist-expediente').submit(function (e) {
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            notif({
-                msg: "Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText,
-                type: "error",
-                multiline: 1,
+            bulmaToast.toast({
+                message: "Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText,
+                type: "is-danger",
+                position: 'top-center',
+                dismissible: true,
+                duration: 4000,
+                pauseOnHover: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
             });
         }
     });
@@ -220,8 +234,13 @@ function cambiarGradoAlumno(idAlumno) {
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            notif({
-                msg: "Error .", type: "error"
+            bulmaToast.toast({
+                message: "Error .", type: "is-danger",
+                position: 'top-center',
+                dismissible: true,
+                duration: 4000,
+                pauseOnHover: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
             });
         }
     });
@@ -250,8 +269,14 @@ function reasignarAlumno() {
             window.location = "/alumno/consultar";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            notif({
-                msg: "Error interno en el servidor.", type: "error", multiline: 1,
+            bulmaToast.toast({
+                message: "Error interno en el servidor.",
+                type: "is-danger",
+                position: 'top-center',
+                dismissible: true,
+                duration: 4000,
+                pauseOnHover: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
             });
 
             removeLoadingBtn("#btn-guardar-reasignacion");
