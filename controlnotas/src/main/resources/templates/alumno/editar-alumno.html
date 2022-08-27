@@ -6,6 +6,7 @@
 
 <body>
 <main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
 
     <!-- aqui va el nav -->
     <nav th:replace="layout/nav :: nav"></nav>
@@ -173,9 +174,14 @@
             dataType: 'json',
             data: JSON.stringify(formJSON),
             success: function (response, textStatus) {
-                notif({
-                    msg: "¡Alumno " + response["nombre"] + " actualizado con éxito! ",
-                    type: "success"
+                bulmaToast.toast({
+                    message: "¡Alumno " + response["nombre"] + " actualizado con éxito! ",
+                    type: "is-success",
+                    position: 'top-center',
+                    dismissible: true,
+                    duration: 4000,
+                    pauseOnHover: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
 
                 //reset form
@@ -187,10 +193,14 @@
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                notif({
-                    msg: "Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText,
-                    type: "error",
-                    multiline: 1,
+                bulmaToast.toast({
+                    message: "Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText,
+                    type: "is-danger",
+                    position: 'top-center',
+                    dismissible: true,
+                    duration: 4000,
+                    pauseOnHover: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
 
                 removeLoadingBtn("#btn-submit");

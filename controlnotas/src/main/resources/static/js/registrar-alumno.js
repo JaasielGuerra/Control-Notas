@@ -17,9 +17,14 @@ $("#grado").change((event) => {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            notif({
-                msg: "Error interno en el servidor.",
-                type: "error"
+            bulmaToast.toast({
+                message: "Error interno en el servidor.",
+                type: "is-danger",
+                position: 'top-center',
+                dismissible: true,
+                duration: 4000,
+                pauseOnHover: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
             });
         }
     });
@@ -107,9 +112,14 @@ function submitFormAjax(formJSON) {
         dataType: 'json',
         data: JSON.stringify(formJSON),
         success: function (response) {
-            notif({
-                msg: "¡Alumno registrado con éxito!",
-                type: "success"
+            bulmaToast.toast({
+                message: "¡Alumno registrado con éxito!",
+                type: "is-success",
+                position: 'top-center',
+                dismissible: true,
+                duration: 4000,
+                pauseOnHover: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
             });
 
             //reset form
@@ -118,10 +128,14 @@ function submitFormAjax(formJSON) {
             removeLoadingBtn("#btn-submit");
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            notif({
-                msg: "Error interno en el servidor.",
-                type: "error",
-                multiline: 1,
+            bulmaToast.toast({
+                message: "Error interno en el servidor.",
+                type: "is-danger",
+                position: 'top-center',
+                dismissible: true,
+                duration: 4000,
+                pauseOnHover: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
             });
 
             removeLoadingBtn("#btn-submit");
