@@ -54,7 +54,7 @@ public class ConsultarAlumnosController {
             );
         }
 
-        return "/alumno/consultar-alumnos";
+        return "alumno/consultar-alumnos";
     }
 
     @GetMapping(value = "/editar/{id}")
@@ -80,7 +80,7 @@ public class ConsultarAlumnosController {
 
         model.addAttribute("alumnoEdit", alumnoEditar);
 
-        return "/alumno/editar-alumno";
+        return "alumno/editar-alumno";
     }
 
     @PostMapping("/eliminar")
