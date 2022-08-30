@@ -1,10 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">GESTIONAR CICLO</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <div class="columns">
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header ">
+                                        <div class="card-content">
+                                            <p class="title is-3">
+                                                Ciclo actual
+                                            </p>
+                                            <p class="subtitle is-6"> Año: 2021</p>
+                                            <p class="subtitle is-6"> Apertura: 15/01/2021</p>
+                                            <p class="subtitle is-6"> Dias base asistencia: 200</p>
+                                            <p class="subtitle is-6"> Bimestre: 2do. bimestre</p>
+
+                                        </div>
+                                    </header>
+                                    <footer class="card-footer" >
+                                        <button  class="button  is-info  ">Ciclos anteriores </button>
+                                        <button style="margin-left: 10px"  class="button  is-danger ">Cerrar ciclo</button>
+                                        <button style="margin-left: 10px" class="button  is-warning  ">Finalizar bimestre</button>
+                                        <button style="margin-left: 10px"  class="button  is-success  is-fullwidth"> Aperturar</button>
+                                    </footer >
+
+                                </div>
+                            </div>
+                            <div class="column">
+
+
+                                <div class="buttons" style="margin-left: 25%; margin-top: 20%">
+                                    <button class="button is-info is-large is-responsive">APERTURAR CICLO
+                                    </button>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                        <h5 class="title is-5 my-6">Bimestres anteriores</h5>
+                        <hr class="dropdown-divider">
+                        <div class="columns">
+                            <table class="table display">
+                                <thead class="is-narrow">
+                                <tr>
+                                    <th>Descripcón</th>
+                                    <th>Puntos actividades</th>
+                                    <th>Puntos actitudinales</th>
+                                    <th>Puntos evaluaciones</th>
+                                    <th>Apertura</th>
+                                    <th>Cierre</th>
+                                    <th>Estado</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>Ciclo 2021</td>
+                                    <td>12</td>
+                                    <td>40</td>
+                                    <td> 60</td>
+                                    <td>15/01/2022</td>
+                                    <td>15/11/2022</td>
+                                    <td>Activo</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
 
 </body>
 </html>
