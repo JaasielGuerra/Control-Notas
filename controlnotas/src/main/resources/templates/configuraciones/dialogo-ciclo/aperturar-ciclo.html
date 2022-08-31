@@ -1,0 +1,53 @@
+<div class="modal" id="aperturar-ciclo" xmlns:th="http://www.thymeleaf.org" th:fragment="aperturar-ciclo">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title title has-text-centered is-4">APERTURAR CICLO </h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+
+            <div class="columns">
+                <div class="column is-4">
+                    <label>Año</label>
+                    <div class="control">
+                        <div class="select is-fullwidth ">
+                            <select name="select" id="anio">
+                                <option >2023</option>
+                                <option>2022</option>
+                                <option>2021</option>
+                                <option>2020</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-4">
+
+                    <label>Fecha Apertura </label>
+                    <div class="control">
+                        <input class="input" type="date" placeholder="fecha-apertura">
+
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-5">
+                    <label >Días base asistencia</label>
+                    <div class="control">
+                        <input class="input" type="number">
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button  is-success" type="button" id="btn" onclick="">
+                Aperturar
+            </button>
+            <button class="button  is-danger" type="button">Cerrar</button>
+        </footer>
+    </div>
+</div>l>
