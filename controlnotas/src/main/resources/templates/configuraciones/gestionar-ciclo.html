@@ -31,16 +31,20 @@
                                             </p>
                                             <p class="subtitle is-6"> Año: 2021</p>
                                             <p class="subtitle is-6"> Apertura: 15/01/2021</p>
+
                                             <p class="subtitle is-6"> Días base asistencia: 200</p>
+
                                             <p class="subtitle is-6"> Bimestre: 2do. bimestre</p>
 
                                         </div>
                                     </header>
                                     <footer class="card-footer" >
+
                                         <button  class="button  is-info  " data-target="ciclo-anterior" onclick="CicloAnterior()" >Ciclos anteriores </button>
                                         <button style="margin-left: 10px"  class="button  is-danger "  data-target="confirmar-ciclo" onclick="CerrarCiclo()">Cerrar ciclo</button>
                                         <button style="margin-left: 10px" class="button  is-warning  " data-target="confirmar-bimestre" onclick="CerrarBimestre()">Finalizar bimestre</button>
                                         <button style="margin-left: 10px"  class="button  is-success  is-fullwidth"  data-target="aperturar-ciclo" onclick="AperturarCiclo()"> Aperturar</button>
+
                                     </footer >
 
                                 </div>
@@ -49,6 +53,7 @@
 
 
                                 <div class="buttons" style="margin-left: 25%; margin-top: 20%">
+
                                     <button type="submit" class="button is-info is-large is-responsive"  data-target="aperturar-bimestre" onclick="Aperturar()">APERTURAR BIMESTRE
                                     </button>
                                 </div>
@@ -101,6 +106,7 @@
     <footer th:replace="layout/footer :: footer"></footer>
 
 </main>
+
 <div th:replace="configuraciones/dialogo-bimestre/aperturar-bimestre::aperturar-bimestre"></div>
 <div th:replace="configuraciones/dialogo-ciclo/aperturar-ciclo::aperturar-ciclo"></div>
 <div th:replace="configuraciones/dialogo-ciclo/ciclos-anteriores::ciclo-anterior"></div>
