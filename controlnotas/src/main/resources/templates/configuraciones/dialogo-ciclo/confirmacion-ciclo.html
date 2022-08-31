@@ -1,0 +1,27 @@
+<!-- MOdal -->
+<div class="modal" id="confirmar-ciclo" xmlns:th="http://www.thymeleaf.org" th:fragment="confirmar-ciclo">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">CONFIRMACIÓN</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    Al cerrar el ciclo, no podrá hacer ninguna operación en el sistema, hasta aperturar uno nuevo. ¿Está seguro?
+                </div>
+            </div>
+        </div>
+
+        <footer class="modal-card-foot ">
+
+            <button class="button  is-success is-fullwidth"  value="Guardar">Si</button>
+
+            <button class="button  is-danger is-fullwidth" value="Cancelar"> No</button>
+
+        </footer>
+    </div>
+</div>
