@@ -17,8 +17,8 @@
         <footer class="modal-card-foot">
             <form th:action="@{/alumno/eliminar/}" method="post">
                 <input type="hidden" id="id-alumno-eliminar" name="idAlumno">
-                <button class="button is-danger" type="submit">Si, eliminar</button>
-                <button class="button is-dark" type="button">No, cancelar</button>
+                <button class="button is-danger" type="submit">  <i class="fas fa-trash-alt mr-1"></i> Si, eliminar</button>
+                <button class="button is-dark" type="button"> <i class="fas fa-undo mr-1"></i>No, cancelar</button>
             </form>
         </footer>
     </div>

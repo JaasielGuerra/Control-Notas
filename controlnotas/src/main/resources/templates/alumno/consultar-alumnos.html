@@ -50,7 +50,7 @@
                                     <div class="column">
                                         <button class="button is-link is-small is-rounded" title="Consultar alumnos"
                                                 type="submit">
-                                            Listar alumnos
+                                            <i class="fas fa-list mr-1"></i>Listar alumnos
                                         </button>
                                     </div>
                                 </div>
@@ -108,16 +108,16 @@
                                     </td>
                                     <td class="has-text-right">
                                         <a th:href="@{/alumno/editar/{id}(id=*{a.id})}"
-                                           class="button is-warning is-small">Visualizar</a>
+                                           class="button is-warning is-small"> <i class="far fa-eye mr-1"></i>Visualizar</a>
                                         <a class="button is-danger is-small"
                                            th:onclick="preEliminarAlumno([[${a.id}]])">
                                             <input type="hidden" th:value="${2}">
-                                            Eliminar
+                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar
                                         </a>
                                         <a data-target="modal-expediente" th:onclick="verExpediente([[${a.id}]])"
-                                           class="button is-info is-small">Expediente</a>
+                                           class="button is-info is-small"> <i class="fas fa-paperclip mr-1"></i>Expediente</a>
                                         <a data-target="cambiar-grado" th:onclick="cambiarGradoAlumno([[${a.id}]])"
-                                           class="button is-success is-small">Grado</a>
+                                           class="button is-success is-small"> <i class="fas fa-address-card mr-1"></i>Grado</a>
                                     </td>
                                 </tr>
 
