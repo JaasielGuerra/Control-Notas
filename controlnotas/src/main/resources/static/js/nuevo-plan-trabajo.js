@@ -57,7 +57,7 @@ $('#btn-grabar-grado').click(function () {
 });
 
 //evento boton agregar actividad
-$('#btn-agregar-actividad').click(function () {
+function addItemActividad() {
 
     let $descripcionActividad = $('#actividad');
     let $valorActividad = $('#punteo');
@@ -102,7 +102,10 @@ $('#btn-agregar-actividad').click(function () {
     //recargar tabla con el arrenglo de actividades
     cargarTablaActividades(actividadesItems);
 
-});
+    //volver foco al campo materia
+    $idMateria.focus();
+
+}
 
 // funcion para cargas los items de actividades en la tabla
 function cargarTablaActividades(actividadesItems) {

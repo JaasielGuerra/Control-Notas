@@ -91,7 +91,9 @@
                                 <div class="column">
                                     <label>Valor</label>
                                     <div class="control">
+                                        <!-- input tipo number que ejecuta la funcion agregarActividad() al pulsar ENTER -->
                                         <input class="input add-item-actividad" type="number" id="punteo" disabled
+                                               onkeydown="if(event.key === 'Enter') addItemActividad()"
                                                min="1" max="100">
                                     </div>
                                 </div>
@@ -101,7 +103,8 @@
                                     <br>
                                     <div class="control">
                                         <button class="button is-success add-item-actividad" id="btn-agregar-actividad"
-                                                disabled><i class="fas fa-plus mr-1"></i>Agregar
+                                                disabled
+                                                onclick="addItemActividad()"><i class="fas fa-plus mr-1"></i>Agregar
                                         </button>
                                     </div>
 
