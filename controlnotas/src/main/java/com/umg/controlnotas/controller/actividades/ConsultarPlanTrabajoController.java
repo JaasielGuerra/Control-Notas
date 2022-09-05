@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/consultar-plan")
+@RequestMapping(value = "/plan-trabajo")
 public class ConsultarPlanTrabajoController {
 
     @GetMapping(value = "/consultar")

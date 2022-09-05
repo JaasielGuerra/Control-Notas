@@ -271,6 +271,7 @@ CREATE TABLE IF NOT EXISTS `db_control_notas`.`actividad` (
   `id_materia` BIGINT NOT NULL,
   `id_plan_trabajo` BIGINT NOT NULL,
   `id_usuario` BIGINT NOT NULL,
+  `estado` INT NOT NULL,
   PRIMARY KEY (`id_actividad`),
   INDEX `fk_detalle_plan_trabajo_materia1_idx` (`id_materia` ASC),
   INDEX `fk_detalle_plan_trabajo_plan_trabajo1_idx` (`id_plan_trabajo` ASC),
@@ -849,6 +850,19 @@ LOCK TABLES `usuario` WRITE;
 INSERT INTO `usuario` VALUES (1,'DIRECTOR INSTITUTO','director','$2a$10$4qoZhgNKSjjqLgpS4zUosOTrMKS.48or1CaaFdR80sCkle3U4tr6m',1,'2022-08-04','10:20:00',1),(2,'DOCENTE INSTITUTO','docente','$2a$10$zo7jMwlS8nTdaO3MeCvK6.vNFtWfRTN2sA4lal435ziqtSWWDJzcK',1,'2022-08-04','10:20:00',2);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Dumping data for table `materia`
+--
+
+LOCK TABLES `materia` WRITE;
+/*!40000 ALTER TABLE `materia` DISABLE KEYS */;
+INSERT INTO `materia` VALUES (1,'MATEMÁTICAS',1,'2022-08-28','20:07:00',1,1),(2,'ESPAÑOL',1,'2022-08-28','20:07:00',1,1),(3,'CULTURA Y LENGUAS MAYA GARÍFUNA Y XINCA',1,'2022-08-28','20:07:00',1,1),(4,'CIENCIAS NATURALES',1,'2022-08-28','20:07:00',1,1),(5,'CIENCIAS SOCIALES, CIVISMO Y CULTURA CIUDADANA',1,'2022-08-28','20:07:00',1,1),(6,'LENGUA EXTRANJERA (INGLÉS)',1,'2022-08-28','20:07:00',1,1),(7,'EXPRESIÓN Y APRECIACIÓN ARTÍSTICA',1,'2022-08-28','20:07:00',1,1),(8,'EMPRENDIMIENTO PARA LA PRODUCTIVIDAD',1,'2022-08-28','20:07:00',1,1),(9,'TECNOLOGÍA EDUCATIVA',1,'2022-08-28','20:07:00',1,1),(10,'EDUCACIÓN FÍSICA',1,'2022-08-28','20:07:00',1,1),(11,'MATEMÁTICAS',1,'2022-08-28','20:07:00',2,1),(12,'ESPAÑOL',1,'2022-08-28','20:07:00',2,1),(13,'CULTURA Y LENGUAS MAYA GARÍFUNA Y XINCA',1,'2022-08-28','20:07:00',2,1),(14,'CIENCIAS NATURALES',1,'2022-08-28','20:07:00',2,1),(15,'CIENCIAS SOCIALES, CIVISMO Y CULTURA CIUDADANA',1,'2022-08-28','20:07:00',2,1),(16,'LENGUA EXTRANJERA (INGLÉS)',1,'2022-08-28','20:07:00',2,1),(17,'EXPRESIÓN Y APRECIACIÓN ARTÍSTICA',1,'2022-08-28','20:07:00',2,1),(18,'EMPRENDIMIENTO PARA LA PRODUCTIVIDAD',1,'2022-08-28','20:07:00',2,1),(19,'TECNOLOGÍA EDUCATIVA',1,'2022-08-28','20:07:00',2,1),(20,'EDUCACIÓN FÍSICA',1,'2022-08-28','20:07:00',2,1),(21,'MATEMÁTICAS',1,'2022-08-28','20:07:00',3,1),(22,'ESPAÑOL',1,'2022-08-28','20:07:00',3,1),(23,'CULTURA Y LENGUAS MAYA GARÍFUNA Y XINCA',1,'2022-08-28','20:07:00',3,1),(24,'CIENCIAS NATURALES',1,'2022-08-28','20:07:00',3,1),(25,'CIENCIAS SOCIALES, CIVISMO Y CULTURA CIUDADANA',1,'2022-08-28','20:07:00',3,1),(26,'LENGUA EXTRANJERA (INGLÉS)',1,'2022-08-28','20:07:00',3,1),(27,'EXPRESIÓN Y APRECIACIÓN ARTÍSTICA',1,'2022-08-28','20:07:00',3,1),(28,'EMPRENDIMIENTO PARA LA PRODUCTIVIDAD',1,'2022-08-28','20:07:00',3,1),(29,'TECNOLOGÍA EDUCATIVA',1,'2022-08-28','20:07:00',3,1),(30,'EDUCACIÓN FÍSICA',1,'2022-08-28','20:07:00',3,1);
+/*!40000 ALTER TABLE `materia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -887,6 +901,61 @@ BEGIN
     );
 END$$
 
+DELIMITER ;
+;
+
+DROP function IF EXISTS `func_existe_plan_trabajo`;
+
+DELIMITER $$
+CREATE FUNCTION `func_existe_plan_trabajo` (
+	id_bimestre BIGINT,
+    id_grado BIGINT
+)
+RETURNS INTEGER
+BEGIN
+
+RETURN (
+
+	SELECT 
+		COUNT(p.id_plan_trabajo)
+	FROM
+		plan_trabajo p
+	WHERE
+		p.id_bimestre = id_bimestre AND p.id_grado = id_grado
+			AND p.estado = 1 -- plan activo
+
+);
+END$$
+
+DELIMITER ;
+
+
+-- -----------------------------------------------------
+-- Procedimientos
+-- -----------------------------------------------------
+DROP procedure IF EXISTS `proc_obtener_grados_sin_plan_trabajo`;
+
+DELIMITER $$
+CREATE PROCEDURE `proc_obtener_grados_sin_plan_trabajo`(
+    id_bimestre bigint
+)
+BEGIN
+
+    SELECT
+        g.id_grado AS id, g.descripcion AS descripcion
+    FROM
+        grado g
+    WHERE
+            (SELECT
+                 COUNT(p.id_plan_trabajo)
+             FROM
+                 plan_trabajo p
+             WHERE
+                     p.id_bimestre = id_bimestre
+               AND p.id_grado = g.id_grado
+               AND p.estado = 1) = 0;
+
+END$$
 DELIMITER ;
 ;
 
