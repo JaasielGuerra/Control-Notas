@@ -22,78 +22,46 @@
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                         <h5 class="subtitle is-5 my-6">Consultar Planes de trabajo</h5>
-                        <article class="message is-warning">
+
+                        <article class="message is-warning" th:if="${not gradosSinPlanTrabajoList.isEmpty()}">
+                            <!-- recorrer la lista de grados sin plan de trabajo e imprimirlos -->
                             <div class="message-body">
-                                El grado de primero basico no tiene plan de trabajo
+                                <p>Los siguientes grados no tienen plan de trabajo:</p>
+                                <ul>
+                                    <li th:each="grado : ${gradosSinPlanTrabajoList}">
+                                        <span th:text="${grado.descripcion}"></span>
+                                    </li>
+                                </ul>
+                                <!-- link para crear plan de trabajo -->
+                                <a th:href="@{/plan-trabajo/nuevo}" class="button is-warning is-small"><i
+                                        class="fas fa-plus-circle mr-1"></i> Crear Plan de Trabajo</a>
                             </div>
                         </article>
 
                         <div class="columns">
-                            <div class="column">
-
+                            <!-- recorrer la lista de planes de trabajo y mostrarlos en un card -->
+                            <div class="column is-4" th:each="planTrabajo : ${planTrabajoList}">
                                 <div class="card">
-                                    <header class="card-header">
-                                        <p class="card-header-title">
-                                            Primero
-                                        </p>
-                                    </header>
                                     <div class="card-content">
                                         <div class="content">
-                                            <label>Descripcón</label>
+                                            <h5 class="subtitle is-5 has-text-centered"
+                                                th:text="${planTrabajo.idGradoDescripcion}"></h5>
+                                            <hr class="dropdown-divider">
+                                            <p th:text="${planTrabajo.descripcion}"></p>
+                                            <hr class="dropdown-divider">
+                                            <div class="buttons has-text-centered">
+                                                <button class="button is-danger is-small"><i
+                                                        class="fas fa-trash-alt mr-1"></i>Borrar
+                                                </button>
+                                                <button class="button is-info is-small" data-target="Activiadad"
+                                                        onclick="Actividades()"><i class="fas fa-tasks mr-1"></i>Actividades
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <footer class="card-footer">
-                                        <a class=" button card-footer-item is-danger ">Borrar</a>
-                                        <a class=" button card-footer-item is-info"  data-target="Activiadad" onclick="Actividades()">Actividades</a>
-                                    </footer>
-                                </div>
-
-                            </div>
-
-                            <div class="column">
-                                <div class="card">
-                                    <header class="card-header">
-                                        <p class="card-header-title">
-                                            Segundo
-                                        </p>
-                                    </header>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <label>Descripcón</label>
-                                        </div>
-                                    </div>
-
-                                    <footer class="card-footer">
-                                        <a class=" button card-footer-item is-danger ">Borrar</a>
-                                        <a class=" button card-footer-item is-info"  data-target="Actividad" onclick="Actividades()"  >Actividades</a>
-                                    </footer>
                                 </div>
                             </div>
-                            <div class="column">
-                                <div class="card">
-                                    <header class="card-header">
-                                        <p class="card-header-title">
-                                            Tercero
-                                        </p>
-                                    </header>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <label>Descripcón</label>
-                                        </div>
-                                    </div>
-
-                                    <footer class="card-footer">
-                                        <a class=" button card-footer-item is-danger ">Borrar</a>
-                                        <a class=" button card-footer-item is-info " data-target="Actividad" onclick="Actividades()" > Actividades</a>
-                                    </footer>
-                                </div>
-                            </div>
-
-
                         </div>
-
-
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                     </div>
                 </div>
