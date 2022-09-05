@@ -17,7 +17,7 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">CREAR EVALUACIÓN</h4>
+                        <h4 class="title has-text-centered is-4">EDITAR EVALUACIÓN</h4>
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
@@ -82,26 +82,26 @@
 
 
 
-                        </div>
-
-                        <div class="columns">
-                            <div class="column is-3 is-offset-3 ">
-                                <button class="button  is-success is-large is-fullwidth" type="submit"
-                                        id="btn-submit"  data-target="confirmar-plan" onclick="confirmar()">
-                                    <i class="far fa-save mr-1"></i>Registar
-                                </button>
-                            </div>
-                            <div class="column is-3 ">
-                                <a class="button  is-light is-large is-fullwidth" type="button" href="consultar-plan-trabajo.html">
-                                    <i class="fas fa-database mr-1"></i>Consultar
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                     </div>
+
+                    <div class="columns">
+                        <div class="column is-3 is-offset-3 ">
+                            <button class="button  is-success is-large is-fullwidth" type="submit"
+                                    id="btn-submit"  data-target="confirmar-plan" onclick="confirmar()">
+                                <i class="fas fa-sync-alt"></i>Actualizar
+                            </button>
+                        </div>
+                        <div class="column is-3 ">
+                            <a th:href="@{evaluacion/consultar}" class="button  is-light is-large is-fullwidth" type="button">
+                                <i class="fas fa-database mr-1"></i>Consultar
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

@@ -78,12 +78,16 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item">
-                        Consultar evaluaciones
-                    </a>
-                    <a class="navbar-item" href="#">
+                    <a class="navbar-item" th:href="@{/evaluacion/crear}">
                         Crear evaluación
                     </a>
+                    <a class="navbar-item" th:href="@{/evaluacion/consultar}">
+                        Consultar evaluaciones
+                    </a>
+                    <a class="navbar-item" th:href="@{/evaluacion/calificar}">
+                        Calificar evaluación
+                    </a>
+
                 </div>
             </div>
             <div class="navbar-item has-dropdown is-hoverable">

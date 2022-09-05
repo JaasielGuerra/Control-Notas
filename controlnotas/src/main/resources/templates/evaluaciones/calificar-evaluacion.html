@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">CALIFICACIÓN EVALUACIONES</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <article class="message is-link">
+                            <div class="message-body">
+                                A continuación se listan las materias que tiene asignadas
+                            </div>
+                        </article>
+
+                        <div class="columns">
+                            <div class="column">
+
+                                <div class="card">
+                                    <header class="card-header has-background-success">
+                                        <div class="card-content">
+                                            <p class="title is-3">
+                                                Matemáticas
+                                            </p>
+                                            <p class="subtitle is-6"> Grado: Primero</p>
+                                            <p class="subtitle is-6"> Alumnos: 10 alumnos</p>
+                                        </div>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a data-target="calificar-examen" onclick="Evaluacion()">Evaluación 2</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 3</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article>
+                                            <div class="message-body">
+                                                INFO: De click en una evaluación para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+
+                            </div>
+
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header has-background-success "  >
+                                        <div class="card-content ">
+                                            <p class="title is-3 ">
+                                                Ingles
+                                            </p>
+                                            <p class="subtitle is-6 "> Grado: Primero</p>
+                                            <p class="subtitle is-6 "> Alumnos: 10 alumnos</p>
+
+                                        </div>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a data-target="calificar-examen" onclick="Evaluacion()">Evaluación 2</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 3</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article >
+                                            <div class="message-body">
+                                                INFO: De click en una evaluación para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- si lña otra-->
+                        <div class="columns">
+                            <div class="column">
+
+                                <div class="card">
+                                    <header class="card-header has-background-success">
+                                        <div class="card-content">
+                                            <p class="title is-3">
+                                                Español
+                                            </p>
+                                            <p class="subtitle is-6"> Grado: Primero</p>
+                                            <p class="subtitle is-6"> Alumnos: 10 alumnos</p>
+                                        </div>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a data-target="calificar-examen" onclick="Evaluacion()">Evaluación 2</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 3</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article>
+                                            <div class="message-body">
+                                                INFO: De click en una evaluación para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+
+                            </div>
+
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header has-background-success "  >
+                                        <div class="card-content ">
+                                            <p class="title is-3 ">
+                                                Sociales
+                                            </p>
+                                            <p class="subtitle is-6 "> Grado: Primero</p>
+                                            <p class="subtitle is-6 "> Alumnos: 10 alumnos</p>
+
+                                        </div>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 1</a>
+                                        </div>
+                                        <div class="content">
+                                            <a data-target="calificar-examen" onclick="Evaluacion()">Evaluación 2</a>
+                                        </div>
+                                        <div class="content">
+                                            <a  data-target="calificar-examen" onclick="Evaluacion()">Evaluación 3</a>
+                                        </div>
+                                    </div>
+
+                                    <footer class="card-footer">
+                                        <article >
+                                            <div class="message-body">
+                                                INFO: De click en una evaluación para calificarla
+                                            </div>
+                                        </article>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<div th:replace="/evaluaciones/dialogo-evaluacion/clificar :: calificar-examen"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+<script src="/js/modal.js"></script>
+<script type="text/javascript">
+
+    function Evaluacion() {
+
+        //abrir modal
+        openModal('calificar-examen');
+    }
+
+
+</script>
+
+</body>
+</html>
