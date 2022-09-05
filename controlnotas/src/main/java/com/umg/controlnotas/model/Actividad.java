@@ -10,6 +10,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "actividad")
 public class Actividad {
+    public static final int ACTIVO = 1;
+    public static final int INACTIVO = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_actividad", nullable = false)
@@ -33,4 +36,6 @@ public class Actividad {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario idUsuario;
 
+    @Column(name = "estado", nullable = false)
+    private int estado;
 }

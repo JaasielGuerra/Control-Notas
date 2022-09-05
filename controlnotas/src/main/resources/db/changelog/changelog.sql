@@ -67,4 +67,117 @@ INSERT INTO `db_control_notas`.`documento_expediente` (`descripcion`, `estado`, 
 INSERT INTO `db_control_notas`.`documento_expediente` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_usuario`) VALUES ('FE DE EDAD DEL ALUMNO', '1', '2022-08-23', '09:46', '1');
 INSERT INTO `db_control_notas`.`documento_expediente` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_usuario`) VALUES ('3 ETAPAS DE PRE PRIMARIA (ANEXO)', '1', '2022-08-23', '09:46', '1');
 
+-- changeset liquibase:jaasiel-11
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('MATEMÁTICAS', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('ESPAÑOL', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CULTURA Y LENGUAS MAYA GARÍFUNA Y XINCA', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CIENCIAS NATURALES', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CIENCIAS SOCIALES, CIVISMO Y CULTURA CIUDADANA', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('LENGUA EXTRANJERA (INGLÉS)', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EXPRESIÓN Y APRECIACIÓN ARTÍSTICA', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EMPRENDIMIENTO PARA LA PRODUCTIVIDAD', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('TECNOLOGÍA EDUCATIVA', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EDUCACIÓN FÍSICA', '1', '2022-08-28', '20:07', '1', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('MATEMÁTICAS', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('ESPAÑOL', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CULTURA Y LENGUAS MAYA GARÍFUNA Y XINCA', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CIENCIAS NATURALES', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CIENCIAS SOCIALES, CIVISMO Y CULTURA CIUDADANA', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('LENGUA EXTRANJERA (INGLÉS)', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EXPRESIÓN Y APRECIACIÓN ARTÍSTICA', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EMPRENDIMIENTO PARA LA PRODUCTIVIDAD', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('TECNOLOGÍA EDUCATIVA', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EDUCACIÓN FÍSICA', '1', '2022-08-28', '20:07', '2', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('MATEMÁTICAS', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('ESPAÑOL', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CULTURA Y LENGUAS MAYA GARÍFUNA Y XINCA', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CIENCIAS NATURALES', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('CIENCIAS SOCIALES, CIVISMO Y CULTURA CIUDADANA', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('LENGUA EXTRANJERA (INGLÉS)', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EXPRESIÓN Y APRECIACIÓN ARTÍSTICA', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EMPRENDIMIENTO PARA LA PRODUCTIVIDAD', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('TECNOLOGÍA EDUCATIVA', '1', '2022-08-28', '20:07', '3', '1');
+INSERT INTO `db_control_notas`.`materia` (`descripcion`, `estado`, `fecha_commit`, `hora_commit`, `id_grado`, `id_usuario`) VALUES ('EDUCACIÓN FÍSICA', '1', '2022-08-28', '20:07', '3', '1');
+
+
+-- changeset liquibase:jaasiel-12
+INSERT INTO `db_control_notas`.`ciclo_escolar` (`anio`, `estado`, `fecha_apertura`, `fecha_cierre`, `dias_base_asistencia`, `id_usuario`) VALUES ('2022', '1', '2022-01-15', NULL, '200', '1');
+INSERT INTO `db_control_notas`.`bimestre` (`descripcion`, `puntos_base`, `puntos_actividades`, `puntos_actitudinal`, `puntos_evaluaciones`, `fecha_apertura`, `estado`, `fecha_commit`, `hora_commit`, `id_ciclo_escolar`, `id_usuario`) VALUES ('PRIMER BIMESTRE', '100', '60', '10', '30', '2022-01-15', '1', '2022-08-28', '21:05', '1', '1');
+
+-- changeset liquibase:jaasiel-13 endDelimiter:;\nDELIMITER $$
+DROP procedure IF EXISTS `proc_obtener_grados_sin_plan_trabajo`
+
+-- changeset liquibase:jaasiel-14 endDelimiter:$$\nDELIMITER ;
+CREATE PROCEDURE `proc_obtener_grados_sin_plan_trabajo` (
+    id_bimestre bigint
+)
+BEGIN
+
+    SELECT
+        g.id_grado AS id, g.descripcion AS descripcion
+    FROM
+        grado g
+    WHERE
+            (SELECT
+                 COUNT(p.id_plan_trabajo)
+             FROM
+                 plan_trabajo p
+             WHERE
+                     p.id_bimestre = id_bimestre
+               AND p.id_grado = g.id_grado) = 0;
+
+END
+
+
+-- changeset liquibase:jaasiel-15 endDelimiter:;\nDELIMITER $$
+DROP procedure IF EXISTS `proc_obtener_grados_sin_plan_trabajo`
+
+-- changeset liquibase:jaasiel-16 endDelimiter:$$\nDELIMITER ;
+CREATE PROCEDURE `proc_obtener_grados_sin_plan_trabajo` (
+    id_bimestre bigint
+)
+BEGIN
+
+    SELECT
+        g.id_grado AS id, g.descripcion AS descripcion
+    FROM
+        grado g
+    WHERE
+            (SELECT
+                 COUNT(p.id_plan_trabajo)
+             FROM
+                 plan_trabajo p
+             WHERE
+                     p.id_bimestre = id_bimestre
+               AND p.id_grado = g.id_grado
+               AND p.estado = 1) = 0;
+END
+
+-- changeset liquibase:jaasiel-17
+ALTER TABLE `db_control_notas`.`actividad`
+ADD COLUMN `estado` INT NOT NULL AFTER `id_usuario`;
+
+-- changeset liquibase:jaasiel-18 endDelimiter:\nDELIMITER $$
+DROP function IF EXISTS `func_existe_plan_trabajo`;
+
+-- changeset liquibase:jaasiel-19 endDelimiter:$$\nDELIMITER ;
+CREATE FUNCTION `func_existe_plan_trabajo` (
+    id_bimestre BIGINT,
+    id_grado BIGINT
+)
+    RETURNS INTEGER
+BEGIN
+
+    RETURN (
+
+        SELECT
+            COUNT(p.id_plan_trabajo)
+        FROM
+            plan_trabajo p
+        WHERE
+                p.id_bimestre = id_bimestre AND p.id_grado = id_grado
+          AND p.estado = 1 -- plan activo
+
+    );
+END
 

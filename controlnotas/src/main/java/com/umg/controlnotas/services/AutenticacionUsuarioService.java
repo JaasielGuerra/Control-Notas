@@ -1,6 +1,9 @@
 package com.umg.controlnotas.services;
 
+import com.umg.controlnotas.model.Bimestre;
+import com.umg.controlnotas.model.CicloEscolar;
 import com.umg.controlnotas.model.custom.UserSession;
+import com.umg.controlnotas.repository.BimestreRepository;
 import com.umg.controlnotas.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +24,8 @@ public class AutenticacionUsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private BimestreRepository bimestreRepository;
 
     /**
      * obtener usuario por nombre para autenticar con spring security. Este método es transaccional en modo de lectura
@@ -35,6 +40,7 @@ public class AutenticacionUsuarioService implements UserDetailsService {
 
 
         var usuario = usuarioRepository.findUsuarioByUser(username);
+        var bimestre = bimestreRepository.findByEstado(Bimestre.ACTIVO);
 
         if (usuario == null) {
             throw new UsernameNotFoundException(username);
@@ -46,6 +52,6 @@ public class AutenticacionUsuarioService implements UserDetailsService {
         roles.add(new SimpleGrantedAuthority(rol.getDescripcion()));
 
         //devolver el objeto User que necesita spring security
-        return new UserSession(usuario.getUser(), usuario.getPassword(), roles, usuario.getId(), usuario.getNombreCompleto());
+        return new UserSession(usuario.getUser(), usuario.getPassword(), roles, usuario.getId(), usuario.getNombreCompleto(), bimestre);
     }
 }
