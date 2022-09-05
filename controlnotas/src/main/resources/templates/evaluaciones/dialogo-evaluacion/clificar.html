@@ -1,0 +1,97 @@
+<!-- MOdal -->
+<div class="modal" id="calificar-examen" xmlns:th="http://www.thymeleaf.org" th:fragment="calificar-examen">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">CALIFICAR EVALUACIÓN</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+
+        <div class="card">
+
+            <header  class="card-header has-background-primary is-light ">
+                <div class="card-content">
+                    <p class="title is-3">
+                        Evaluación
+                    </p>
+                    <p class="subtitle is-6">Evaluación: Descripción</p>
+                    <p class="subtitle is-6">Valor: 10 pts</p>
+                </div>
+
+            </header>
+            <div class="card-content">
+                <div class="content ">
+
+
+                    <div class="columns">
+                        <div class="column is-7">
+                            <label> Escoga un alumno</label>
+                            <div class="control">
+                                <div class="select is-smoll is-fullwidth ">
+                                    <select name="select" id="grado">
+                                        <option>Juna Pablo</option>
+                                        <option>Carlos manuel</option>
+                                        <option>Maria jose</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-2">
+                            <label> Puntos:</label>
+                            <div class="control">
+                                <input class="input" type="number" id="puntos" required
+                                       name="puntos">
+                            </div>
+                        </div>
+
+                        <div class="column ">
+                            <br>
+                            <div class="control">
+                                <button class="button  is-success is-smoll " type="submit"
+                                        id="">
+                                    <i class="fas fa-check mr-1"></i>Calificar
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-fullwidth">
+
+                            <table class="table display" >
+                                <thead  class="is-narrow">
+                                <tr>
+                                    <th>Alumno</th>
+                                    <th>Punteo</th>
+
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <th>Angel Chacon</th>
+                                    <th>12</th>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="modal-card-foot ">
+
+            <button class="button  is-success" value="Guardar">
+                <i class="far fa-save mr-1"></i>Guardar cambios</button>
+
+            <button class="button  is-danger" value="Cancelar">
+                <i class="fas fa-window-close mr-1"></i>Cancelar</button>
+
+        </footer>
+    </div>
+</div>
+</div>

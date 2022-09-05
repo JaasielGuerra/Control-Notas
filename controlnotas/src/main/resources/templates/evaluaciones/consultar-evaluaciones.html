@@ -1,10 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">CONSULTAR EVALUACIONES</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <article class="message is-link">
+                            <div class="message-body">
+                                Evaluaciones de las materias que tiene asignadas
+                            </div>
+                        </article>
+
+                        <div class="columns">
+
+                            <div class="column  is-3 is-offset-2">
+                                <label>Tipo</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth ">
+                                        <select name="select" id="tipo" required>
+                                            <option>Examen corto</option>
+                                            <option>Examen</option>
+                                            <option>Laboratorio</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-3">
+                                <label>Materia</label>
+                                <div class="control">
+                                    <div class="select  is-fullwidth ">
+                                        <select name="select" id="materia" required>
+                                            <option>Matemáticas</option>
+                                            <option>Sociales</option>
+                                            <option>Ingles</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column"><br>
+                                <button class="button is-link  is-rounded" title="Consultar alumnos"
+                                        type="submit">
+                                    <i class="fas fa-list mr-1"></i>Listar
+                                </button>
+                            </div>
+                        </div>
+                        <h5 class="title is-5 my-6">Evaluaciones registradas</h5>
+                        <div class="columns">
+
+                            <table class="table display" >
+                                <thead  class="is-narrow">
+                                <tr>
+                                    <th>Descripcíon</th>
+                                    <th>Fecha</th>
+                                    <th>Ponderación</th>
+                                    <th>Tipo</th>
+                                    <th>Materia</th>
+                                    <th>Estado</th>
+                                    <th>Operaciones</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>Examen sorpresa</td>
+                                    <td>12/10/2022</td>
+                                    <td>5</td>
+                                    <td>Examen corto</td>
+                                    <td>Español</td>
+                                    <td>
+                                        <a class="button is-info is-small">Activo</a>
+                                        <a class="button is-success is-small">calificada</a>
+                                    </td>
+
+                                    <td>
+                                        <a th:href="@{/evaluacion/editar}" class="button is-warning is-small">
+                                            <i class="far fa-eye mr-1"></i>Visualizar</a>
+                                        <a data-target="confirmar" onclick="Eliminar()"  class="button is-danger is-small">
+                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar</a>
+
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<div th:replace="/evaluaciones/dialogo-evaluacion/clificar :: calificar-examen"></div>
+<div th:replace="/evaluaciones/dialogo-evaluacion/confirmar::elimnar"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+<script src="/js/modal.js"></script>
+<script type="text/javascript">
+
+    function Eliminar() {
+
+        //abrir modal
+        openModal('eliminar');
+    }
+
+
+</script>
 
 </body>
 </html>
