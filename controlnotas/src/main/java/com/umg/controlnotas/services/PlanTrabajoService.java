@@ -16,4 +16,7 @@ public interface PlanTrabajoService {
 
     @Transactional
     ResponseData actualizarActividadesPlanTrabajo(long idPlan, List<ActividadJSON> actividades);
+
+    @Transactional
+    ResponseData eliminarPlanTrabajo(long idPlan);
 }

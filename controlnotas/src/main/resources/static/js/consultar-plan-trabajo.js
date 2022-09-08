@@ -57,6 +57,22 @@
     });
 
     /**
+     * Evento pre eliminar plan
+     */
+    $('#list-planes-trabajo').on('click', '.btn-pre-eliminar-plan', function () {
+        $('#btn-confirmar-eliminacion').attr('data-id-plan', $(this).data('id'));
+        openModal('modal-confirmacion-eliminar')
+    });
+
+    /**
+     * Evento confirmar eliminacion de plan de trabajo
+     */
+    $('#btn-confirmar-eliminacion').on('click', function () {
+        let idPlanTrabajo = $('#btn-confirmar-eliminacion').data('id-plan');
+        eliminarPlanTrabajo(idPlanTrabajo);
+    });
+
+    /**
      * Consultar las actividades de un plan de trabajo y cargarlas en la tabla del modal de actividades
      * @param idPlanTrabajo
      * @param idGrado
@@ -291,6 +307,53 @@
         });
 
     }
+
+    /**
+     * Eliminar plan de trabajo
+     * @param idPlanTrabajo
+     */
+    function eliminarPlanTrabajo(idPlanTrabajo) {
+        $.ajax({
+            url: '/plan-trabajo/' + idPlanTrabajo,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function (data) {
+
+                //si el code es 1
+                if (data.code === 1) {
+
+                    //guardar mensaje de exito en el local storage
+                    localStorage.setItem('messageSuccess', data.message);
+                    location.reload();
+                }
+                //si el code es 0
+                else if (data.code === 0) {
+                    showMessageError(data.message);
+                    //recorrer los errores, concatenarlos
+                    let errores = '';
+                    $.each(data.errors, function (i, error) {
+                        errores += error + '<br>';
+                    });
+                    //mostrar errores
+                    showMessageError(errores);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                showMessageError('Se produjo un error en el servidor ' + xhr.responseText);
+            }
+        });
+    }
+
+    //cuando se carge el documento verificar si hay un mensaje de exito en el local storage y mostrarlo
+    $(document).ready(function () {
+        let messageSuccess = localStorage.getItem('messageSuccess');
+        if (messageSuccess) {
+            showMessageSuccess(messageSuccess);
+            localStorage.removeItem('messageSuccess');
+        }
+    });
+
 
 })();
 

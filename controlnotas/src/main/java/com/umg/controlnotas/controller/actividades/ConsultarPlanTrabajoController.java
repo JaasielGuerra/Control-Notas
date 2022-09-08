@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -82,6 +83,28 @@ public class ConsultarPlanTrabajoController {
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al guardar el plan de trabajo " + e.getMessage()
+            );
+        }
+
+        return ResponseEntity.ok().body(responseData);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<ResponseData> EliminarPlanTrabajo(@PathVariable Long id) {
+
+        log.info("EliminarPlanTrabajo id: " + id);
+
+        ResponseData responseData;
+
+        try {
+
+            responseData = planTrabajoService.eliminarPlanTrabajo(id);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el plan de trabajo " + e.getMessage()
             );
         }
 

@@ -55,7 +55,8 @@
 
 
                                         <div class="buttons has-text-centered">
-                                            <button class="button is-danger is-small"><i
+                                            <button class="button is-danger is-small btn-pre-eliminar-plan"
+                                                    th:data-id="${planTrabajo.id}"><i
                                                     class="fas fa-trash-alt mr-1"></i>Borrar
                                             </button>
                                             <button class="button is-info is-small btn-actividades"
@@ -81,6 +82,7 @@
 
 </main>
 <div th:replace="actividades/dialogos-plan-trabajo/actividades::actividadad"></div>
+<div th:replace="actividades/dialogos-plan-trabajo/confirmacion::confirmacion-eliminar"></div>
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
