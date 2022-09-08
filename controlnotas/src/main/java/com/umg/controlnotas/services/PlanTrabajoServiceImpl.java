@@ -2,6 +2,7 @@ package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.Actividad;
 import com.umg.controlnotas.model.PlanTrabajo;
+import com.umg.controlnotas.model.Usuario;
 import com.umg.controlnotas.model.custom.ActividadJSON;
 import com.umg.controlnotas.model.custom.MateriaDescripcionId;
 import com.umg.controlnotas.model.custom.PlanTrabajoJSON;
@@ -127,22 +128,7 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         //guardar el planTrabajo
         planTrabajoRepository.save(planTrabajo);
 
-        //lista de actividades tipo Actividad para guardar en la base de datos
-        List<Actividad> actividades = new ArrayList<>();
-
-        //recorrer las actividades del planTrabajoJSON y asignarlas a un objeto de tipo Actividad
-        for (var actividad : planTrabajoJSON.getActividades()) {
-            var actividadGuardar = new Actividad();
-            actividadGuardar.setDescripcionActividad(actividad.getDescripcionActividad());
-            actividadGuardar.setValorActividad(actividad.getValorActividad());
-            actividadGuardar.setIdMateria(materiaRepository.getReferenceById(actividad.getIdMateria()));
-            actividadGuardar.setIdPlanTrabajo(planTrabajo);
-            actividadGuardar.setIdUsuario(idUsuario);
-            actividadGuardar.setEstado(Actividad.ACTIVO);
-            actividades.add(actividadGuardar);
-        }
-
-        actividadRepository.saveAll(actividades);
+        registrarActividadesNuevas(planTrabajoJSON.getActividades(), planTrabajo, idUsuario);
 
         log.info("plan de trabajo guardado");
 
@@ -152,5 +138,96 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
                 .code(1)
                 .data(planTrabajoJSON)
                 .build();
+    }
+
+    @Transactional
+    @Override
+    public ResponseData actualizarActividadesPlanTrabajo(long idPlan, List<ActividadJSON> actividadesJson) {
+
+        var planTrabajo = planTrabajoRepository.findById(idPlan).orElseThrow(() -> new RuntimeException("No existe el plan de trabajo"));
+        List<String> errores = new ArrayList<>();
+        var bimestre = userFacade.getUserSession().getBimestre();
+        List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(planTrabajo.getIdGrado().getId());
+
+        //recorrer materias para verificar que la suma de actividades sea igual a 60 (puntos configurados en bimestre)
+        for (MateriaDescripcionId materia : materias) {
+
+            List<ActividadJSON> actividades = actividadesJson
+                    .stream()
+                    .filter(actividad -> Objects.equals(actividad.getIdMateria(), materia.getId()))
+                    .filter(actividad -> actividad.getEstado() == Actividad.ACTIVO)// solo con estado activo
+                    .collect(Collectors.toList());
+
+            var sumaValorActividadesMateria = actividades.stream().mapToDouble(ActividadJSON::getValorActividad).sum();
+
+            if (sumaValorActividadesMateria != bimestre.getPuntosActividades()) {
+                errores.add("La suma de actividades para " + materia.getDescripcion() + " debe ser igual a " + String.format("%.2f", bimestre.getPuntosActividades()) + " puntos");
+            }
+        }
+
+        // contar cuantas materias tiene el plan de trabajo (contar solo las no repetidas)
+        var materiasPlanTrabajo = actividadesJson
+                .stream()
+                .filter(actividad -> actividad.getEstado() == Actividad.ACTIVO)// solo con estado activo
+                .map(ActividadJSON::getIdMateria)
+                .distinct()
+                .count();
+
+        log.info("countMaterias: " + materiasPlanTrabajo);
+
+        // validar que el plan de trabajo tenga todas las materias
+        if (materiasPlanTrabajo != materias.size()) {
+            errores.add("El plan de trabajo debe tener todas las materias cargadas como actividades");
+        }
+
+        //si hay errores retornar el arreglo de errores y el estado de la operacion como 0 (fallida)
+        if (errores.size() > 0) {
+            return ResponseData.builder()
+                    .code(0)
+                    .message("Error al guardar el plan de trabajo para el bimestre " + bimestre.getDescripcion() + " lea los siguientes errores:")
+                    .errors(errores)
+                    .build();
+        }
+
+        log.info("actualizando actividades plan de trabajo...");
+
+        List<ActividadJSON> actividadesActualizar = actividadesJson.stream()
+                .filter(actividad -> actividad.getId() != null)
+                .collect(Collectors.toList());
+
+        List<ActividadJSON> actividadesNuevas = actividadesJson.stream()
+                .filter(actividad -> actividad.getId() == null)
+                .collect(Collectors.toList());
+
+        var idUsuario = usuarioRepository.getReferenceById(userFacade.getUserSession().getIdUsuario());
+
+        //registrar las que tengan id null
+        registrarActividadesNuevas(actividadesNuevas, planTrabajo, idUsuario);
+
+        //actualizar las que tengan id
+        for (ActividadJSON actividadJSON : actividadesActualizar) {
+            actividadRepository.actualizarActividad(actividadJSON.getId(), actividadJSON.getEstado(), actividadJSON.getValorActividad());
+        }
+
+        return ResponseData.builder()
+                .message("Actualizado exitosamente")
+                .code(1)
+                .build();
+
+    }
+
+    private void registrarActividadesNuevas(List<ActividadJSON> actividadesNuevas, PlanTrabajo planTrabajo, Usuario idUsuario) {
+        List<Actividad> actividades = new ArrayList<>();
+        for (var actividad : actividadesNuevas) {
+            var actividadGuardar = new Actividad();
+            actividadGuardar.setDescripcionActividad(actividad.getDescripcionActividad());
+            actividadGuardar.setValorActividad(actividad.getValorActividad());
+            actividadGuardar.setIdMateria(materiaRepository.getReferenceById(actividad.getIdMateria()));
+            actividadGuardar.setIdPlanTrabajo(planTrabajo);
+            actividadGuardar.setIdUsuario(idUsuario);
+            actividadGuardar.setEstado(Actividad.ACTIVO);
+            actividades.add(actividadGuardar);
+        }
+        actividadRepository.saveAll(actividades);
     }
 }
