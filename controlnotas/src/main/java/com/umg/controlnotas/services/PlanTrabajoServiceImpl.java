@@ -216,6 +216,18 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
 
     }
 
+    @Transactional
+    @Override
+    public ResponseData eliminarPlanTrabajo(long idPlan) {
+
+        planTrabajoRepository.eliminarPlanTrabajo(idPlan);
+
+        return ResponseData.builder()
+                .code(1)
+                .message("¡Plan de trabajo eliminado correctamente!")
+                .build();
+    }
+
     private void registrarActividadesNuevas(List<ActividadJSON> actividadesNuevas, PlanTrabajo planTrabajo, Usuario idUsuario) {
         List<Actividad> actividades = new ArrayList<>();
         for (var actividad : actividadesNuevas) {
