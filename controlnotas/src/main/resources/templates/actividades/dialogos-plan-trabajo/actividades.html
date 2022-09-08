@@ -1,5 +1,5 @@
 <!-- MOdal -->
-<div class="modal" id="actividad" xmlns:th="http://www.thymeleaf.org" th:fragment="actividadad">
+<div class="modal" id="modal-actividades" xmlns:th="http://www.thymeleaf.org" th:fragment="actividadad">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
@@ -8,88 +8,95 @@
             <button class="delete" aria-label="close"></button>
         </header>
 
-        <div class="card">
-            <div class="card-content">
-                <div class="content">
-                    <p class="subtitle is-5">Actividades</p>
-                    <div class="columns">
-                        <div class="column is-4">
-                            <label> Tarea</label>
-                            <div class="control">
-                                <input class="input" type="text" id="tarea" required
-                                       name="tarea">
-                            </div>
-                        </div>
-                        <div class="column is-2">
-                            <label> Punteo</label>
-                            <div class="control">
-                                <input class="input" type="number" id="punteo" required
-                                       name="punteo">
-                            </div>
-                        </div>
-                        <div class="column is-4">
-                            <label>Materia</label>
-                            <div class="control">
-                                <div class="select is-smoll is-fullwidth ">
-                                    <select name="select" id="materia">
-                                        <option>Matemáticas</option>
-                                        <option>Sociales</option>
-                                        <option>Ingles</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+        <section class="modal-card-body">
 
-                        <div class="column ">
-                            <br>
-                            <div class="control">
-                                <button class="button  is-success is-smoll " type="submit"
-                                        id="">
-                                    Agregar
-                                </button>
-                            </div>
 
-                        </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column is-fullwidth">
+            <!-- 1 columns y 2 rows -->
+            <div class="columns">
+                <div class="column">
+                    <h5 class="subtitle is-5">Agregar actividades</h5>
+                </div>
+                <div class="column">
+                    <button class="button is-primary is-fullwidth" type="button" id="btn-guardar-plan"><i
+                            class="fas fa-save mr-1"></i>Guardar cambios
+                    </button>
+                </div>
+            </div>
 
-                            <table class="table display" >
-                                <thead  class="is-narrow">
-                                <tr>
-                                    <th>Descripcón actividad</th>
-                                    <th>Valor</th>
-                                    <th>Materia</th>
-                                    <th>Operación</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr>
-                                    <th>a</th>
-                                    <th>12</th>
-                                    <th>213</th>
-                                    <th>
-                                        <a class="button is-danger is-small"> Eliminar</a>
-                                    </th>
-                                </tr>
-                                </tbody>
-                            </table>
+            <div class="columns">
+                <div class="column is-12">
+                    <label>Materia</label>
+                    <div class="control">
+                        <div class="select is-fullwidth is-small">
+                            <select id="materia">
+                                <option value="1">demo1</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
+
+            <div class="columns">
+                <div class="column is-12">
+                    <label>Descripción actividad</label>
+                    <div class="control">
+                        <input class="input is-small" type="text" id="actividad">
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-4">
+                    <label>Valor</label>
+                    <div class="control">
+                        <input class="input is-small" type="number" id="punteo"
+                               min="1" max="100">
+                    </div>
+                </div>
+
+                <div class="column">
+                    <br>
+                    <div class="control">
+                        <button class="button is-success is-small" type="button" id="btn-agregar-actividad">
+                            <i class="fas fa-plus mr-1"></i>Agregar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr class="dropdown-divider">
+
+            <h5 class="subtitle is-5">Actividades</h5>
+
+            <div class="table-container">
+
+                <table class="table is-narrow is-striped is-fullwidth is-hoverable">
+                    <thead>
+                    <tr>
+                        <th>Materia</th>
+                        <th>Descripción actividad</th>
+                        <th>Valor</th>
+                        <th>Operación</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="tabla-actividades">
+                    <tr>
+                        <td colspan="4"><p class="has-text-danger has-text-centered">** Agregue
+                            actividades
+                            **</p></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
 
-        <footer class="modal-card-foot ">
-
-            <button class="button  is-success" value="Guardar">Guardar</button>
-
-            <button class="button  is-danger" value="Cancelar"> Cancelar</button>
-
+        <footer class="modal-card-foot">
+            <button class="button is-danger" value="Cancelar"><i class="fas fa-times"></i>Cancelar</button>
         </footer>
     </div>
-    </div>
 </div>
+

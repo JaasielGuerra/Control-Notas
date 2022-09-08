@@ -5,4 +5,5 @@ public interface PlanTrabajoConsultar {
     Long getId();
     String getDescripcion();
     String getIdGradoDescripcion();
+    Long getIdGradoId();
 }
