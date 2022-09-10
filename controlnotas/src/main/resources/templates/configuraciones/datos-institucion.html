@@ -1,10 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">DATOS INSTITUCIÓN</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
+                            <div class="columns">
+                                <div class="column is-6">
+                                    <label >*Código</label>
+                                    <div class="control">
+                                        <input class="input" type="number" placeholder="Código" required>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >*Nombre institución</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Nombre" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >Dirección</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Dirección">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >Correo</label>
+                                <div class="control">
+                                    <input class="input" type="email" placeholder="Correo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >Teléfono</label><br>
+                                <div class="control">
+                                    <input class="input" type="number" placeholder="Teléfono">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >Nivel</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Nivel">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >Sector</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Sector">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >*Nombre director</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Nombre director" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-6">
+                                <label >Jornada</label>
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Jornada">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column is-3 is-offset-5 ">
+                                <button class="button  is-success is-large is-fullwidth" type="submit"
+                                        id="btn-submit">
+                                    <i class="far fa-save mr-1"></i> Guardar datos
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
 
 </body>
 </html>
