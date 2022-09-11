@@ -12,8 +12,8 @@
      * Evento para ejecutar funcion consultarActividades al hacer click en el boton actividades
      */
     $('#list-planes-trabajo').on('click', '.btn-actividades', function () {
-        let idPlanTrabajo = $(this).data('id');
-        let idGrado = $(this).data('id-grado');
+        let idPlanTrabajo = $(this).attr('data-id');
+        let idGrado = $(this).attr('data-id-grado');
         verActividadesPlanTrabajo(idPlanTrabajo, idGrado);
     });
 
@@ -21,7 +21,7 @@
      * Evento para eliminar un item de actividad a través de su índice
      */
     tablaActividades.on('click', '.btn-eliminar-actividad', function () {
-        let index = $(this).data('index');
+        let index = $(this).attr('data-index');
         eliminarItemActividad(index);
     });
 
@@ -53,14 +53,16 @@
      * Evento btn-guardar-plan para guardar el plan de trabajo
      */
     $('#btn-guardar-plan').click(function () {
-        guardarCambiosPlanTrabajo();
+        let idPlanTrabajo = $('#btn-guardar-plan').attr('data-id-plan');
+        console.log(idPlanTrabajo)
+        guardarCambiosPlanTrabajo(idPlanTrabajo);
     });
 
     /**
      * Evento pre eliminar plan
      */
     $('#list-planes-trabajo').on('click', '.btn-pre-eliminar-plan', function () {
-        $('#btn-confirmar-eliminacion').attr('data-id-plan', $(this).data('id'));
+        $('#btn-confirmar-eliminacion').attr('data-id-plan', $(this).attr('data-id'));
         openModal('modal-confirmacion-eliminar')
     });
 
@@ -68,7 +70,7 @@
      * Evento confirmar eliminacion de plan de trabajo
      */
     $('#btn-confirmar-eliminacion').on('click', function () {
-        let idPlanTrabajo = $('#btn-confirmar-eliminacion').data('id-plan');
+        let idPlanTrabajo = $('#btn-confirmar-eliminacion').attr('data-id-plan');
         eliminarPlanTrabajo(idPlanTrabajo);
     });
 
@@ -266,14 +268,11 @@
     /**
      * Funcion para guardar los cambios realizados en las actividades del plan trabajo
      */
-    function guardarCambiosPlanTrabajo() {
+    function guardarCambiosPlanTrabajo(idPlanTrabajo) {
 
         $.each(actividadesItemsEliminados, function (i, item) {
             actividadesItems.push(item);
         });
-
-        //obtener id atributo data-id-plan del boton guardar
-        let idPlanTrabajo = $('#btn-guardar-plan').data('id-plan');
 
         $.ajax({
             url: '/plan-trabajo/' + idPlanTrabajo,
