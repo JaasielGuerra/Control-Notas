@@ -181,3 +181,6 @@ BEGIN
     );
 END
 
+-- changeset liquibase:jaasiel-20
+INSERT INTO `institucion` VALUES (1,'INEB DE TELESECUNDARIA \"MANUEL JOSE ARCE\"','ALDEA LAS VIÑAS, LOS AMATES, IZABAL','18-05-2419-40',1,'2022-09-11','23:44:31','José Alberto Acevedo Arroyo','','','BÁSICO','OFICIAL','VESPERTINA');
+
