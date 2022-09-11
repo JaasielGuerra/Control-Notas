@@ -144,10 +144,10 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
     @Override
     public ResponseData actualizarActividadesPlanTrabajo(long idPlan, List<ActividadJSON> actividadesJson) {
 
-        var planTrabajo = planTrabajoRepository.findById(idPlan).orElseThrow(() -> new RuntimeException("No existe el plan de trabajo"));
+        var planTrabajo = planTrabajoRepository.getReferenceById(idPlan);
         List<String> errores = new ArrayList<>();
         var bimestre = userFacade.getUserSession().getBimestre();
-        List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(planTrabajo.getIdGrado().getId());
+        List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(planTrabajoRepository.findIdGgradoIdById(idPlan));
 
         //recorrer materias para verificar que la suma de actividades sea igual a 60 (puntos configurados en bimestre)
         for (MateriaDescripcionId materia : materias) {

@@ -19,4 +19,7 @@ public interface PlanTrabajoRepository extends JpaRepository<PlanTrabajo, Long> 
     @Query(value = "UPDATE PlanTrabajo p SET p.estado = 0 WHERE p.id = ?1")
     void eliminarPlanTrabajo(long id);
 
+    @Query("SELECT p.idGrado.id FROM PlanTrabajo p WHERE p.id = ?1")
+    long findIdGgradoIdById(long id);
+
 }
