@@ -1,7 +1,7 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.DocumentoExpediente;
-import com.umg.controlnotas.model.custom.DocumentoChecklist;
+import com.umg.controlnotas.model.query.DocumentoChecklist;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

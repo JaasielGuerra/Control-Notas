@@ -1,12 +1,10 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.custom.GradoDescripcionId;
+import com.umg.controlnotas.model.query.GradoDescripcionId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

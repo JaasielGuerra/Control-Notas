@@ -1,4 +1,4 @@
-package com.umg.controlnotas.model.custom;
+package com.umg.controlnotas.model.query;
 
 import java.time.LocalDate;
 

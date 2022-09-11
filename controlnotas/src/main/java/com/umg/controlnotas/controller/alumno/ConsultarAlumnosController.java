@@ -1,7 +1,9 @@
 package com.umg.controlnotas.controller.alumno;
 
 import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.custom.*;
+import com.umg.controlnotas.model.query.*;
+import com.umg.controlnotas.model.dto.AlumnoDto;
+import com.umg.controlnotas.model.dto.AsignacionAlumnoDto;
 import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.services.AlumnoService;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/alumno")
@@ -101,32 +102,32 @@ public class ConsultarAlumnosController {
 
     @GetMapping("obtenerAsignacionAlumno")
     @ResponseBody
-    public AsignacionAlumno obtenerAsignacion(@RequestParam Long idAlumno) {
+    public AsignacionAlumnoDto obtenerAsignacion(@RequestParam Long idAlumno) {
 
-        AsignacionAlumno asignacionAlumno = null;
+        AsignacionAlumnoDto asignacionAlumnoDto = null;
 
         try {
             logger.info("obteniendo asignacion alumno id: " + idAlumno);
-            asignacionAlumno = alumnoService.obtenerAsignacion(idAlumno);
+            asignacionAlumnoDto = alumnoService.obtenerAsignacion(idAlumno);
         } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
             );
         }
 
-        return asignacionAlumno;
+        return asignacionAlumnoDto;
     }
 
     @PostMapping("cambiarAsignacion")
     @ResponseBody
-    public ResponseEntity<AsignacionAlumno> cambiarAsignacionAlumno(@RequestBody AsignacionAlumno asignacionAlumno) {
+    public ResponseEntity<AsignacionAlumnoDto> cambiarAsignacionAlumno(@RequestBody AsignacionAlumnoDto asignacionAlumnoDto) {
 
         try {
 
-            logger.info("id alumno: " + asignacionAlumno.getIdAlumno());
-            logger.info("id seccion: " + asignacionAlumno.getIdSeccionAlumno());
+            logger.info("id alumno: " + asignacionAlumnoDto.getIdAlumno());
+            logger.info("id seccion: " + asignacionAlumnoDto.getIdSeccionAlumno());
 
-            alumnoService.cambiarAsignacionAlumno(asignacionAlumno.getIdSeccionAlumno(), asignacionAlumno.getIdAlumno());
+            alumnoService.cambiarAsignacionAlumno(asignacionAlumnoDto.getIdSeccionAlumno(), asignacionAlumnoDto.getIdAlumno());
 
             logger.info("Alumno reasignado");
 
@@ -136,14 +137,14 @@ public class ConsultarAlumnosController {
             return ResponseEntity.internalServerError().build();
         }
 
-        return ResponseEntity.ok().body(asignacionAlumno);
+        return ResponseEntity.ok().body(asignacionAlumnoDto);
     }
 
     @GetMapping("/obtenerExpedienteAlumno")
     @ResponseBody
-    public ResponseEntity<AlumnoJSON> obtenerExpedienteAlumno(@RequestParam Long idAlumno) {
+    public ResponseEntity<AlumnoDto> obtenerExpedienteAlumno(@RequestParam Long idAlumno) {
 
-        AlumnoJSON expedienteAlumno = null;
+        AlumnoDto expedienteAlumno = null;
 
         try {
             logger.info("obteniendo expediente alumno id: " + idAlumno);
@@ -160,7 +161,7 @@ public class ConsultarAlumnosController {
 
     @PostMapping(value = "/guardarChecklistExpediente")
     @ResponseBody
-    public ResponseEntity<AlumnoJSON> RegistrarAlumno(@RequestBody AlumnoJSON alumno) {
+    public ResponseEntity<AlumnoDto> RegistrarAlumno(@RequestBody AlumnoDto alumno) {
 
         try {
             logger.info("guardando expediente alumno id: " + alumno.getId());

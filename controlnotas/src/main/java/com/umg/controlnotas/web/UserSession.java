@@ -1,4 +1,4 @@
-package com.umg.controlnotas.model.custom;
+package com.umg.controlnotas.web;
 
 import com.umg.controlnotas.model.Bimestre;
 import lombok.Getter;

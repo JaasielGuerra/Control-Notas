@@ -1,8 +1,7 @@
 package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.Bimestre;
-import com.umg.controlnotas.model.CicloEscolar;
-import com.umg.controlnotas.model.custom.UserSession;
+import com.umg.controlnotas.web.UserSession;
 import com.umg.controlnotas.repository.BimestreRepository;
 import com.umg.controlnotas.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

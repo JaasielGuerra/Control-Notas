@@ -3,10 +3,10 @@ package com.umg.controlnotas.services;
 import com.umg.controlnotas.model.Actividad;
 import com.umg.controlnotas.model.PlanTrabajo;
 import com.umg.controlnotas.model.Usuario;
-import com.umg.controlnotas.model.custom.ActividadJSON;
-import com.umg.controlnotas.model.custom.MateriaDescripcionId;
-import com.umg.controlnotas.model.custom.PlanTrabajoJSON;
-import com.umg.controlnotas.model.custom.ResponseData;
+import com.umg.controlnotas.model.dto.ActividadDto;
+import com.umg.controlnotas.model.query.MateriaDescripcionId;
+import com.umg.controlnotas.model.dto.PlanTrabajoDto;
+import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.*;
 import com.umg.controlnotas.web.UserFacade;
 import lombok.extern.java.Log;
@@ -54,26 +54,26 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
     /**
      * Guardar un plan de trabajo
      *
-     * @param planTrabajoJSON el plan de trabajo en formato JSON
+     * @param planTrabajoDto el plan de trabajo en formato JSON
      * @return el plan de trabajo guardado
      */
     @Transactional
     @Override
-    public ResponseData guardarPlanTrabajo(PlanTrabajoJSON planTrabajoJSON) {
+    public ResponseDataDto guardarPlanTrabajo(PlanTrabajoDto planTrabajoDto) {
 
         List<String> errores = new ArrayList<>();
         var bimestre = userFacade.getUserSession().getBimestre();
-        List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(planTrabajoJSON.getIdGrado());
+        List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(planTrabajoDto.getIdGrado());
 
         //recorrer materias para verificar que la suma de actividades sea igual a 60 (puntos configurados en bimestre)
         for (MateriaDescripcionId materia : materias) {
 
-            List<ActividadJSON> actividades = planTrabajoJSON.getActividades()
+            List<ActividadDto> actividades = planTrabajoDto.getActividades()
                     .stream()
                     .filter(actividad -> Objects.equals(actividad.getIdMateria(), materia.getId()))
                     .collect(Collectors.toList());
 
-            var sumaValorActividadesMateria = actividades.stream().mapToDouble(ActividadJSON::getValorActividad).sum();
+            var sumaValorActividadesMateria = actividades.stream().mapToDouble(ActividadDto::getValorActividad).sum();
 
             if (sumaValorActividadesMateria != bimestre.getPuntosActividades()) {
                 errores.add("La suma de actividades para " + materia.getDescripcion() + " debe ser igual a " + String.format("%.2f", bimestre.getPuntosActividades()) + " puntos");
@@ -81,9 +81,9 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         }
 
         // contar cuantas materias tiene el plan de trabajo (contar solo las no repetidas)
-        var materiasPlanTrabajo = planTrabajoJSON.getActividades()
+        var materiasPlanTrabajo = planTrabajoDto.getActividades()
                 .stream()
-                .map(ActividadJSON::getIdMateria)
+                .map(ActividadDto::getIdMateria)
                 .distinct()
                 .count();
         log.info("countMaterias: " + materiasPlanTrabajo);
@@ -94,7 +94,7 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         }
 
         //validar que el plan de trabajo no esté registrado para el bimestre y grado
-        if (planTrabajoRepository.existsByIdBimestreIdAndIdGradoIdAndEstado(bimestre.getId(), planTrabajoJSON.getIdGrado()) > 0) {
+        if (planTrabajoRepository.existsByIdBimestreIdAndIdGradoIdAndEstado(bimestre.getId(), planTrabajoDto.getIdGrado()) > 0) {
             log.info("plan de trabajo ya registrado");
             errores.add("Ya existe un plan de trabajo registrado para el bimestre y grado seleccionado");
         }
@@ -102,7 +102,7 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
 
         //si hay errores retornar el arreglo de errores y el estado de la operacion como 0 (fallida)
         if (errores.size() > 0) {
-            return ResponseData.builder()
+            return ResponseDataDto.builder()
                     .code(0)
                     .message("Error al guardar el plan de trabajo para el bimestre " + bimestre.getDescripcion() + " lea los siguientes errores:")
                     .errors(errores)
@@ -112,12 +112,12 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         log.info("guardando plan de trabajo...");
 
         var idUsuario = usuarioRepository.getReferenceById(userFacade.getUserSession().getIdUsuario());
-        var idGrado = gradoRepository.getReferenceById(planTrabajoJSON.getIdGrado());
+        var idGrado = gradoRepository.getReferenceById(planTrabajoDto.getIdGrado());
 
 
         //asignar valores del planTrabajoJSON a un objeto de tipo PlanTrabajo
         var planTrabajo = new PlanTrabajo();
-        planTrabajo.setDescripcion(planTrabajoJSON.getDescripcion());
+        planTrabajo.setDescripcion(planTrabajoDto.getDescripcion());
         planTrabajo.setIdBimestre(bimestre);
         planTrabajo.setIdGrado(idGrado);
         planTrabajo.setEstado(PlanTrabajo.ACTIVO);
@@ -128,21 +128,21 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         //guardar el planTrabajo
         planTrabajoRepository.save(planTrabajo);
 
-        registrarActividadesNuevas(planTrabajoJSON.getActividades(), planTrabajo, idUsuario);
+        registrarActividadesNuevas(planTrabajoDto.getActividades(), planTrabajo, idUsuario);
 
         log.info("plan de trabajo guardado");
 
 
-        return ResponseData.builder()
+        return ResponseDataDto.builder()
                 .message("Registrados exitosamente")
                 .code(1)
-                .data(planTrabajoJSON)
+                .data(planTrabajoDto)
                 .build();
     }
 
     @Transactional
     @Override
-    public ResponseData actualizarActividadesPlanTrabajo(long idPlan, List<ActividadJSON> actividadesJson) {
+    public ResponseDataDto actualizarActividadesPlanTrabajo(long idPlan, List<ActividadDto> actividadesJson) {
 
         var planTrabajo = planTrabajoRepository.getReferenceById(idPlan);
         List<String> errores = new ArrayList<>();
@@ -152,13 +152,13 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         //recorrer materias para verificar que la suma de actividades sea igual a 60 (puntos configurados en bimestre)
         for (MateriaDescripcionId materia : materias) {
 
-            List<ActividadJSON> actividades = actividadesJson
+            List<ActividadDto> actividades = actividadesJson
                     .stream()
                     .filter(actividad -> Objects.equals(actividad.getIdMateria(), materia.getId()))
                     .filter(actividad -> actividad.getEstado() == Actividad.ACTIVO)// solo con estado activo
                     .collect(Collectors.toList());
 
-            var sumaValorActividadesMateria = actividades.stream().mapToDouble(ActividadJSON::getValorActividad).sum();
+            var sumaValorActividadesMateria = actividades.stream().mapToDouble(ActividadDto::getValorActividad).sum();
 
             if (sumaValorActividadesMateria != bimestre.getPuntosActividades()) {
                 errores.add("La suma de actividades para " + materia.getDescripcion() + " debe ser igual a " + String.format("%.2f", bimestre.getPuntosActividades()) + " puntos");
@@ -169,7 +169,7 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         var materiasPlanTrabajo = actividadesJson
                 .stream()
                 .filter(actividad -> actividad.getEstado() == Actividad.ACTIVO)// solo con estado activo
-                .map(ActividadJSON::getIdMateria)
+                .map(ActividadDto::getIdMateria)
                 .distinct()
                 .count();
 
@@ -182,7 +182,7 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
 
         //si hay errores retornar el arreglo de errores y el estado de la operacion como 0 (fallida)
         if (errores.size() > 0) {
-            return ResponseData.builder()
+            return ResponseDataDto.builder()
                     .code(0)
                     .message("Error al guardar el plan de trabajo para el bimestre " + bimestre.getDescripcion() + " lea los siguientes errores:")
                     .errors(errores)
@@ -191,11 +191,11 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
 
         log.info("actualizando actividades plan de trabajo...");
 
-        List<ActividadJSON> actividadesActualizar = actividadesJson.stream()
+        List<ActividadDto> actividadesActualizar = actividadesJson.stream()
                 .filter(actividad -> actividad.getId() != null)
                 .collect(Collectors.toList());
 
-        List<ActividadJSON> actividadesNuevas = actividadesJson.stream()
+        List<ActividadDto> actividadesNuevas = actividadesJson.stream()
                 .filter(actividad -> actividad.getId() == null)
                 .collect(Collectors.toList());
 
@@ -205,11 +205,11 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         registrarActividadesNuevas(actividadesNuevas, planTrabajo, idUsuario);
 
         //actualizar las que tengan id
-        for (ActividadJSON actividadJSON : actividadesActualizar) {
-            actividadRepository.actualizarActividad(actividadJSON.getId(), actividadJSON.getEstado(), actividadJSON.getValorActividad());
+        for (ActividadDto actividadDto : actividadesActualizar) {
+            actividadRepository.actualizarActividad(actividadDto.getId(), actividadDto.getEstado(), actividadDto.getValorActividad());
         }
 
-        return ResponseData.builder()
+        return ResponseDataDto.builder()
                 .message("Actualizado exitosamente")
                 .code(1)
                 .build();
@@ -218,17 +218,17 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
 
     @Transactional
     @Override
-    public ResponseData eliminarPlanTrabajo(long idPlan) {
+    public ResponseDataDto eliminarPlanTrabajo(long idPlan) {
 
         planTrabajoRepository.eliminarPlanTrabajo(idPlan);
 
-        return ResponseData.builder()
+        return ResponseDataDto.builder()
                 .code(1)
                 .message("¡Plan de trabajo eliminado correctamente!")
                 .build();
     }
 
-    private void registrarActividadesNuevas(List<ActividadJSON> actividadesNuevas, PlanTrabajo planTrabajo, Usuario idUsuario) {
+    private void registrarActividadesNuevas(List<ActividadDto> actividadesNuevas, PlanTrabajo planTrabajo, Usuario idUsuario) {
         List<Actividad> actividades = new ArrayList<>();
         for (var actividad : actividadesNuevas) {
             var actividadGuardar = new Actividad();

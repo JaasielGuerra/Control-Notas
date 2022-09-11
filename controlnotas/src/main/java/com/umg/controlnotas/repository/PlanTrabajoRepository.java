@@ -1,7 +1,7 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.PlanTrabajo;
-import com.umg.controlnotas.model.custom.PlanTrabajoConsultar;
+import com.umg.controlnotas.model.query.PlanTrabajoConsultar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

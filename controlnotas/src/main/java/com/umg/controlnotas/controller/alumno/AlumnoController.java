@@ -1,7 +1,7 @@
 package com.umg.controlnotas.controller.alumno;
 
 import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.custom.AlumnoJSON;
+import com.umg.controlnotas.model.dto.AlumnoDto;
 import com.umg.controlnotas.repository.GradoRepository;
 import com.umg.controlnotas.services.AlumnoService;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class AlumnoController {
 
     @PostMapping(value = "/registrar")
     @ResponseBody
-    public ResponseEntity<AlumnoJSON> RegistrarAlumno(@RequestBody AlumnoJSON alumno) {
+    public ResponseEntity<AlumnoDto> RegistrarAlumno(@RequestBody AlumnoDto alumno) {
 
         try {
 
@@ -63,7 +63,7 @@ public class AlumnoController {
 
     @PostMapping(value = "/actualizar")
     @ResponseBody
-    public ResponseEntity<AlumnoJSON> actualizarAlumno(@RequestBody AlumnoJSON alumno) {
+    public ResponseEntity<AlumnoDto> actualizarAlumno(@RequestBody AlumnoDto alumno) {
 
         logger.info("ID: " + alumno.getId());
         logger.info("feccha: " + alumno.getNacimiento());

@@ -2,9 +2,9 @@ package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Alumno;
 import com.umg.controlnotas.model.Seccion;
-import com.umg.controlnotas.model.custom.AlumnoConsultar;
-import com.umg.controlnotas.model.custom.AlumnoEditar;
-import com.umg.controlnotas.model.custom.DatosExpediente;
+import com.umg.controlnotas.model.query.AlumnoConsultar;
+import com.umg.controlnotas.model.query.AlumnoEditar;
+import com.umg.controlnotas.model.query.DatosExpediente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,10 @@
 package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.*;
-import com.umg.controlnotas.model.custom.*;
+import com.umg.controlnotas.model.query.*;
+import com.umg.controlnotas.model.dto.AlumnoDto;
+import com.umg.controlnotas.model.dto.AsignacionAlumnoDto;
+import com.umg.controlnotas.model.dto.PlantillaChecklistDto;
 import com.umg.controlnotas.repository.*;
 import com.umg.controlnotas.web.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,7 @@ public class AlumnoServiceImpl implements AlumnoService {
      */
     @Transactional
     @Override
-    public void registrarAlumno(AlumnoJSON alumno) {
+    public void registrarAlumno(AlumnoDto alumno) {
 
         Seccion seccion = seccionRepository.getReferenceById(alumno.getSeccion());
         Usuario usuario = usuarioRepository.getReferenceById(userFacade.getUserSession().getIdUsuario());
@@ -66,12 +69,12 @@ public class AlumnoServiceImpl implements AlumnoService {
         List<DetalleExpediente> detalleExpedienteList = new ArrayList<>();
 
         // tomar plantillas de checklist y registrar detalle expediente
-        if (alumno.getPlantillaChecklists() != null) {
-            for (PlantillaChecklist plantillaChecklist : alumno.getPlantillaChecklists()) {
+        if (alumno.getPlantillaChecklistDtos() != null) {
+            for (PlantillaChecklistDto plantillaChecklistDto : alumno.getPlantillaChecklistDtos()) {
                 DetalleExpediente detalleExpediente = new DetalleExpediente();
                 detalleExpediente.setIdAlumno(a);
-                detalleExpediente.setEstado(plantillaChecklist.getEstado());
-                detalleExpediente.setIdDocumentoExpediente(documentoExpedienteRepository.getReferenceById(plantillaChecklist.getIdDocumentoExpediente()));
+                detalleExpediente.setEstado(plantillaChecklistDto.getEstado());
+                detalleExpediente.setIdDocumentoExpediente(documentoExpedienteRepository.getReferenceById(plantillaChecklistDto.getIdDocumentoExpediente()));
                 detalleExpedienteList.add(detalleExpediente);
             }
         }
@@ -87,7 +90,7 @@ public class AlumnoServiceImpl implements AlumnoService {
      */
     @Transactional
     @Override
-    public void actualizarAlumno(AlumnoJSON alumno) {
+    public void actualizarAlumno(AlumnoDto alumno) {
 
         Alumno a = alumnoRepository.findById(alumno.getId()).orElseThrow();
         a.setCodigoAlumno(alumno.getCodigo().strip());
@@ -163,9 +166,9 @@ public class AlumnoServiceImpl implements AlumnoService {
      * @return un modelo con el id seccion y un listado de grado y seccion
      */
     @Override
-    public AsignacionAlumno obtenerAsignacion(long idAlumno) {
+    public AsignacionAlumnoDto obtenerAsignacion(long idAlumno) {
 
-        var a = new AsignacionAlumno();
+        var a = new AsignacionAlumnoDto();
         a.setIdSeccionAlumno(alumnoRepository.obtenerIdSeccion(idAlumno));
         a.setGradoSeccionList(seccionRepository.findGradosSeccionesByEstadoGrado(Grado.ACTIVO));
         return a;
@@ -282,16 +285,16 @@ public class AlumnoServiceImpl implements AlumnoService {
      * @return Datos del expediente, estado, observacion y detalle de expediente
      */
     @Override
-    public AlumnoJSON obtenerDatosExpedienteAlumno(long idAlumno) {
+    public AlumnoDto obtenerDatosExpedienteAlumno(long idAlumno) {
 
         // Obtener datos del expediente del alumno
         DatosExpediente expedienteAlumnoEditar = alumnoRepository.findByIdAlumno(idAlumno);
 
         // obtener el detalle del expediente del alumno y mapearlo a un modelo PlantillaChecklist
-        List<PlantillaChecklist> plantillaChecklists = detalleExpedienteRepository.findByIdAlumnoId(idAlumno)
+        List<PlantillaChecklistDto> plantillaChecklistDtos = detalleExpedienteRepository.findByIdAlumnoId(idAlumno)
                 .stream().map(d -> {
 
-                    PlantillaChecklist plantilla = new PlantillaChecklist();
+                    PlantillaChecklistDto plantilla = new PlantillaChecklistDto();
                     plantilla.setEstado(d.getEstado());
                     plantilla.setIdDetalleExpediente(d.getId());
                     plantilla.setDescripcionDocumento(d.getIdDocumentoExpedienteDescripcion());
@@ -300,22 +303,22 @@ public class AlumnoServiceImpl implements AlumnoService {
                 }).collect(Collectors.toList());
 
         // construir el modelo de datos del expediente del alumno
-        return AlumnoJSON.builder()
+        return AlumnoDto.builder()
                 .id(expedienteAlumnoEditar.getIdAlumno())
                 .expediente(expedienteAlumnoEditar.getEstadoExpediente())
                 .observacion(expedienteAlumnoEditar.getObservacionExpediente())
-                .plantillaChecklists(plantillaChecklists)
+                .plantillaChecklistDtos(plantillaChecklistDtos)
                 .build();
     }
 
     @Override
     @Transactional
-    public void guardarChecklistExpediente(AlumnoJSON alumno) {
+    public void guardarChecklistExpediente(AlumnoDto alumno) {
 
         alumnoRepository.updateDatosExpediente(alumno.getExpediente(), alumno.getObservacion(), alumno.getId());
 
         //recorrer la lista de plantillaChecklists y actualizar estado detalleExpediente
-        alumno.getPlantillaChecklists().forEach(p -> {
+        alumno.getPlantillaChecklistDtos().forEach(p -> {
             detalleExpedienteRepository.updateEstado(p.getEstado(), p.getIdDetalleExpediente());
         } );
 

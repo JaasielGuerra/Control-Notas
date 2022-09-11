@@ -1,7 +1,7 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Actividad;
-import com.umg.controlnotas.model.custom.ActividadEditar;
+import com.umg.controlnotas.model.query.ActividadEditar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

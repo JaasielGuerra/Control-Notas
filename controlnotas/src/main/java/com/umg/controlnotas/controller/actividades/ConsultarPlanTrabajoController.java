@@ -2,7 +2,9 @@ package com.umg.controlnotas.controller.actividades;
 
 import com.umg.controlnotas.model.Actividad;
 import com.umg.controlnotas.model.PlanTrabajo;
-import com.umg.controlnotas.model.custom.*;
+import com.umg.controlnotas.model.query.*;
+import com.umg.controlnotas.model.dto.ActividadDto;
+import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.ActividadRepository;
 import com.umg.controlnotas.repository.GradoRepository;
 import com.umg.controlnotas.repository.PlanTrabajoRepository;
@@ -60,7 +62,7 @@ public class ConsultarPlanTrabajoController {
 
     @PutMapping("{id}")
     @ResponseBody
-    public ResponseEntity<ResponseData> ActualizarActividadesPlanTrabajo(@PathVariable Long id, @RequestBody List<ActividadJSON> actividades) {
+    public ResponseEntity<ResponseDataDto> ActualizarActividadesPlanTrabajo(@PathVariable Long id, @RequestBody List<ActividadDto> actividades) {
 
         //imprimir id
         log.info("ActualizarActividadesPlanTrabajo id: " + id);
@@ -75,32 +77,32 @@ public class ConsultarPlanTrabajoController {
         });
 
 
-        ResponseData responseData;
+        ResponseDataDto responseDataDto;
 
         try {
 
-            responseData = planTrabajoService.actualizarActividadesPlanTrabajo(id, actividades);
+            responseDataDto = planTrabajoService.actualizarActividadesPlanTrabajo(id, actividades);
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al guardar el plan de trabajo " + e.getMessage()
             );
         }
 
-        return ResponseEntity.ok().body(responseData);
+        return ResponseEntity.ok().body(responseDataDto);
     }
 
     @DeleteMapping("{id}")
     @ResponseBody
     @Transactional
-    public ResponseEntity<ResponseData> EliminarPlanTrabajo(@PathVariable Long id) {
+    public ResponseEntity<ResponseDataDto> EliminarPlanTrabajo(@PathVariable Long id) {
 
         log.info("EliminarPlanTrabajo id: " + id);
 
-        ResponseData responseData;
+        ResponseDataDto responseDataDto;
 
         try {
 
-            responseData = planTrabajoService.eliminarPlanTrabajo(id);
+            responseDataDto = planTrabajoService.eliminarPlanTrabajo(id);
 
         } catch (Exception e) {
             throw new ResponseStatusException(
@@ -108,7 +110,7 @@ public class ConsultarPlanTrabajoController {
             );
         }
 
-        return ResponseEntity.ok().body(responseData);
+        return ResponseEntity.ok().body(responseDataDto);
     }
 
 }
