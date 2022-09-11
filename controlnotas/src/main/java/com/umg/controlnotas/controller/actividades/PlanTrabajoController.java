@@ -1,7 +1,7 @@
 package com.umg.controlnotas.controller.actividades;
 
-import com.umg.controlnotas.model.custom.PlanTrabajoJSON;
-import com.umg.controlnotas.model.custom.ResponseData;
+import com.umg.controlnotas.model.dto.PlanTrabajoDto;
+import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.GradoRepository;
 import com.umg.controlnotas.services.PlanTrabajoService;
 import com.umg.controlnotas.web.UserFacade;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/plan-trabajo")
@@ -44,26 +43,26 @@ public class PlanTrabajoController {
     /**
      * guardar plan trabajo
      *
-     * @param planTrabajoJSON el plan trabajo en formato JSON
+     * @param planTrabajoDto el plan trabajo en formato JSON
      * @return el plan trabajo guardado
      */
     @PostMapping(value = "/registrar")
     @ResponseBody
-    public ResponseEntity<ResponseData> guardarPlanTrabajo(@RequestBody PlanTrabajoJSON planTrabajoJSON) {
+    public ResponseEntity<ResponseDataDto> guardarPlanTrabajo(@RequestBody PlanTrabajoDto planTrabajoDto) {
 
-        log.info("guardarPlanTrabajo: " + planTrabajoJSON);
-        ResponseData responseData;
+        log.info("guardarPlanTrabajo: " + planTrabajoDto);
+        ResponseDataDto responseDataDto;
 
         try {
             //guardar plan trabajo
-            responseData = planTrabajoService.guardarPlanTrabajo(planTrabajoJSON);
+            responseDataDto = planTrabajoService.guardarPlanTrabajo(planTrabajoDto);
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al guardar el plan de trabajo " + e.getMessage()
             );
         }
 
-        return ResponseEntity.ok().body(responseData);
+        return ResponseEntity.ok().body(responseDataDto);
     }
 
 

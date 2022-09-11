@@ -1,13 +1,15 @@
-package com.umg.controlnotas.model.custom;
+package com.umg.controlnotas.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class PlantillaChecklist {
+public class PlantillaChecklistDto implements Serializable {
 
-    public PlantillaChecklist() {
+    public PlantillaChecklistDto() {
     }
 
     private Long idDocumentoExpediente;

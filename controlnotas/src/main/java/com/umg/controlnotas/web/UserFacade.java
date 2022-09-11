@@ -1,6 +1,5 @@
 package com.umg.controlnotas.web;
 
-import com.umg.controlnotas.model.custom.UserSession;
 import lombok.Getter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

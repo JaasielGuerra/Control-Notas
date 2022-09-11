@@ -1,10 +1,10 @@
 package com.umg.controlnotas.services;
 
 
-import com.umg.controlnotas.model.custom.ActividadJSON;
-import com.umg.controlnotas.model.custom.MateriaDescripcionId;
-import com.umg.controlnotas.model.custom.PlanTrabajoJSON;
-import com.umg.controlnotas.model.custom.ResponseData;
+import com.umg.controlnotas.model.dto.ActividadDto;
+import com.umg.controlnotas.model.query.MateriaDescripcionId;
+import com.umg.controlnotas.model.dto.PlanTrabajoDto;
+import com.umg.controlnotas.model.dto.ResponseDataDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
 public interface PlanTrabajoService {
     List<MateriaDescripcionId> obtenerMateriasPorGrado(long id_grado);
 
-    ResponseData guardarPlanTrabajo(PlanTrabajoJSON planTrabajoJSON);
+    ResponseDataDto guardarPlanTrabajo(PlanTrabajoDto planTrabajoDto);
 
     @Transactional
-    ResponseData actualizarActividadesPlanTrabajo(long idPlan, List<ActividadJSON> actividades);
+    ResponseDataDto actualizarActividadesPlanTrabajo(long idPlan, List<ActividadDto> actividades);
 
     @Transactional
-    ResponseData eliminarPlanTrabajo(long idPlan);
+    ResponseDataDto eliminarPlanTrabajo(long idPlan);
 }

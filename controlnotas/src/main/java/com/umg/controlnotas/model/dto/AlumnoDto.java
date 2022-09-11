@@ -1,7 +1,8 @@
-package com.umg.controlnotas.model.custom;
+package com.umg.controlnotas.model.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AlumnoJSON {
+public class AlumnoDto implements Serializable {
 
 
     private Long id;
@@ -23,5 +24,5 @@ public class AlumnoJSON {
     private Long seccion;
     private Integer expediente;
     private String observacion;
-    private List<PlantillaChecklist> plantillaChecklists;
+    private List<PlantillaChecklistDto> plantillaChecklistDtos;
 }

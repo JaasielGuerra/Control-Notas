@@ -1,6 +1,8 @@
 package com.umg.controlnotas.services;
 
-import com.umg.controlnotas.model.custom.*;
+import com.umg.controlnotas.model.query.*;
+import com.umg.controlnotas.model.dto.AlumnoDto;
+import com.umg.controlnotas.model.dto.AsignacionAlumnoDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -9,10 +11,10 @@ import java.util.Optional;
 public interface AlumnoService {
 
     @Transactional
-    void registrarAlumno(AlumnoJSON alumno);
+    void registrarAlumno(AlumnoDto alumno);
 
     @Transactional
-    void actualizarAlumno(AlumnoJSON alumno);
+    void actualizarAlumno(AlumnoDto alumno);
 
     Optional<List<AlumnoConsultar>> consultarAlumnos(Long idSeccion);
     public AlumnoEditar obtenerAlumnoEditar(Long id);
@@ -21,7 +23,7 @@ public interface AlumnoService {
     void eliminarAlumno(long idAlumno);
 
 
-    AsignacionAlumno obtenerAsignacion(long idAlumno);
+    AsignacionAlumnoDto obtenerAsignacion(long idAlumno);
 
     @Transactional
     void cambiarAsignacionAlumno(Long idSeccion, long idAlumno);
@@ -30,8 +32,8 @@ public interface AlumnoService {
 
     List<DetalleExpedienteEditar[]> consultarExpedienteAlumno(long idAlumno);
 
-    AlumnoJSON obtenerDatosExpedienteAlumno(long idAlumno);
+    AlumnoDto obtenerDatosExpedienteAlumno(long idAlumno);
 
     @Transactional
-    void guardarChecklistExpediente(AlumnoJSON alumno);
+    void guardarChecklistExpediente(AlumnoDto alumno);
 }

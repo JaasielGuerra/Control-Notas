@@ -1,9 +1,9 @@
 package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.custom.GradoDescripcionId;
-import com.umg.controlnotas.model.custom.MateriaDescripcionId;
-import com.umg.controlnotas.model.custom.SeccionDescripcionId;
+import com.umg.controlnotas.model.query.GradoDescripcionId;
+import com.umg.controlnotas.model.query.MateriaDescripcionId;
+import com.umg.controlnotas.model.query.SeccionDescripcionId;
 import com.umg.controlnotas.repository.GradoRepository;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.web.UserFacade;

@@ -2,10 +2,11 @@
  * Clase para manejar la respuesta de los servicios
  */
 
-package com.umg.controlnotas.model.custom;
+package com.umg.controlnotas.model.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseData {
+public class ResponseDataDto implements Serializable {
 
     private int code;
     private String message;

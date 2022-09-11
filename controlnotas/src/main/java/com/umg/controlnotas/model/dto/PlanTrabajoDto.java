@@ -1,7 +1,8 @@
-package com.umg.controlnotas.model.custom;
+package com.umg.controlnotas.model.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -9,10 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PlanTrabajoJSON {
+public class PlanTrabajoDto implements Serializable {
 
     private String descripcion;
     private Long idGrado;
     private Long id;
-    private List<ActividadJSON> actividades;
+    private List<ActividadDto> actividades;
 }

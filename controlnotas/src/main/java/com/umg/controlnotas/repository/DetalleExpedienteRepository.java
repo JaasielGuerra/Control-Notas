@@ -1,7 +1,7 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.DetalleExpediente;
-import com.umg.controlnotas.model.custom.DetalleExpedienteEditar;
+import com.umg.controlnotas.model.query.DetalleExpedienteEditar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

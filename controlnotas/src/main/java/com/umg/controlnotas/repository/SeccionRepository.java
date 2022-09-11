@@ -1,8 +1,8 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Seccion;
-import com.umg.controlnotas.model.custom.SeccionDescripcionId;
-import com.umg.controlnotas.model.custom.GradoSeccion;
+import com.umg.controlnotas.model.query.SeccionDescripcionId;
+import com.umg.controlnotas.model.query.GradoSeccion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

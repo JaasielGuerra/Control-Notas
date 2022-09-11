@@ -1,4 +1,4 @@
-package com.umg.controlnotas.model.custom;
+package com.umg.controlnotas.model.query;
 
 public interface MateriaDescripcionId {
 
