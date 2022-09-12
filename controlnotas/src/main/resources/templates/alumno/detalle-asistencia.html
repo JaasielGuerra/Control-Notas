@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+  <div th:replace="layout/pageloader :: #pageloader"></div>
+
+  <!-- aqui va el nav -->
+  <nav th:replace="layout/nav :: nav"></nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+
+            <h4 class="title has-text-centered is-4">DETALLE ASISTENCIA</h4>
+            <hr class="dropdown-divider">
+
+            <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+            <div class="columns">
+              <div class="column">
+                <div class="card">
+                  <header>
+                    <div class="card-content">
+                      <p class="title is-3 is-offset-2">
+                        Asistencia
+                      </p>
+                      <p class="subtitle is-6"> Fecha: 2021</p>
+                      <p class="subtitle is-6"> Grado: Primero A</p>
+
+                      <p class="subtitle is-6"> Tipo: asistencia/otro</p>
+
+                      <p class="subtitle is-6"> Descripción: Listado</p>
+
+                    </div>
+                  </header>
+                  <div class="card-content">
+
+                    <div class="buttons">
+                      <button class="button  is-info ">
+                        <i class="fas fa-undo-alt mr-1"></i>Regresar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+            <hr class="dropdown-divider">
+            <h5 class="title is-5 my-6">Listado de asistencia</h5>
+
+            <div class="columns">
+              <div class="column is-5">
+                <button class="button  is-success ">
+                  <i class="fas fa-file-excel mr-1"></i>Exportar excel
+                </button>
+              </div>
+              <div class="column is-2 is-offset-2 ">
+                <label>Buscar alumno:</label>
+              </div>
+              <div class="column is-3">
+
+                <div class="control">
+                  <input class="input" type="text" id="puntos"
+                         name="alumno">
+                </div>
+              </div>
+            </div>
+            <div class="columns">
+              <table class="table display">
+                <thead class="is-narrow">
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre alumno</th>
+                  <th>Código</th>
+                  <th>Toma temperatura</th>
+                  <th>Motivo</th>
+                  <th>Observación</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Juan gabriel</td>
+                  <td>144455-7</td>
+                  <td> 36°</td>
+                  <td>Enfermo</td>
+                  <td>Esta enfermo el tonto</td>
+
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+            <!-- aqui va el footer-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- aqui va el footer-->
+  <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+</body>
+</html>
