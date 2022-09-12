@@ -1,10 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">CONTROL  ASISTENCIA</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <div class="columns">
+                            <div class="column"><br>
+                                <div class="buttons" >
+                                    <a type="submit" class="button is-info  is-responsive " th:href="@{/asistencia/nuevo}">
+                                        <i class="fas fa-clipboard-list mr-1"></i>Nuevo listado
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <h5 class="title is-5 my-6">Listado asistencia</h5>
+                        <hr class="dropdown-divider">
+                        <div class="columns">
+
+                            <table class="table display">
+                                <thead class="is-narrow">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Observacion</th>
+                                    <th>Fecha</th>
+                                    <th>Grado y seeción</th>
+                                    <th>Estado</th>
+                                    <th>Operaciones</th>
+
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>No se presento</td>
+                                    <td>21/09/2022</td>
+                                    <td> primero A</td>
+                                    <td>Activo</td>
+                                    <td>
+                                        <button class="button is-danger is-small">
+                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar</button>
+                                        <a class="button is-success is-small" th:href="@{/asistencia/tomar}">
+                                            <i class="fas fa-clipboard-list mr-1"></i>Tomar asistencia</a>
+                                        <a class="button is-info is-small" th:href="@{/asistencia/detalle}">
+                                            <i class="fas fa-info-circle mr-1"></i>Detalle</a>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
 
 </body>
 </html>
