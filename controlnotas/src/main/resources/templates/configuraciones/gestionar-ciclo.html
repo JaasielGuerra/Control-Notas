@@ -22,7 +22,7 @@
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                         <div class="columns">
-                            <div class="column">
+                            <div class="column is-6">
                                 <div class="card">
                                     <header class="card-header ">
                                         <div class="card-content">
@@ -38,33 +38,34 @@
 
                                         </div>
                                     </header>
-                                    <footer class="card-footer" >
+                                    <footer class="card-footer">
 
-                                        <button  class="button  is-info  " data-target="ciclo-anterior" onclick="CicloAnterior()" >
-                                            <i class="fas fa-angle-double-left mr-1"></i>Ciclos anteriores </button>
-                                        <button style="margin-left: 10px"  class="button  is-danger "  data-target="confirmar-ciclo" onclick="CerrarCiclo()">
-                                            <i class="fas fa-window-close mr-1"></i>Cerrar ciclo</button>
-                                        <button style="margin-left: 10px" class="button  is-warning  " data-target="confirmar-bimestre" onclick="CerrarBimestre()">
-                                            <i class="fas fa-window-close mr-1"></i>Finalizar bimestre</button>
-                                        <button style="margin-left: 10px"  class="button  is-success  is-fullwidth"  data-target="aperturar-ciclo" onclick="AperturarCiclo()">
-                                            <i class="fas fa-book mr-1"></i> Aperturar</button>
+                                        <button class="button  is-info  " data-target="ciclo-anterior"
+                                                >
+                                            <i class="fas fa-angle-double-left mr-1"></i>Ciclos anteriores
+                                        </button>
+                                        <button style="margin-left: 10px" class="button  is-danger "
+                                                data-target="confirmar-ciclo" >
+                                            <i class="fas fa-window-close mr-1"></i>Cerrar ciclo
+                                        </button>
+                                        <button style="margin-left: 10px" class="button  is-warning  "
+                                                data-target="confirmar-bimestre" >
+                                            <i class="fas fa-window-close mr-1"></i>Finalizar bimestre
+                                        </button>
+                                        <button style="margin-left: 10px" class="button  is-success  is-fullwidth"
+                                                data-target="aperturar-ciclo" >
+                                            <i class="fas fa-book mr-1"></i> Aperturar
+                                        </button>
 
-                                    </footer >
+                                    </footer>
 
                                 </div>
                             </div>
-                            <div class="column">
-
-
-                                <div class="buttons" style="margin-left: 25%; margin-top: 20%">
-
-                                    <button type="submit" class="button is-info is-large is-responsive"  data-target="aperturar-bimestre" onclick="Aperturar()">
-                                        <i class="fas fa-book mr-1"></i>APERTURAR BIMESTRE
-                                    </button>
-                                </div>
-
-
-
+                            <div class="column is-5 is-offset-1" th:if="${not bimestreAperturado}">
+                                <button type="button" class="button is-info is-large is-responsive"
+                                        data-target="aperturar-bimestre" id="btn-aperturar-bimestre">
+                                    <i class="fas fa-book mr-1"></i>APERTURAR BIMESTRE
+                                </button>
                             </div>
 
                         </div>
@@ -123,29 +124,9 @@
 <script th:replace="layout/scripts :: script"></script>
 
 <script src="/js/modal.js"></script>
-<script type="text/javascript">
-
-    function Aperturar() {
-
-        //abrir modal
-        openModal('aperturar');
-    }
-function AperturarCiclo(){
-        openModal('aperturar-ciclo')
-}
-
-function CerrarCiclo(){
-        openModal('confirmar-ciclo')
-}
-
-function CerrarBimestre(){
-        openModal('confirmar-bimestre')
-}
-
-function CicloAnterior(){
-        openModal('ciclo-anterior')
-}
-</script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/gestionar-ciclo.js"></script>
 
 </body>
 </html>

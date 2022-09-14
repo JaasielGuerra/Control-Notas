@@ -1,5 +1,5 @@
 <!-- MOdal -->
-<div class="modal" id="aperturar" xmlns:th="http://www.thymeleaf.org" th:fragment="aperturar-bimestre">
+<div class="modal" id="aperturar-bimestre" xmlns:th="http://www.thymeleaf.org" th:fragment="aperturar-bimestre">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
@@ -7,64 +7,13 @@
             <h4 class="modal-card-title title has-text-centered is-4">APERTURAR BIMESTRE</h4>
             <button class="delete" aria-label="close"></button>
         </header>
-
-        <div class="card">
-            <div class="card-content">
-                <div class="content">
-
-
-                    <div class="columns">
-                        <div class="column is-12">
-                            <label> Descripción</label>
-                            <div class="control">
-                                <input class="input" type="text" id="descripcion" required
-                                       name="descripcion">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="columns">
-                        <div class="column is-4">
-                            <label> Puntos base</label>
-                            <div class="control">
-                                <input class="input" type="number" id="fdgfdsg" name="punteo">
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="dropdown-divider">
-                    <p class="subtitle is-5">Distribución</p>
-                    <div class="columns">
-                        <div class="column is-4">
-                            <label> Actividadaes</label>
-                            <div class="control">
-                                <input class="input" type="number" id="actividades" name="punteo">
-                            </div>
-                        </div>
-
-                        <div class="column is-4">
-                            <label> Actitudinal</label>
-                            <div class="control">
-                                <input class="input" type="number" id="actitudinal" name="punteo">
-                            </div>
-                        </div>
-
-                        <div class="column is-4">
-                            <label> Evaluaciones</label>
-                            <div class="control">
-                                <input class="input" type="number" id="evaluacion" name="punteo">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+        <section class="modal-card-body">
+            <form id="form-apertura-bimestre">
+            </form>
+        </section>
         <footer class="modal-card-foot ">
-            <button class="button  is-success" value="Guardar">  <i class="far fa-save mr-1"></i> Aperturar</button>
-
-            <button class="button  is-danger" value="Cancelar"> <i class="fas fa-window-close mr-1"></i> Cancelar</button>
-
+            <button class="button  is-danger"><i class="fas fa-window-close mr-1"></i> Cancelar
+            </button>
         </footer>
     </div>
 </div>

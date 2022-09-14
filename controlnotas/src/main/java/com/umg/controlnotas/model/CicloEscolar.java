@@ -11,6 +11,11 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "ciclo_escolar")
 public class CicloEscolar {
+
+    public static final int APERTURADO = 1;
+    public static final int CERRADO = 2;
+    public static final int ELIMINADO = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ciclo_escolar", nullable = false)
