@@ -14,7 +14,8 @@ import java.time.LocalTime;
 public class Bimestre {
 
     public static final int ACTIVO = 1;
-    public static final int INACTIVO = 0;
+    public static final int ELIMINADO = 0;
+    public static final int CERRADO = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
