@@ -5,6 +5,19 @@
         aperturarBimestre();
     });
 
+    $('#btn-cerrar-bimestre').click(function () {
+
+        let idBimestre = $(this).attr('data-id-bimestre');
+        $('#btn-confirmar-cierre-bimestre').attr('data-id-bimestre', idBimestre);
+        openModal('confirmar-bimestre');
+
+    });
+
+    $('#btn-confirmar-cierre-bimestre').click(function () {
+        let idBimestre = $(this).attr('data-id-bimestre');
+        cerrarBimestre(idBimestre);
+    });
+
     $('#form-apertura-bimestre').validate({
         errorClass: 'is-danger',
         validClass: 'is-success',
@@ -128,8 +141,26 @@
         openModal('confirmar-ciclo')
     }
 
-    function CerrarBimestre() {
-        openModal('confirmar-bimestre')
+    function cerrarBimestre(idBimestre) {
+        $.ajax({
+            url: '/institucion/cerrar-bimestre/' + idBimestre,
+            type: 'PUT',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (data) {
+
+                    //si el code es 1
+                    if (data.code === 1) {
+                        //guardar mensaje de exito en el local storage
+                        localStorage.setItem('messageSuccess', "El bimestre se ha cerrado correctamente!");
+                        location.reload();
+                    }
+
+            },
+            error: function (xhr, status, error) {
+                showMessageError('Se produjo un error en el servidor ' + xhr.responseText);
+            }
+        })
     }
 
     function CicloAnterior() {
