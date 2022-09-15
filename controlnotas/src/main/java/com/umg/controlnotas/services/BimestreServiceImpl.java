@@ -111,4 +111,25 @@ public class BimestreServiceImpl implements BimestreService {
                 .build();
     }
 
+    @Override
+    @Transactional
+    public ResponseDataDto cerrarBimestre(Long idBimestre) {
+
+        //obtener el bimestre aperturado
+        Bimestre bimestre = bimestreRepository.findById(idBimestre).orElseThrow();
+
+        //cerrar el bimestre
+        bimestre.setEstado(Bimestre.CERRADO);
+        bimestre.setFechaCierre(LocalDate.now());
+
+        bimestreRepository.save(bimestre);
+
+        //refrescar el bimestre en la sesion del usuario
+        userFacade.refreshBimestre(bimestre);
+
+        return ResponseDataDto.builder()
+                .code(1)
+                .message("Bimestre cerrado con éxito!")
+                .build();
+    }
 }

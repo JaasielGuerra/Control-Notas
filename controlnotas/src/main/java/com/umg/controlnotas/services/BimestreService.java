@@ -10,4 +10,7 @@ public interface BimestreService {
     ResponseDataDto aperturarBimestre(BimestreDto bimestreDto);
 
     BimestreDto obtenerUltimoBimestre();
+
+    @Transactional
+    ResponseDataDto cerrarBimestre(Long idBimestre);
 }

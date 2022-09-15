@@ -48,8 +48,7 @@
                                                 data-target="confirmar-ciclo" >
                                             <i class="fas fa-window-close mr-1"></i>Cerrar ciclo
                                         </button>
-                                        <button style="margin-left: 10px" class="button  is-warning  "
-                                                data-target="confirmar-bimestre" >
+                                        <button th:if="${bimestreAperturado}" style="margin-left: 10px" class="button  is-warning" id="btn-cerrar-bimestre" th:data-id-bimestre="${bimestreActual.id}">
                                             <i class="fas fa-window-close mr-1"></i>Finalizar bimestre
                                         </button>
                                         <button style="margin-left: 10px" class="button  is-success  is-fullwidth"

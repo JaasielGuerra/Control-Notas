@@ -28,6 +28,7 @@ public class GestionCicloController {
     public String GestionarCiclo(Model model) {
 
         model.addAttribute("bimestreAperturado", bimestreRepository.existsByEstado(Bimestre.ACTIVO));
+        model.addAttribute("bimestreActual", bimestreRepository.findByEstado(Bimestre.ACTIVO));
 
         return "configuraciones/gestionar-ciclo";
     }
@@ -68,4 +69,26 @@ public class GestionCicloController {
 
         return ResponseEntity.ok(responseDataDto);
     }
+
+    @PutMapping("/cerrar-bimestre/{idBimestre}")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> cerrarBimestre(@PathVariable Long idBimestre) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Cerrando bimestre...");
+
+        try {
+
+            responseDataDto = bimestreService.cerrarBimestre(idBimestre);
+
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al cerrar bimestre " + ex.getMessage()
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
+    }
+
 }
