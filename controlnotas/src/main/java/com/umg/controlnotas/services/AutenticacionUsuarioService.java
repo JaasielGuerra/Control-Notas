@@ -1,7 +1,10 @@
 package com.umg.controlnotas.services;
 
+import com.umg.controlnotas.model.AsignacionMateria;
 import com.umg.controlnotas.model.Bimestre;
 import com.umg.controlnotas.model.CicloEscolar;
+import com.umg.controlnotas.model.dto.AsignacionUsuarioDto;
+import com.umg.controlnotas.repository.AsignacionMateriaRepository;
 import com.umg.controlnotas.repository.CicloEscolarRepository;
 import com.umg.controlnotas.web.UserSession;
 import com.umg.controlnotas.repository.BimestreRepository;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Implementacion personalizada de UserDetailsService de spring security
@@ -30,6 +34,8 @@ public class AutenticacionUsuarioService implements UserDetailsService {
     private BimestreRepository bimestreRepository;
     @Autowired
     private CicloEscolarRepository cicloEscolarRepository;
+    @Autowired
+    private AsignacionMateriaRepository asignacionMateriaRepository;
 
     /**
      * obtener usuario por nombre para autenticar con spring security. Este método es transaccional en modo de lectura
@@ -44,12 +50,23 @@ public class AutenticacionUsuarioService implements UserDetailsService {
 
 
         var usuario = usuarioRepository.findUsuarioByUser(username);
-        var bimestre = bimestreRepository.findByEstado(Bimestre.ACTIVO);
-        var cicloEscolar = cicloEscolarRepository.findByEstadoAndAnio(CicloEscolar.APERTURADO, LocalDate.now().getYear());
 
         if (usuario == null) {
             throw new UsernameNotFoundException(username);
         }
+
+        var bimestre = bimestreRepository.findByEstado(Bimestre.ACTIVO);
+        var cicloEscolar = cicloEscolarRepository.findByEstadoAndAnio(CicloEscolar.APERTURADO, LocalDate.now().getYear());
+        var asignaturas = asignacionMateriaRepository.findByIdUsuarioIdAndEstado(usuario.getId(), AsignacionMateria.ACTIVO)
+                .stream()
+                .map(m -> {
+                    var asignacionMateria = new AsignacionUsuarioDto();
+                    asignacionMateria.setIdMateria(m.getIdMateriaId());
+                    asignacionMateria.setDescripcionMateria(m.getIdMateriaDescripcion());
+                    asignacionMateria.setDescripcionGrado(m.getIdMateriaIdGradoDescripcion());
+                    return asignacionMateria;
+                })
+                .collect(Collectors.toList());
 
         var rol = usuario.getIdRol();
         var roles = new ArrayList<GrantedAuthority>();
@@ -57,6 +74,6 @@ public class AutenticacionUsuarioService implements UserDetailsService {
         roles.add(new SimpleGrantedAuthority(rol.getDescripcion()));
 
         //devolver el objeto User que necesita spring security
-        return new UserSession(usuario.getUser(), usuario.getPassword(), roles, usuario.getId(), usuario.getNombreCompleto(), bimestre, cicloEscolar);
+        return new UserSession(usuario.getUser(), usuario.getPassword(), roles, usuario.getId(), usuario.getNombreCompleto(), bimestre, cicloEscolar, asignaturas);
     }
 }

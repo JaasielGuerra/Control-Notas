@@ -12,6 +12,10 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "evaluacion")
 public class Evaluacion {
+
+    public static final int ESTADO_ACTIVO = 1;
+    public static final int ESTADO_INACTIVO = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_evaluacion", nullable = false)
@@ -44,8 +48,8 @@ public class Evaluacion {
     private LocalTime horaCommit;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_seccion", nullable = false)
-    private Seccion idSeccion;
+    @JoinColumn(name = "id_bimestre", nullable = false)
+    private Bimestre idBimestre;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_usuario", nullable = false)

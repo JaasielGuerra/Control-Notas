@@ -17,88 +17,82 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">CREAR EVALUACIÓN</h4>
-                        <hr class="dropdown-divider">
+                        <form id="form-nueva-evaluacion">
+                            <h4 class="title has-text-centered is-4">CREAR EVALUACIÓN</h4>
+                            <hr class="dropdown-divider">
 
-                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
-                        <p class="subtitle is-5 ">Datos Evaluación</p>
+                            <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                            <p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
+                            <h5 class="subtitle is-5 my-6">Datos evaluación</h5>
 
-                        <div class="columns">
-                            <div class="column is-11">
-                                <label> *Descripcón</label>
-                                <div class="control">
-                                    <input class="input" type="text" id="descripcion" required
-                                           name="obser">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="columns">
-                            <div class="column is-3">
-                                <label> *Fecha</label>
-                                <div class="control">
-                                    <input class="input" type="date" id="fecha" required
-                                           name="obser">
-                                </div>
-                            </div>
-
-                            <div class="column is-3">
-                                <label> *Ponderación</label>
-                                <div class="control">
-                                    <input class="input" type="number" id="ponde" required
-                                           name="obser">
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="dropdown-divider">
-                        <p class="subtitle is-5 ">Asignaciones</p>
-                        <div class="columns">
-                            <div class="column is-3">
-                                <label>*Tipo</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth ">
-                                        <select name="select" id="tipo" required>
-                                            <option>Examen corto</option>
-                                            <option>Examen</option>
-                                            <option>Laboratorio</option>
-                                        </select>
+                            <div class="columns">
+                                <div class="column is-12">
+                                    <label> *Descripción</label>
+                                    <div class="control">
+                                        <input class="input" type="text" required name="descripcion" placeholder="Escriba una descripción">
                                     </div>
                                 </div>
                             </div>
-                            <div class="column is-7">
-                                <label>*Materia</label>
-                                <div class="control">
-                                    <div class="select  is-fullwidth ">
-                                        <select name="select" id="materia" required>
-                                            <option>Matemáticas</option>
-                                            <option>Sociales</option>
-                                            <option>Ingles</option>
-                                        </select>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <label> *Fecha</label>
+                                    <div class="control">
+                                        <input class="input" type="date" name="fecha" required>
+                                    </div>
+                                </div>
+
+                                <div class="column is-3">
+                                    <label> *Ponderación</label>
+                                    <div class="control">
+                                        <input class="input" type="number" name="ponderacion" required placeholder="Puntos">
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-
-
-
-                        </div>
-
-                        <div class="columns">
-                            <div class="column is-3 is-offset-3 ">
-                                <button class="button  is-success is-large is-fullwidth" type="submit"
-                                        id="btn-submit"  data-target="confirmar-plan" onclick="confirmar()">
-                                    <i class="far fa-save mr-1"></i>Registar
-                                </button>
+                            <hr class="dropdown-divider">
+                            <h5 class="subtitle is-5 my-6">Asignaciones</h5>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <label>*Tipo evaluación</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth ">
+                                            <select name="idTipoEvaluacionId" id="tipo-evaluacion" required>
+                                                <option disabled selected>- Seleccione -</option>
+                                                <option th:each="i : ${tipos}" th:value="${i.id}"
+                                                        th:text="${i.descripcion}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-9">
+                                    <label>*Materia</label>
+                                    <div class="control">
+                                        <div class="select  is-fullwidth ">
+                                            <select name="idMateriaId" id="materia-evaluacion" required>
+                                                <option disabled selected>- Seleccione -</option>
+                                                <option th:each="i : ${materias}" th:value="${i.idMateria}">
+                                                    [[${i.descripcionMateria}]] - ([[${i.descripcionGrado}]])
+                                                </option>
+                                            </select>
+                                            <p class="help is-info">** Materias que usted tiene asignadas</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="column is-3 ">
-                                <a class="button  is-light is-large is-fullwidth" type="button" href="consultar-plan-trabajo.html">
-                                    <i class="fas fa-database mr-1"></i>Consultar
-                                </a>
-                            </div>
-                        </div>
 
-                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                            <div class="columns mt-3">
+                                <div class="column is-3 is-offset-3 ">
+                                    <button class="button  is-success is-large is-fullwidth" type="submit">
+                                        <i class="far fa-save mr-1"></i>Registar
+                                    </button>
+                                </div>
+                                <div class="column is-3 ">
+                                    <a class="button  is-light is-large is-fullwidth" th:href="@{/evaluacion/consultar}">
+                                        <i class="fas fa-database mr-1"></i>Consultar
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -114,8 +108,10 @@
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
-
-
+<script src="/js/utilidades.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/crear-evaluacion.js"></script>
 
 </body>
 </html>

@@ -184,3 +184,81 @@ END
 -- changeset liquibase:jaasiel-20
 INSERT INTO `institucion` VALUES (1,'INEB DE TELESECUNDARIA \"MANUEL JOSE ARCE\"','ALDEA LAS VIÑAS, LOS AMATES, IZABAL','18-05-2419-40',1,'2022-09-11','23:44:31','José Alberto Acevedo Arroyo','','','BÁSICO','OFICIAL','VESPERTINA');
 
+-- changeset liquibase:jaasiel-21
+ALTER TABLE `db_control_notas`.`evaluacion`
+DROP FOREIGN KEY `fk_evaluacion_seccion1`;
+ALTER TABLE `db_control_notas`.`evaluacion`
+DROP COLUMN `id_seccion`,
+ADD COLUMN `id_bimestre` BIGINT NOT NULL AFTER `id_usuario`,
+ADD INDEX `fk_evaluacion_bimestre1_idx` (`id_bimestre` ASC),
+DROP INDEX `fk_evaluacion_seccion1_idx` ;
+;
+ALTER TABLE `db_control_notas`.`evaluacion`
+    ADD CONSTRAINT `fk_evaluacion_bimestre1`
+        FOREIGN KEY (`id_bimestre`)
+            REFERENCES `db_control_notas`.`bimestre` (`id_bimestre`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
+
+-- changeset liquibase:jaasiel-22
+INSERT INTO `db_control_notas`.`tipo_evaluacion` (`id_tipo_evaluacion`, `descripcion`) VALUES ('1', 'EXÁMEN');
+INSERT INTO `db_control_notas`.`tipo_evaluacion` (`id_tipo_evaluacion`, `descripcion`) VALUES ('2', 'LABORATORIO');
+
+-- changeset liquibase:jaasiel-23
+INSERT INTO `db_control_notas`.`asignacion_materia` (`id_asignacion_materia`, `id_usuario`, `id_materia`, `estado`) VALUES ('1', '1', '2', '1');
+INSERT INTO `db_control_notas`.`asignacion_materia` (`id_asignacion_materia`, `id_usuario`, `id_materia`, `estado`) VALUES ('2', '1', '14', '1');
+
+-- changeset liquibase:jaasiel-24 endDelimiter:\nDELIMITER $$
+DROP function IF EXISTS `func_puntos_disponibles_evaluaciones`;
+
+-- changeset liquibase:jaasiel-25 endDelimiter:$$\nDELIMITER ;
+CREATE FUNCTION `func_puntos_disponibles_evaluaciones` (
+    id_materia long,
+    id_bimestre long,
+    id_evaluacion_excluir long
+)
+    RETURNS DOUBLE(16,2)
+BEGIN
+
+    DECLARE puntos_evaluaciones DOUBLE;
+
+
+    SELECT
+        b.puntos_evaluaciones INTO puntos_evaluaciones
+    FROM
+        bimestre b
+    WHERE
+            b.id_bimestre = id_bimestre;
+
+
+    IF  id_evaluacion_excluir IS NOT NULL THEN
+        RETURN (
+
+            -- Calcular puntos disponibles excluyendo una evaluacion por su ID
+            SELECT
+                (puntos_evaluaciones - COALESCE(SUM(e.ponderacion), 0.0)) AS total_evaluaciones
+            FROM
+                evaluacion e
+            WHERE
+                    e.id_materia = id_materia
+              AND e.id_bimestre = id_bimestre
+              AND e.estado = 1
+              AND NOT e.id_evaluacion = id_evaluacion_excluir
+        );
+    ELSE
+
+        RETURN (
+
+            -- Calcular puntos disponibles tomando en cuenta todas las evaluaciones segun materia
+            SELECT
+                (puntos_evaluaciones - COALESCE(SUM(e.ponderacion), 0.0)) AS total_evaluaciones
+            FROM
+                evaluacion e
+            WHERE
+                    e.id_materia = id_materia
+              AND e.id_bimestre = id_bimestre
+              AND e.estado = 1
+        );
+
+    END IF;
+END
