@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "asignacion_materia")
 public class AsignacionMateria {
+    public static final int ACTIVO = 1;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asignacion_materia", nullable = false)
