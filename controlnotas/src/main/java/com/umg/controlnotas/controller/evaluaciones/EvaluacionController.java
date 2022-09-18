@@ -41,10 +41,6 @@ public class EvaluacionController {
         return "evaluaciones/crear-evaluacion";
     }
 
-    @GetMapping(value = "/consultar")
-    public String EvalaucionConsultar() {
-        return "evaluaciones/consultar-evaluaciones";
-    }
 
     @GetMapping(value = "/editar/{id}")
     public String editarEvaluacion(@PathVariable("id") Long id, Model model) {
