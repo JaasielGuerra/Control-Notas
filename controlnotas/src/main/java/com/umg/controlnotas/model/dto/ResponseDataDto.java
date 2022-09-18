@@ -16,6 +16,9 @@ import java.util.List;
 @Builder
 public class ResponseDataDto implements Serializable {
 
+    public static final int SUCCESS = 1;
+    public static final int ERROR = 0;
+
     private int code;
     private String message;
     private Object data;

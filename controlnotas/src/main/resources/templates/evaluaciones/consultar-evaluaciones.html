@@ -6,6 +6,7 @@
 
 <body>
 <main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
 
     <!-- aqui va el nav -->
     <nav th:replace="layout/nav :: nav"></nav>
@@ -20,86 +21,111 @@
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <article class="message is-link">
+                        <article class="message is-info">
                             <div class="message-body">
                                 Evaluaciones de las materias que tiene asignadas
                             </div>
                         </article>
 
-                        <div class="columns">
+                        <form th:action="@{/evaluacion/consultar}" method="get">
+                            <section class="section">
+                                <div class="columns">
 
-                            <div class="column  is-3 is-offset-2">
-                                <label>Tipo</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth ">
-                                        <select name="select" id="tipo" required>
-                                            <option>Examen corto</option>
-                                            <option>Examen</option>
-                                            <option>Laboratorio</option>
-                                        </select>
+                                    <div class="column  is-3 is-offset-2">
+                                        <label>Tipo:</label>
+                                        <div class="control">
+                                            <div class="select is-small is-fullwidth ">
+                                                <select name="idTipo">
+                                                    <option value=""
+                                                            th:attrappend="selected=${idTipo eq null? 'selected' : ''}">
+                                                        << TODOS >>
+                                                    </option>
+                                                    <option th:each="i : ${tipos}" th:value="${i.id}"
+                                                            th:text="${i.descripcion}"
+                                                            th:attrappend="selected=${idTipo eq i.id ? 'selected' : ''}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-3">
+                                        <label>Materia:</label>
+                                        <div class="control">
+                                            <div class="select is-small is-fullwidth ">
+                                                <select name="idMateria">
+                                                    <option value=""
+                                                            th:attrappend="selected=${idTipo eq null? 'selected' : ''}">
+                                                        << TODOS >>
+                                                    </option>
+                                                    <option th:each="i : ${materias}" th:value="${i.idMateria}"
+                                                            th:attrappend="selected=${idMateria eq i.idMateria ? 'selected' : ''}">
+                                                        [[${i.descripcionMateria}]] - ([[${i.descripcionGrado}]])
+                                                    </option>
+                                                </select>
+                                                <p class="help is-info">** Materias que usted tiene asignadas</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column"><br>
+                                        <button class="button is-link is-small is-rounded"
+                                                title="Consultar Evaluaciones"
+                                                type="submit">
+                                            <i class="fas fa-list mr-1"></i>Listar
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="column is-3">
-                                <label>Materia</label>
-                                <div class="control">
-                                    <div class="select  is-fullwidth ">
-                                        <select name="select" id="materia" required>
-                                            <option>Matemáticas</option>
-                                            <option>Sociales</option>
-                                            <option>Ingles</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column"><br>
-                                <button class="button is-link  is-rounded" title="Consultar alumnos"
-                                        type="submit">
-                                    <i class="fas fa-list mr-1"></i>Listar
-                                </button>
-                            </div>
-                        </div>
-                        <h5 class="title is-5 my-6">Evaluaciones registradas</h5>
-                        <div class="columns">
+                            </section>
+                        </form>
 
-                            <table class="table display" >
-                                <thead  class="is-narrow">
-                                <tr>
-                                    <th>Descripcíon</th>
-                                    <th>Fecha</th>
-                                    <th>Ponderación</th>
-                                    <th>Tipo</th>
-                                    <th>Materia</th>
-                                    <th>Estado</th>
-                                    <th>Operaciones</th>
-                                </tr>
-                                </thead>
+                        <section class="section is-medium" th:if="${evaluaciones ne null and evaluaciones.isEmpty()}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                No se encontraron registros.
+                            </p>
+                        </section>
 
-                                <tbody>
-                                <tr>
-                                    <td>Examen sorpresa</td>
-                                    <td>12/10/2022</td>
-                                    <td>5</td>
-                                    <td>Examen corto</td>
-                                    <td>Español</td>
-                                    <td>
-                                        <a class="button is-info is-small">Activo</a>
-                                        <a class="button is-success is-small">calificada</a>
-                                    </td>
+                        <h5 class="title is-5 my-6" th:if="${evaluaciones ne null and not evaluaciones.isEmpty()}">
+                            Evaluaciones registradas</h5>
+                        <table id="tbl-evaluaciones" class="table display" style="width:100%"
+                               th:if="${evaluaciones ne null and not evaluaciones.isEmpty()}">
+                            <thead class="is-narrow">
+                            <tr>
+                                <th>ID</th>
+                                <th>Descripcíon</th>
+                                <th>Fecha</th>
+                                <th>Ponderación</th>
+                                <th>Tipo</th>
+                                <th>Materia</th>
+                                <th>Operaciones</th>
+                            </tr>
+                            </thead>
 
-                                    <td>
-                                        <a th:href="@{/evaluacion/editar}" class="button is-warning is-small">
-                                            <i class="far fa-eye mr-1"></i>Visualizar</a>
-                                        <a data-target="confirmar" onclick="Eliminar()"  class="button is-danger is-small">
-                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar</a>
+                            <tbody>
+                            <tr th:each="i: ${evaluaciones}">
+                                <td th:text="*{i.id}">1</td>
+                                <td th:text="*{i.descripcion}">Examen sorpresa</td>
+                                <td th:text="*{#temporals.format(i.fecha, 'dd/MM/yyyy')}">12/10/2022</td>
+                                <td>[[${i.ponderacion}]] Pts.</td>
+                                <td th:text="*{i.tipoEvaluacionDescripcion}">Examen corto</td>
+                                <td>[[${i.materiaDescripcion}]] - ([[${i.gradoDescripcion}]])</td>
+                                <td>
+                                    <a th:href="@{/evaluacion/editar/{id}(id=*{i.id})}"
+                                       class="button is-warning is-small">
+                                        <i class="far fa-edit mr-1"></i>Editar
+                                    </a>
 
-                                    </td>
+                                    <button class="button is-danger is-small btn-eliminar"
+                                            type="button" th:data-id-eval="${i.id}">
+                                        <i class="fas fa-trash-alt mr-1"></i>Eliminar
+                                    </button>
 
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                </td>
 
+                            </tr>
+                            </tbody>
+                        </table>
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                     </div>
@@ -120,16 +146,9 @@
 <script th:replace="layout/scripts :: script"></script>
 
 <script src="/js/modal.js"></script>
-<script type="text/javascript">
-
-    function Eliminar() {
-
-        //abrir modal
-        openModal('eliminar');
-    }
-
-
-</script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/consultar-evaluaciones.js"></script>
 
 </body>
 </html>

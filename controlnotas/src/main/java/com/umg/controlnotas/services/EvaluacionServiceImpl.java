@@ -1,6 +1,7 @@
 package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.Evaluacion;
+import com.umg.controlnotas.model.dto.AsignacionUsuarioDto;
 import com.umg.controlnotas.model.dto.EvaluacionDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.EvaluacionRepository;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Log
@@ -150,6 +153,123 @@ public class EvaluacionServiceImpl implements EvaluacionService {
                 .code(1)
                 .data(evaluacionDto)
                 .message("Evaluación " + evaluacionDto.getDescripcion() + " actualizada correctamente!")
+                .build();
+    }
+
+    /**
+     * Consultar evaluaciones
+     *
+     * @param idMateria        id de la materia
+     * @param idTipoEvaluacion id del tipo de evaluacion
+     * @return List<EvaluacionDto> con las evaluaciones encontradas
+     */
+    @Override
+    public List<EvaluacionDto> consultarEvaluaciones(Long idMateria, Integer idTipoEvaluacion) {
+
+        var bimestre = userFacade.getBimestreActual();
+        var materiasAsignadasUsuario = userFacade.getAsignacionesUsuario();
+        List<Long> idsMaterias = materiasAsignadasUsuario.stream().map(AsignacionUsuarioDto::getIdMateria).collect(Collectors.toList());
+
+        //consultar por materia
+        if (Objects.nonNull(idMateria) && Objects.isNull(idTipoEvaluacion)) {
+
+            return evaluacionRepository.findByEstadoAndIdBimestreIdAndIdMateriaIdOrderById(
+                            Evaluacion.ESTADO_ACTIVO,
+                            bimestre.getId(),
+                            idMateria
+                    )
+                    .stream()
+                    .map(evaluacion -> EvaluacionDto.builder()
+                            .id(evaluacion.getId())
+                            .descripcion(evaluacion.getDescripcion())
+                            .fecha(evaluacion.getFecha())
+                            .ponderacion(evaluacion.getPonderacion())
+                            .tipoEvaluacionDescripcion(evaluacion.getIdTipoEvaluacionDescripcion())
+                            .materiaDescripcion(evaluacion.getIdMateriaDescripcion())
+                            .gradoDescripcion(evaluacion.getIdMateriaIdGradoDescripcion())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+
+        //consultar por tipo de evaluacion
+        if (Objects.nonNull(idTipoEvaluacion) && Objects.isNull(idMateria)) {
+
+            return evaluacionRepository.findByEstadoAndIdBimestreIdAndIdTipoEvaluacionIdAndIdMateriaIdInOrderById(
+                            Evaluacion.ESTADO_ACTIVO,
+                            bimestre.getId(),
+                            idTipoEvaluacion,
+                            idsMaterias
+                    )
+                    .stream()
+                    .map(evaluacion -> EvaluacionDto.builder()
+                            .id(evaluacion.getId())
+                            .descripcion(evaluacion.getDescripcion())
+                            .fecha(evaluacion.getFecha())
+                            .ponderacion(evaluacion.getPonderacion())
+                            .tipoEvaluacionDescripcion(evaluacion.getIdTipoEvaluacionDescripcion())
+                            .materiaDescripcion(evaluacion.getIdMateriaDescripcion())
+                            .gradoDescripcion(evaluacion.getIdMateriaIdGradoDescripcion())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+
+        //consultar por materia y tipo de evaluacion
+        if (Objects.nonNull(idMateria) && Objects.nonNull(idTipoEvaluacion)) {
+
+            return evaluacionRepository.findByEstadoAndIdBimestreIdAndIdTipoEvaluacionIdAndIdMateriaIdOrderById(
+                            Evaluacion.ESTADO_ACTIVO,
+                            bimestre.getId(),
+                            idTipoEvaluacion,
+                            idMateria
+                    )
+                    .stream()
+                    .map(evaluacion -> EvaluacionDto.builder()
+                            .id(evaluacion.getId())
+                            .descripcion(evaluacion.getDescripcion())
+                            .fecha(evaluacion.getFecha())
+                            .ponderacion(evaluacion.getPonderacion())
+                            .tipoEvaluacionDescripcion(evaluacion.getIdTipoEvaluacionDescripcion())
+                            .materiaDescripcion(evaluacion.getIdMateriaDescripcion())
+                            .gradoDescripcion(evaluacion.getIdMateriaIdGradoDescripcion())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+
+        //consultar todas las evaluaciones
+        return evaluacionRepository.findByEstadoAndIdBimestreIdAndIdMateriaIdInOrderById(
+                        Evaluacion.ESTADO_ACTIVO,
+                        bimestre.getId(),
+                        idsMaterias
+                )
+                .stream()
+                .map(evaluacion -> EvaluacionDto.builder()
+                        .id(evaluacion.getId())
+                        .descripcion(evaluacion.getDescripcion())
+                        .fecha(evaluacion.getFecha())
+                        .ponderacion(evaluacion.getPonderacion())
+                        .tipoEvaluacionDescripcion(evaluacion.getIdTipoEvaluacionDescripcion())
+                        .materiaDescripcion(evaluacion.getIdMateriaDescripcion())
+                        .gradoDescripcion(evaluacion.getIdMateriaIdGradoDescripcion())
+                        .build())
+                .collect(Collectors.toList());
+
+    }
+
+    /**
+     * @param id id de la evaluacion
+     * @return ResponseDataDto con el resultado de la operacion
+     */
+    @Override
+    @Transactional
+    public ResponseDataDto eliminarEvaluacion(Long id) {
+
+        evaluacionRepository.eliminarEvaluacionById(id);
+
+        log.info("Evaluacion eliminada con exito");
+
+        return ResponseDataDto.builder()
+                .message("Evaluación eliminada correctamente!")
+                .code(ResponseDataDto.SUCCESS)
                 .build();
     }
 
