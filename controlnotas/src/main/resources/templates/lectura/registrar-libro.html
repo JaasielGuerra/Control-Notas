@@ -17,40 +17,43 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">REGISTRO DEL LIBRO</h4>
-                        <hr class="dropdown-divider">
+                        <form id="form-nuevo-libro">
+                            <h4 class="title has-text-centered is-4">REGISTRO DEL LIBRO</h4>
+                            <hr class="dropdown-divider">
+                            <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                            <P class="subtitle is-5 has-text-danger">* Indica un canmpo obligatorio</P>
+                            <div class="columns">
+                                <div class="column is-5">
+                                    <label > *Nombre del libro</label>
+                                    <div class="control">
+                                        <input class="input" type="text" name="nombre" placeholder="Escriba el nombre" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-10">
+                                    <label >*Descripción del libro</label>
+                                    <div class="control">
+                                        <input class="input" type="text" name="descripcion" placeholder="Escribe la descripción" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-3 is-offset-3 ">
+                                    <button class="button  is-success is-large is-fullwidth" id="btn-pre-submit"
+                                            type="submit" >
+                                        <i class="fas fa-save mr-1"></i> Guardar
+                                    </button>
+                                </div>
+                                <div class="column is-3 ">
+                                    <a class="button  is-light is-large is-fullwidth" type="button"  th:href="@{/consultar-libros/consultar}">
+                                        <i class="fas fa-database mr-1"></i>Consultar
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
 
-                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <P class="subtitle is-5 has-text-danger">* Indica un canmpo obligatorio</P>
-                        <div class="columns">
-                            <div class="column is-5">
-                                <label > *Nombre del libro</label>
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Escriba el nombre" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="columns">
-                            <div class="column is-10">
-                                <label >*Descripción del libro</label>
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Escribe la descripción" requirede>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="columns">
-                            <div class="column is-3 is-offset-3 ">
-                                <button class="button  is-success is-large is-fullwidth" id="btn-pre-submit"
-                                        type="button" >
-                                    <i class="fas fa-save mr-1"></i> Guardar
-                                </button>
-                            </div>
-                            <div class="column is-3 ">
-                                <a class="button  is-light is-large is-fullwidth" type="button"  th:href="@{/consultar-libros/consultar}">
-                                    <i class="fas fa-database mr-1"></i>Consultar
-                                </a>
-                            </div>
-                        </div>
+
 
 
 
@@ -69,6 +72,9 @@
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/registrar-libro.js"></script>
 
 </body>
 </html>
