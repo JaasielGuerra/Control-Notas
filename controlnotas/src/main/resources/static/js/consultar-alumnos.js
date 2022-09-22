@@ -21,7 +21,7 @@ function verExpediente(idAlumno) {
         success: function (data) {
 
             //validar si plantillaChecklist está vacio
-            if ($.isEmptyObject(data['plantillaChecklists'])) {
+            if ($.isEmptyObject(data['plantillaChecklistDtos'])) {
                 bulmaToast.toast({
                     message: "No hay documentos para mostrar.",
                     type: "is-warning",
@@ -29,7 +29,7 @@ function verExpediente(idAlumno) {
                     dismissible: true,
                     duration: 4000,
                     pauseOnHover: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                    animate: {in: 'fadeIn', out: 'fadeOut'},
                 });
                 return;
             }
@@ -49,7 +49,7 @@ function verExpediente(idAlumno) {
                 dismissible: true,
                 duration: 4000,
                 pauseOnHover: true,
-                animate: { in: 'fadeIn', out: 'fadeOut' },
+                animate: {in: 'fadeIn', out: 'fadeOut'},
             });
         }
     });
@@ -64,88 +64,33 @@ function verExpediente(idAlumno) {
         let $items = $('#items-documentos');
         $items.empty();//limpiar contenido
 
-        $.each(data['plantillaChecklists'], function (i, val) {//recorrer data
+        $.each(data['plantillaChecklistDtos'], function (i, val) {//recorrer data
 
-            //si el indice es igual al tamaño de la lista menos 1, significa que es el ultimo elemento de la lista
-            if (i === data['plantillaChecklists'].length - 1) {
 
-                $items.append(
-                    $('<div>').addClass('columns').append(
-                        $('<div>').addClass('column is-6').append(
-                            $('<label>').addClass('label').text(data['plantillaChecklists'][i]['descripcionDocumento']),
-                            $('<div>').addClass('control').append(
-                                $('<label>').addClass('radio').append(
-                                    $('<input>').attr({
-                                        type: 'radio',
-                                        name: data['plantillaChecklists'][i]['idDetalleExpediente'],
-                                        value: 1,
-                                        checked: data['plantillaChecklists'][i]['estado'] === 1
-                                    }),
-                                ).append(' SI '),
-                                $('<label>').addClass('radio').append(
-                                    $('<input>').attr({
-                                        type: 'radio',
-                                        name: data['plantillaChecklists'][i]['idDetalleExpediente'],
-                                        value: 0,
-                                        checked: data['plantillaChecklists'][i]['estado'] === 0
-                                    }),
-                                ).append(' NO ')
-                            )
-                        ),
+            $items.append(
+                $('<div>').addClass('column is-6').append(
+                    $('<label>').addClass('label').text(data['plantillaChecklistDtos'][i]['descripcionDocumento']),
+                    $('<div>').addClass('control').append(
+                        $('<label>').addClass('radio').append(
+                            $('<input>').attr({
+                                type: 'radio',
+                                name: data['plantillaChecklistDtos'][i]['idDetalleExpediente'],
+                                value: 1,
+                                checked: data['plantillaChecklistDtos'][i]['estado'] === 1
+                            }),
+                        ).append(' SI '),
+                        $('<label>').addClass('radio').append(
+                            $('<input>').attr({
+                                type: 'radio',
+                                name: data['plantillaChecklistDtos'][i]['idDetalleExpediente'],
+                                value: 0,
+                                checked: data['plantillaChecklistDtos'][i]['estado'] === 0
+                            }),
+                        ).append(' NO ')
                     )
-                );
+                ),
+            );
 
-                return;
-            }
-
-            if (i % 2 === 1) {// verificar si el indice es impar
-                $items.append(
-                    $('<div>').addClass('columns').append(
-                        $('<div>').addClass('column is-6').append(
-                            $('<label>').addClass('label').text(data['plantillaChecklists'][i - 1]['descripcionDocumento']),
-                            $('<div>').addClass('control').append(
-                                $('<label>').addClass('radio').append(
-                                    $('<input>').attr({
-                                        type: 'radio',
-                                        name: data['plantillaChecklists'][i - 1]['idDetalleExpediente'],
-                                        value: 1,
-                                        checked: data['plantillaChecklists'][i - 1]['estado'] === 1
-                                    }),
-                                ).append(' SI '),
-                                $('<label>').addClass('radio').append(
-                                    $('<input>').attr({
-                                        type: 'radio',
-                                        name: data['plantillaChecklists'][i - 1]['idDetalleExpediente'],
-                                        value: 0,
-                                        checked: data['plantillaChecklists'][i - 1]['estado'] === 0
-                                    }),
-                                ).append(' NO ')
-                            )
-                        ),
-                        $('<div>').addClass('column is-6').append(
-                            $('<label>').addClass('label').text(data['plantillaChecklists'][i]['descripcionDocumento']),
-                            $('<div>').addClass('control').append(
-                                $('<label>').addClass('radio').append(
-                                    $('<input>').attr({
-                                        type: 'radio',
-                                        name: data['plantillaChecklists'][i]['idDetalleExpediente'],
-                                        value: 1,
-                                        checked: data['plantillaChecklists'][i]['estado'] === 1
-                                    }),
-                                ).append(' SI '),
-                                $('<label>').addClass('radio').append(
-                                    $('<input>').attr({
-                                        type: 'radio',
-                                        name: data['plantillaChecklists'][i]['idDetalleExpediente'],
-                                        value: 0,
-                                        checked: data['plantillaChecklists'][i]['estado'] === 0
-                                    }),
-                                ).append(' NO ')
-                            )
-                        ),
-                    )
-                );
-            }
 
         });
     }
@@ -169,7 +114,7 @@ $('#modal-checklist-expediente').submit(function (e) {
     delete formJSON['observacion'];
     delete formJSON['id'];
 
-    formDatosExpediente['plantillaChecklists'] = llenarPlantillaChecklist(formJSON);
+    formDatosExpediente['plantillaChecklistDtos'] = llenarPlantillaChecklist(formJSON);
 
 
     //poner efecto carga boton submit
@@ -196,14 +141,14 @@ $('#modal-checklist-expediente').submit(function (e) {
                 dismissible: true,
                 duration: 4000,
                 pauseOnHover: true,
-                animate: { in: 'fadeIn', out: 'fadeOut' },
+                animate: {in: 'fadeIn', out: 'fadeOut'},
             });
         }
     });
 
 });
 
-// funcion para llenar plantillaChecklists
+// funcion para llenar plantillaChecklistDtos
 function llenarPlantillaChecklist(formJSON) {
     let plantilla = [];//limpiar array
     Object.keys(formJSON).forEach(function (key) {
@@ -240,7 +185,7 @@ function cambiarGradoAlumno(idAlumno) {
                 dismissible: true,
                 duration: 4000,
                 pauseOnHover: true,
-                animate: { in: 'fadeIn', out: 'fadeOut' },
+                animate: {in: 'fadeIn', out: 'fadeOut'},
             });
         }
     });
@@ -276,7 +221,7 @@ function reasignarAlumno() {
                 dismissible: true,
                 duration: 4000,
                 pauseOnHover: true,
-                animate: { in: 'fadeIn', out: 'fadeOut' },
+                animate: {in: 'fadeIn', out: 'fadeOut'},
             });
 
             removeLoadingBtn("#btn-guardar-reasignacion");
