@@ -17,159 +17,55 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">CALIFICAR ACTIVIDADES</h4>
+                        <h4 class="title has-text-centered is-4">ACTIVIDADES POR MATERIA</h4>
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <article class="message is-link">
+                        <article class="message is-info">
                             <div class="message-body">
-                                A continuación se listan las materias que tiene asignadas
+                                A continuación se muestran las actividades de las <strong>materias que tiene asignadas.</strong><br>
+                                Ayuda: Para calificar una actividad, haga clic en la descripción de la actividad.
                             </div>
                         </article>
 
-                        <div class="columns">
-                            <div class="column">
+                        <section class="section is-medium" th:if="${actividades ne null and actividades.isEmpty()}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                Aún no hay actividades para las materias que tiene asignadas.
+                            </p>
+                        </section>
 
-                                <div class="card">
+                        <div class="columns is-multiline">
+                            <div class="column is-6" th:each="i: ${actividades}">
+                                <div class="card" title="De clic en una actividad para calificarla">
                                     <header class="card-header has-background-warning">
                                         <div class="card-content">
-                                            <p class="title is-3">
+                                            <p class="title is-4" th:text="${i.materia}">
                                                 Matemáticas
                                             </p>
-                                            <p class="subtitle is-6"> Grado:</p>
-                                            <p class="subtitle is-6"> Alumnos:</p>
+                                            <p class="subtitle is-6" th:text="${i.gradoMateria}">Grado:</p>
                                         </div>
                                     </header>
                                     <div class="card-content">
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
+
+                                        <p class="subtitle">
+                                            Actividades:
+                                        </p>
+
+                                        <div class="content" th:each="x: ${i.actividades}">
+                                            [#[[${x.id}]]]
+                                            <a class="is-underlined is-link is-italic" title="De clic para calificar esta actividad"
+                                               th:href="@{/actividades/calificar/{idActividad}(idActividad=*{x.id})}">
+                                                [[${x.descripcionActividad}]] ([[${x.valorActividad}]] Pts.)
+                                            </a>
                                         </div>
                                     </div>
-
-                                    <footer class="card-footer">
-                                        <article>
-                                            <div class="message-body">
-                                                INFO: De click en las actividades para calificarla
-                                            </div>
-                                        </article>
-                                    </footer>
-                                </div>
-
-                            </div>
-
-                            <div class="column">
-                                <div class="card">
-                                    <header class="card-header has-background-warning "  >
-                                        <div class="card-content ">
-                                            <p class="title is-3 ">
-                                                Ingles
-                                            </p>
-                                            <p class="subtitle is-6 "> Grado:</p>
-                                            <p class="subtitle is-6 "> Alumnos:</p>
-
-                                        </div>
-                                    </header>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()" >actividada 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                    </div>
-
-                                    <footer class="card-footer">
-                                        <article >
-                                            <div class="message-body">
-                                                INFO: De clic en las actividades para calificarla
-                                            </div>
-                                        </article>
-                                    </footer>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- si lña otra-->
-                        <div class="columns">
-                            <div class="column">
-
-                                <div class="card">
-                                    <header class="card-header has-background-warning">
-                                        <div class="card-content">
-                                            <p class="title is-3">
-                                                Español
-                                            </p>
-                                            <p class="subtitle is-6"> Grado:</p>
-                                            <p class="subtitle is-6"> Alumnos:</p>
-
-                                        </div>
-                                    </header>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                    </div>
-
-                                    <footer class="card-footer">
-                                        <article >
-                                            <div class="message-body">
-                                                INFO: De clic en las actividades para calificarla
-                                            </div>
-                                        </article>
-                                    </footer>
-                                </div>
-
-                            </div>
-
-                            <div class="column">
-                                <div class="card">
-                                    <header class="card-header has-background-warning">
-                                        <div class="card-content">
-                                            <p class="title is-3">
-                                                Sociales
-                                            </p>
-                                            <p class="subtitle is-6"> Grado:</p>
-                                            <p class="subtitle is-6"> Alumnos:</p>
-
-                                        </div>
-                                    </header>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()" >actividad 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                        <div class="content">
-                                            <a  data-target="validar-expediente" onclick="calificar()">actividad 1</a>
-                                        </div>
-                                    </div>
-
-                                    <footer class="card-footer">
-                                        <article >
-                                            <div class="message-body">
-                                                INFO: De clic en las actividades para calificarla
-                                            </div>
-                                        </article>
-                                    </footer>
-                                </div>
-                            </div>
-                        </div>
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
                     </div>
                 </div>
@@ -182,17 +78,12 @@
     <footer th:replace="layout/footer :: footer"></footer>
 
 </main>
-<div th:replace="actividades/dialogos-actividad/calificar-actividad::calificar-actividad"></div>
-
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
 <script src="/js/modal.js"></script>
-<script type="text/javascript">
-    function calificar(){
-        openModal('calificar-actividad');
-    }
-</script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/show-message-localStorage.js"></script>
 
 </body>
 </html>

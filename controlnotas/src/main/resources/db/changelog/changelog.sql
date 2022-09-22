@@ -262,3 +262,66 @@ BEGIN
 
     END IF;
 END
+
+-- changeset liquibase:jaasiel-26
+ALTER TABLE `db_control_notas`.`detalle_calificacion`
+DROP FOREIGN KEY `fk_detalle_calificacion_cuado_calificacion1`;
+ALTER TABLE `db_control_notas`.`detalle_calificacion`
+    DROP COLUMN `id_cuadro_calificacion`,
+    ADD COLUMN `id_bimestre` BIGINT NOT NULL AFTER `id_usuario`,
+    ADD INDEX `fk_detalle_calificacion_bimestre1_idx` (`id_bimestre` ASC) ,
+    DROP INDEX `fk_detalle_calificacion_cuado_calificacion1_idx` ;
+;
+ALTER TABLE `db_control_notas`.`detalle_calificacion`
+    ADD CONSTRAINT `fk_detalle_calificacion_bimestre1`
+        FOREIGN KEY (`id_bimestre`)
+            REFERENCES `db_control_notas`.`bimestre` (`id_bimestre`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
+DROP TABLE `db_control_notas`.`cuadro_calificacion`;
+
+-- changeset liquibase:jaasiel-27 endDelimiter:\nDELIMITER $$
+DROP PROCEDURE IF EXISTS db_control_notas.proc_consulta_calificar_actividades;
+
+-- changeset liquibase:jaasiel-28 endDelimiter:$$\nDELIMITER ;
+CREATE PROCEDURE proc_consulta_calificar_actividades(
+    id_bimestre LONG,
+    estado_actividad INT,
+    ids_materia VARCHAR(255)
+)
+BEGIN
+
+    SET @query_ = CONCAT('
+		SELECT
+			a.id_actividad,
+			m.descripcion materia,
+			g.descripcion grado_materia,
+			a.descripcion_actividad,
+			a.valor_actividad,
+			a.estado estado_actividad,
+			a.id_materia
+		FROM
+			actividad a
+		JOIN plan_trabajo pt ON
+			pt.id_plan_trabajo = a.id_plan_trabajo
+		JOIN materia m ON
+			m.id_materia = a.id_materia
+		JOIN grado g ON
+			g.id_grado = m.id_grado
+		WHERE
+			pt.id_bimestre = ', id_bimestre,
+                         ' AND a.estado = ', estado_actividad,
+                         ' AND a.id_materia IN(
+                 ', ids_materia, ')');
+
+    PREPARE stmt FROM @query_;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+END
+
+-- changeset liquibase:jaasiel-29
+INSERT INTO `db_control_notas`.`asignacion_materia` (`id_asignacion_materia`, `id_usuario`, `id_materia`, `estado`) VALUES ('3', '1', '24', '1');
+
+-- changeset liquibase:jaasiel-30
+INSERT INTO `db_control_notas`.`asignacion_materia` (`id_asignacion_materia`, `id_usuario`, `id_materia`, `estado`) VALUES ('4', '1', '21', '1');

@@ -4,6 +4,7 @@ import com.umg.controlnotas.model.Alumno;
 import com.umg.controlnotas.model.Seccion;
 import com.umg.controlnotas.model.query.AlumnoConsultar;
 import com.umg.controlnotas.model.query.AlumnoEditar;
+import com.umg.controlnotas.model.query.ConsultaAlumnoCalificacion;
 import com.umg.controlnotas.model.query.DatosExpediente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -114,4 +115,6 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
             "WHERE " +
             "a.id = ?3")
     public void updateDatosExpediente(Integer estadoExpediente, String observacion, Long id);
+
+    List<ConsultaAlumnoCalificacion> findByEstadoAndIdSeccionIdIn(int estado, List<Long> secciones);
 }
