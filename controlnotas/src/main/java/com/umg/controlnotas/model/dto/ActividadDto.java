@@ -3,6 +3,7 @@ package com.umg.controlnotas.model.dto;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +18,6 @@ public class ActividadDto implements Serializable {
     private Long idMateria;
     private Integer estado;
     private Long id;
+    private String descripcionMateria;
+    private List<CalificacionAlumnoDto> calificacionesAlumnos;
 }

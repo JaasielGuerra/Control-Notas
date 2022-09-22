@@ -28,8 +28,8 @@ public class DetalleCalificacion {
     private Alumno idAlumno;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_cuadro_calificacion", nullable = false)
-    private CuadroCalificacion idCuadroCalificacion;
+    @JoinColumn(name = "id_bimestre", nullable = false)
+    private Bimestre idBimestre;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_evaluacion")
