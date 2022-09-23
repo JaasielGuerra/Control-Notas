@@ -21,7 +21,7 @@
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <article class="message is-info">
+                        <article class="message is-info" th:if="${actividades ne null and not actividades.isEmpty()}">
                             <div class="message-body">
                                 A continuación se muestran las actividades de las <strong>materias que tiene asignadas.</strong><br>
                                 Ayuda: Para calificar una actividad, haga clic en la descripción de la actividad.
