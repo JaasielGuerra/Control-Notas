@@ -42,11 +42,11 @@
                             </div>
                         </div>
 
-                        <h5 class="title is-5 my-6">Listado asistencia</h5>
+                        <h5 class="title is-5 my-6" >Listado de libros</h5>
                         <hr class="dropdown-divider">
-                        <div class="columns">
 
-                            <table class="table display">
+
+                            <table id="tbl-libros" class="table display" style="width: 100%">
                                 <thead class="is-narrow">
                                 <tr>
                                     <th>ID</th>
@@ -57,15 +57,17 @@
 
                                 </tr>
                                 </thead>
-
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Principito</td>
-                                    <td>Libro del principe oscar</td>
-                                    <td>
-                                        <span class="tag is-danger">Ocupado</span>
-                                        <span class="tag is-success">Disponible</span>
+                                <tr th:each="i: ${libros}">
+                                    <td th:text="*{i.id}">1</td>
+                                    <td th:text="*{i.nombre}">Principito</td>
+                                    <td th:text="*{i.descripcion}">Libro del principe oscar</td>
+                                    <td >
+
+                                        <span class="tag is-danger"
+                                              th:if="*{i.disponibilidad eq 2}">no disponible</span>
+                                        <span class="tag is-success"
+                                              th:if="*{i.disponibilidad eq 1}">disponible</span>
                                     </td>
                                     <td>
                                         <a class="button is-warning is-small" th:href="@{/consultar-libros/editar}">
@@ -80,7 +82,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
+
 
                     </div>
                 </div>
@@ -98,6 +100,10 @@
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
 <script src="/js/modal.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/consultar-libros.js"></script>
+<script src="/js/show-message-localStorage.js"></script>
 <script type="text/javascript">
 
     function Eliminar() {
