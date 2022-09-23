@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.umg.controlnotas.model.Libro;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @Log
@@ -47,5 +50,24 @@ public class LibroServicelmpl implements LibroService {
                 .data(libroDto)
                 .message("Libro " + libroDto.getNombre() + " Registrado correctamente! ")
                 .build();
+    }
+
+    @Override
+    public List<LibroDto> consultarLibros(){
+            return libroRepository.findByEstado(
+                    Libro.ESTADO_ACTIVO
+                    )
+
+                    .stream()
+                    .map(libros -> LibroDto.builder()
+                            .id(libros.getId())
+                            .nombre(libros.getNombre())
+                            .descripcion(libros.getDescripcion())
+                            .disponibilidad(libros.getDisponibilidad())
+                            .build()
+                    )
+                    .collect(Collectors.toList());
+
+
     }
 }
