@@ -29,17 +29,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="column is-offset-4"><br>
-                                <input class="input " type="text" placeholder="Buscar libro">
-                            </div>
 
-                            <div class="column"><br>
-                                <div class="buttons">
-                                    <a type="submit" class="button is-link  is-responsive">
-                                        <i class="fas fa-search mr-1"></i>BUSCAR
-                                    </a>
-                                </div>
-                            </div>
                         </div>
 
                         <h5 class="title is-5 my-6" >Listado de libros</h5>
@@ -72,7 +62,8 @@
                                     <td>
                                         <a class="button is-warning is-small" th:href="@{/consultar-libros/editar}">
                                             <i class="fas fa-edit mr-1"></i>Editar</a>
-                                        <button class="button is-danger is-small" data-target="confirmar" onclick="Eliminar()">
+                                        <button class="button is-danger is-small btn-eliminar " type="button"
+                                                th:data-id-libro="${i.id}">
                                             <i class="fas fa-trash-alt mr-1"></i>Eliminar
                                         </button>
 
