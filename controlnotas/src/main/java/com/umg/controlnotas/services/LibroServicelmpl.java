@@ -70,4 +70,19 @@ public class LibroServicelmpl implements LibroService {
 
 
     }
+
+
+    @Override
+    @Transactional
+    public ResponseDataDto eliminarLibro(Long id){
+        libroRepository.eliminarLibroById(id);
+        log.info("Libro eliminado con exito");
+
+        return ResponseDataDto.builder()
+                .message("Libro eliminado correctamente!")
+                .code(ResponseDataDto.SUCCESS)
+                .build();
+    }
+
+
 }
