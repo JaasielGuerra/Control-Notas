@@ -1,0 +1,23 @@
+<!-- MOdal -->
+<div class="modal" id="modal-eliminar-libro" xmlns:th="http://www.thymeleaf.org" th:fragment="elimnar">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title title has-text-centered is-4">CONFIRMAR ELIMINAR LIBRO</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p>
+                ¿Está seguro de que quiere eliminar este libro?
+            </p>
+        </section>
+        <footer class="modal-card-foot ">
+            <button class="button  is-success" id="btn-confirmacion-eliminar-libro">
+                <i class="fas fa-trash-alt mr-1"></i>Borrar
+            </button>
+            <button class="button  is-danger" value="Cancelar">
+                <i class="fas fa-undo mr-1"></i>Cancelar
+            </button>
+        </footer>
+    </div>
+</div>
