@@ -18,7 +18,7 @@ public interface LibroRepository extends JpaRepository<Libro, Long> {
     );
 
     @Modifying
-    @Query(value = "UPDATE Libro l SET l.estado = 2 WHERE l.id =?1")
+    @Query(value = "UPDATE Libro l SET l.estado = 0 WHERE l.id =?1")
     void eliminarLibroById(long id);
 
     List<ConsultarLibros> findByEstadoAndDisponibilidad(
