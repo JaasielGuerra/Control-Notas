@@ -11,6 +11,11 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "detalle_lectura")
 public class DetalleLectura {
+
+    public static final int OPERACION_ASIGNACION_LIBRO = 1;
+    public static final int OPERACION_AVANCE_LECTURA = 2;
+    public static final int OPERACION_LIBRO_TERMINADO = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_lectura", nullable = false)
@@ -30,8 +35,8 @@ public class DetalleLectura {
     private Libro idLibro;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_control_lectura", nullable = false)
-    private ControlLectura idControlLectura;
+    @JoinColumn(name = "id_bimestre", nullable = false)
+    private Bimestre idBimestre;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_alumno", nullable = false)

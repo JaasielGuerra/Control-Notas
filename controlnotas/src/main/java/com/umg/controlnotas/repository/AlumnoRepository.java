@@ -2,10 +2,9 @@ package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Alumno;
 import com.umg.controlnotas.model.Seccion;
-import com.umg.controlnotas.model.query.AlumnoConsultar;
-import com.umg.controlnotas.model.query.AlumnoEditar;
-import com.umg.controlnotas.model.query.ConsultaAlumnoCalificacion;
-import com.umg.controlnotas.model.query.DatosExpediente;
+import com.umg.controlnotas.model.dto.AlumnoLecturaDto;
+import com.umg.controlnotas.model.query.*;
+import liquibase.pro.packaged.Q;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -117,4 +116,19 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     public void updateDatosExpediente(Integer estadoExpediente, String observacion, Long id);
 
     List<ConsultaAlumnoCalificacion> findByEstadoAndIdSeccionIdIn(int estado, List<Long> secciones);
+
+    @Query(value="CALL proc_listar_alumnos_lectura(?1, ?2)", nativeQuery = true)
+    List<ConsultaAlumnosLectura> listarAlumnosLectura(Integer estado, Long idGrado);
+
+    @Query(value = "SELECT " +
+            "a.id_alumno AS idAlumno, " +
+            "a.nombre AS nombre, " +
+            "a.apellido AS apellido, " +
+            "COALESCE(func_consultar_libro_actual_alumno(?1), 'NINGÚN LIBRO') AS libroActual, " +
+            "COALESCE(func_alumno_tiene_libro_asignado(?1), 0) AS tieneLibro, " +
+            "func_obtener_id_ultimo_libro_alumno(?1) AS idLibro " +
+            "FROM alumno a " +
+            "WHERE a.id_alumno = ?1", nativeQuery = true)
+    ConsultaAlumnosLectura obtenerAlumnoLectura(Long idAlumno);
+
 }

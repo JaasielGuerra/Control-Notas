@@ -325,3 +325,187 @@ INSERT INTO `db_control_notas`.`asignacion_materia` (`id_asignacion_materia`, `i
 
 -- changeset liquibase:jaasiel-30
 INSERT INTO `db_control_notas`.`asignacion_materia` (`id_asignacion_materia`, `id_usuario`, `id_materia`, `estado`) VALUES ('4', '1', '21', '1');
+
+-- changeset liquibase:jaasiel-31
+ALTER TABLE `db_control_notas`.`detalle_lectura`
+    DROP FOREIGN KEY `fk_detalle_lectura_control_lectura1`;
+ALTER TABLE `db_control_notas`.`detalle_lectura`
+    DROP COLUMN `id_control_lectura`,
+    ADD COLUMN `id_bimestre` BIGINT NOT NULL AFTER `id_alumno`,
+    CHANGE COLUMN `fecha` `fecha` DATE NOT NULL ,
+    CHANGE COLUMN `tipo_operacion` `tipo_operacion` INT(11) NOT NULL COMMENT '1 = entrega de libro\\n2 = paginas leidas\\n3 = libro terminado de leer' ,
+    CHANGE COLUMN `paginas_leidas` `paginas_leidas` INT(11) NOT NULL ,
+    ADD INDEX `fk_detalle_lectura_bimestre1_idx` (`id_bimestre` ASC) ,
+    DROP INDEX `fk_detalle_lectura_control_lectura1_idx` ;
+;
+ALTER TABLE `db_control_notas`.`detalle_lectura`
+    ADD CONSTRAINT `fk_detalle_lectura_bimestre1`
+        FOREIGN KEY (`id_bimestre`)
+            REFERENCES `db_control_notas`.`bimestre` (`id_bimestre`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
+drop table control_lectura;
+
+-- changeset liquibase:jaasiel-32 endDelimiter:\nDELIMITER $$
+DROP PROCEDURE IF EXISTS proc_consulta_grados_lectura;
+
+-- changeset liquibase:jaasiel-33 endDelimiter:$$\nDELIMITER ;
+CREATE PROCEDURE proc_consulta_grados_lectura()
+BEGIN
+
+    select
+        g.id_grado as idGrado,
+        g.descripcion as gradoDescripcion,
+        (
+            select
+                count(a.id_alumno)
+            from
+                alumno a
+                    inner join seccion s2 on
+                        s2.id_seccion = a.id_seccion
+            where
+                    s2.id_grado = g.id_grado
+              and a.estado = 1) as countAlumnos
+    from
+        grado g
+    where
+            g.estado = 1;
+
+END
+
+-- changeset liquibase:jaasiel-34 endDelimiter:\nDELIMITER $$
+DROP PROCEDURE IF EXISTS db_control_notas.proc_listar_alumnos_lectura;
+
+-- changeset liquibase:jaasiel-35 endDelimiter:$$\nDELIMITER ;
+CREATE  PROCEDURE `proc_listar_alumnos_lectura`(
+    estado_alumno BIGINT,
+    id_grado BIGINT
+
+) BEGIN
+    SELECT
+        a.id_alumno idAlumno,
+        a.nombre nombre,
+        a.apellido apellido,
+        a.codigo_alumno codigoAlumno,
+        (
+            SELECT
+                COUNT(DISTINCT dl.id_libro)
+            FROM
+                detalle_lectura dl
+            WHERE
+                    dl.id_alumno = a.id_alumno
+              AND dl.tipo_operacion = 3) librosLeidos,
+        COALESCE (func_consultar_libro_actual_alumno(a.id_alumno),
+                  'NINGÚN LIBRO') libroActual,
+        COALESCE ((
+                      SELECT
+                          IF(dl2.tipo_operacion IN(1, 2), dl2.paginas_leidas , 0)
+                      FROM
+                          detalle_lectura dl2
+                      WHERE
+                              dl2.id_alumno = a.id_alumno
+                      ORDER BY
+                          dl2.id_detalle_lectura DESC
+                      LIMIT 1 ),
+                  0) paginasLeidas
+    FROM
+        alumno a
+            JOIN seccion s on
+                s.id_seccion = a.id_seccion
+    WHERE
+            a.estado = estado_alumno
+      AND s.id_grado = id_grado;
+END
+
+-- changeset liquibase:jaasiel-36 endDelimiter:\nDELIMITER $$
+DROP FUNCTION IF EXISTS db_control_notas.func_consultar_libro_actual_alumno;
+
+-- changeset liquibase:jaasiel-37 endDelimiter:$$\nDELIMITER ;
+CREATE FUNCTION func_consultar_libro_actual_alumno( id_alumno BIGINT ) RETURNS VARCHAR(200) BEGIN RETURN (
+    SELECT
+        IF(dl2.tipo_operacion IN(1, 2), l2.nombre , 'NINGÚN LIBRO') libroActual
+    FROM
+        detalle_lectura dl2
+            JOIN libro l2 ON
+                l2.id_libro = dl2.id_libro
+    WHERE
+            dl2.id_alumno = id_alumno
+    ORDER BY
+        dl2.id_detalle_lectura DESC
+    LIMIT 1 );
+END
+
+-- changeset liquibase:jaasiel-38 endDelimiter:\nDELIMITER $$
+DROP FUNCTION IF EXISTS db_control_notas.func_alumno_tiene_libro_asignado;
+
+-- changeset liquibase:jaasiel-39 endDelimiter:$$\nDELIMITER ;
+CREATE FUNCTION func_alumno_tiene_libro_asignado( id_alumno BIGINT ) RETURNS INT BEGIN RETURN(
+    SELECT
+        IF(dl2.tipo_operacion IN(1, 2), 1 , 0) tieneLibro
+    FROM
+        detalle_lectura dl2
+    WHERE
+            dl2.id_alumno = id_alumno
+    ORDER BY
+        dl2.id_detalle_lectura DESC
+    LIMIT 1 );
+
+END
+
+-- changeset liquibase:jaasiel-40 endDelimiter:\nDELIMITER $$
+DROP FUNCTION IF EXISTS db_control_notas.func_obtener_id_ultimo_libro_alumno;
+
+-- changeset liquibase:jaasiel-41 endDelimiter:$$\nDELIMITER ;
+CREATE FUNCTION db_control_notas.func_obtener_id_ultimo_libro_alumno(
+    id_alumno BIGINT
+)
+    RETURNS BIGINT
+BEGIN
+    RETURN(
+
+        SELECT
+            l2.id_libro idLibro
+        FROM
+            detalle_lectura dl2
+                JOIN libro l2 ON
+                    l2.id_libro = dl2.id_libro
+        WHERE
+                dl2.id_alumno = id_alumno
+        ORDER BY
+            dl2.id_detalle_lectura DESC
+        LIMIT 1
+
+    );
+END
+
+-- changeset liquibase:jaasiel-42 endDelimiter:\nDELIMITER $$
+DROP TRIGGER IF EXISTS db_control_notas.trig_cambiar_disponibilidad_libro;
+
+-- changeset liquibase:jaasiel-43 endDelimiter:$$\nDELIMITER ;
+CREATE TRIGGER trig_cambiar_disponibilidad_libro
+AFTER INSERT
+ON detalle_lectura FOR EACH ROW
+
+BEGIN
+
+IF NEW.tipo_operacion = 1 THEN -- asignacion libro
+
+	UPDATE
+		libro l
+	SET l.disponibilidad = 2 -- NO disponible
+	WHERE
+		l.id_libro = NEW.id_libro;
+
+END IF;
+
+IF NEW.tipo_operacion = 3 THEN -- libro terminado de leer
+
+	UPDATE
+		libro l
+	SET l.disponibilidad = 1 -- SI disponible
+	WHERE
+		l.id_libro = NEW.id_libro;
+
+END IF;
+
+END

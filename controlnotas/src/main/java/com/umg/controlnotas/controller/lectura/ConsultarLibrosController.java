@@ -1,7 +1,6 @@
 package com.umg.controlnotas.controller.lectura;
 
 
-import com.umg.controlnotas.model.dto.LibroDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.services.LibroService;
 import lombok.extern.java.Log;
@@ -50,7 +49,6 @@ private LibroService libroService;
 
     @DeleteMapping( "/eliminar/{id}")
     @ResponseBody
-
     public ResponseEntity<ResponseDataDto> eliminarLibro(@PathVariable("id")Long id){
 
         ResponseDataDto responseDataDto;
