@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
-@RequestMapping(value = "/libro")
+@RequestMapping(value = "/libros")
 @Log
 public class LibroController {
 
