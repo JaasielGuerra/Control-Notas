@@ -12,5 +12,9 @@ public interface LibroService {
     ResponseDataDto registrarNuevoLibro(LibroDto libroDto);
 
     List<LibroDto> consultarLibros();
+
+    @Transactional
+    ResponseDataDto eliminarLibro(Long id);
+
     List<LibroDto> consultarLibrosDisponibles();
 }

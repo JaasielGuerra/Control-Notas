@@ -11,7 +11,6 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -92,4 +91,19 @@ public class LibroServicelmpl implements LibroService {
                 )
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    @Transactional
+    public ResponseDataDto eliminarLibro(Long id){
+        libroRepository.eliminarLibroById(id);
+        log.info("Libro eliminado con exito");
+
+        return ResponseDataDto.builder()
+                .message("Libro eliminado correctamente!")
+                .code(ResponseDataDto.SUCCESS)
+                .build();
+    }
+
+
 }

@@ -15,4 +15,36 @@
         }
 
     });
+
+    $('#tbl-libros').on('click', '.btn-eliminar', function (){
+        let id = $(this).attr('data-id-libro');
+        EliminarLibro(id);
+    });
+
+    function EliminarLibro(id){
+        $.ajax({
+            url: '/consultar-libros/eliminar/' + id,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function (data){
+                if (data.code === 1){
+                    localStorage.setItem('messageSuccess', data.message);
+                    location.reload();
+                }
+                else if (data.code === 0){
+                    showMessageError(data.message);
+
+                    let errores = '';
+                    $.each(data.errors, function (i, error){
+                        errores += error + '<br>';
+                    });
+                    showMessageError(errores)
+                }
+            },
+            error: function (xhr, status, error){
+                showMessageError('Se produjo un error en el servidor' + xhr.responseText);
+            }
+        });
+    }
+
 })();
