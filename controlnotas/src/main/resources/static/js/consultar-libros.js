@@ -16,9 +16,16 @@
 
     });
 
-    $('#tbl-libros').on('click', '.btn-eliminar', function (){
+    //llama al modal de confirmacion de eliminacion
+    $('#tbl-libros').on('click', '.btn-pre-eliminar', function (){
         let id = $(this).attr('data-id-libro');
-        EliminarLibro(id);
+        $('#btn-confirmacion-eliminar-libro').attr('data-id-libro', id);
+        openModal('modal-eliminar-libro');
+    });
+
+    //elimina el libro
+    $('#modal-eliminar-libro').on('click', '#btn-confirmacion-eliminar-libro', function (){
+        EliminarLibro($(this).attr('data-id-libro'));
     });
 
     function EliminarLibro(id){

@@ -17,7 +17,7 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">LIRBOS REGISTRADOS</h4>
+                        <h4 class="title has-text-centered is-4">LIBROS REGISTRADOS</h4>
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
@@ -62,7 +62,7 @@
                                     <td>
                                         <a class="button is-warning is-small" th:href="@{/consultar-libros/editar}">
                                             <i class="fas fa-edit mr-1"></i>Editar</a>
-                                        <button class="button is-danger is-small btn-eliminar " type="button"
+                                        <button class="button is-danger is-small btn-pre-eliminar" type="button"
                                                 th:data-id-libro="${i.id}">
                                             <i class="fas fa-trash-alt mr-1"></i>Eliminar
                                         </button>
@@ -86,7 +86,7 @@
     <footer th:replace="layout/footer :: footer"></footer>
 
 </main>
-<div th:replace="/lectura/dialogo-libro/eliminar::elimnar"></div>
+<div th:replace="/lectura/dialogo-libro/confirmar-eliminar-libro::elimnar"></div>
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
@@ -95,13 +95,5 @@
 <script src="/js/utilidades.js"></script>
 <script src="/js/consultar-libros.js"></script>
 <script src="/js/show-message-localStorage.js"></script>
-<script type="text/javascript">
-
-    function Eliminar() {
-
-        //abrir modal
-        openModal('eliminar');
-    }
-</script>
 </body>
 </html>
