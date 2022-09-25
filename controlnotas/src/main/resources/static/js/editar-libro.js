@@ -1,5 +1,5 @@
 (function () {
-    $('#form-nuevo-libro').validate({
+    $('#form-editar-libro').validate({
         errorClass: 'is-danger',
         validClass: 'is-success',
         errorElement: 'p',
@@ -34,26 +34,28 @@
             error.insertAfter(element);
         },
         submitHandler: function (form){
-            submitFormNuevoLibro(form)
-
+            submitFormActualizarLibro(form)
         }
 
     });
 
 
-    function submitFormNuevoLibro(form){
+    // Función para enviar el formulario de actualización de libro
+    function submitFormActualizarLibro(form){
 
         let data = formToJSON(form);
+        let id = $('#id-libro').val();
+
         $.ajax( {
-            type: "POST",
-            url: "/libros/registrar",
+            type: "PUT",
+            url: "/libros/actualizar/" + id,
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: "json",
             success: function (data){
                 if (data.code === 1){
                     localStorage.setItem('messageSuccess', data.message);
-                    location.reload();
+                    location.assign("/libros");
                 }
                 else if(data.code===0){
                     showMessageError(data.message);

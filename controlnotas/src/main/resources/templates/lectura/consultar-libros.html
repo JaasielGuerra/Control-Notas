@@ -60,7 +60,7 @@
                                               th:if="*{i.disponibilidad eq 1}">disponible</span>
                                     </td>
                                     <td>
-                                        <a class="button is-warning is-small" th:href="@{/libros/editar}">
+                                        <a class="button is-warning is-small" th:href="@{/libros/editar/{id}(id=*{i.id})}">
                                             <i class="fas fa-edit mr-1"></i>Editar</a>
                                         <button class="button is-danger is-small btn-pre-eliminar" type="button"
                                                 th:data-id-libro="${i.id}">

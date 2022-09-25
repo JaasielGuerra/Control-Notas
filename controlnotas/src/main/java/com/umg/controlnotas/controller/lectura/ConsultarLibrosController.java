@@ -41,12 +41,6 @@ private LibroService libroService;
     }
 
 
-    @GetMapping(value = "/editar")
-    public String EditarLibro(){
-        return "lectura/editar-libro";
-    }
-
-
     @DeleteMapping( "/eliminar/{id}")
     @ResponseBody
     public ResponseEntity<ResponseDataDto> eliminarLibro(@PathVariable("id")Long id){
