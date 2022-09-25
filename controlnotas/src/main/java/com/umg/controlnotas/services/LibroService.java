@@ -12,4 +12,5 @@ public interface LibroService {
     ResponseDataDto registrarNuevoLibro(LibroDto libroDto);
 
     List<LibroDto> consultarLibros();
+    List<LibroDto> consultarLibrosDisponibles();
 }

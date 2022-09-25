@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()//desactivar CSRF https://docs.spring.io/spring-security/reference/features/exploits/csrf.html
                 .authorizeHttpRequests()
                 .antMatchers("/alumno/**", "/plan-trabajo/**", "/institucion/**").hasRole("DIRECTOR")
-                .antMatchers("/", "/evaluacion/**", "/actividades/**").hasAnyRole("DOCENTE", "DIRECTOR")
+                .antMatchers("/", "/evaluacion/**", "/actividades/**", "/control-lectura/**").hasAnyRole("DOCENTE", "DIRECTOR")
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()

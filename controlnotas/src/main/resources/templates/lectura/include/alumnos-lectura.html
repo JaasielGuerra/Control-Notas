@@ -1,0 +1,28 @@
+<input type="hidden" th:value="${idGrado}" id="id-grado-alumnos">
+<table class="table display" id="tbl-alumnos-lectura">
+    <thead class="is-narrow">
+    <tr>
+        <th>ID</th>
+        <th>Nombre Alumno</th>
+        <th>Código</th>
+        <th>Libros leídos</th>
+        <th>Libro actual</th>
+        <th>Operaciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="i : ${alumnos}">
+        <td th:text="${i.idAlumno}">1</td>
+        <td th:text="${i.nombre}">Angel</td>
+        <td th:text="${i.codigoAlumno}">11244-444</td>
+        <td> [[${i.librosLeidos}]] libro(s)</td>
+        <td th:if="${i.paginasLeidas eq 0}">[[${i.libroActual}]]</td>
+        <td th:if="${i.paginasLeidas > 0}">[[${i.libroActual}]] ([[${i.paginasLeidas}]] página(s) leída(s))</td>
+        <td>
+            <button class="button is-success is-small btn-registro-lectura" th:data-id-alumno="${i.idAlumno}">
+                <i class="fab fa-readme mr-1"></i>Registro lectura
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

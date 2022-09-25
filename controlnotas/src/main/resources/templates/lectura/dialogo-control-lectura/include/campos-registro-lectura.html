@@ -1,0 +1,104 @@
+<div class="card has-background-grey">
+    <div class="card-content">
+        <p class="title is-5 has-text-centered is-underlined is-italic has-text-white">
+            Alumno
+        </p>
+        <div class="columns is-multiline">
+            <div class="column is-3 py-0">
+                <p class="title is-6 is-italic has-text-white">Nombre:</p>
+            </div>
+            <div class="column is-9 py-0">
+                <input type="hidden" th:value="${alumno.idAlumno}" id="idAlumno">
+                <p class="subtitle is-6 is-italic has-text-white"
+                   th:text="${alumno.nombre + ' ' +alumno.apellido}">lorem ipsum dolor sit amet</p>
+            </div>
+            <div class="column is-3 py-0">
+                <p class="title is-6 is-italic has-text-white">Libro actual:</p>
+            </div>
+            <div class="column is-9 py-0">
+                <input type="hidden" th:value="${alumno.idLibro}" id="idLibroActual">
+                <p class="subtitle is-6 is-italic has-text-white"
+                   th:text="${alumno.libroActual}">lorem ipsum </p>
+            </div>
+        </div>
+
+        <hr class="dropdown-divider" th:if="${alumno.tieneLibro eq 1}">
+
+        <div class="buttons" th:if="${alumno.tieneLibro eq 1}">
+            <button class="button is-danger is-small" type="button"
+                    title="Marcar el libro actual como terminado de leer"
+                    id="btn-terminar-lectura">
+                <i class="fas fa-book-dead mr-1"></i>Terminar lectura
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-2">
+    <div class="card-content">
+        <div class="columns" th:if="${alumno.tieneLibro eq 0}">
+            <div class="column is-10">
+                <label class="is-size-7">Asignar libro (Libros disponibles)</label>
+                <div class="control">
+                    <div class="select is-fullwidth is-small">
+                        <select id="idLibroNuevo" name="idLibroNuevo" required>
+                            <option disabled selected th:if="${libros ne null and libros.isEmpty()}">No hay libros disponibles</option>
+                            <option th:each="i : ${libros}" th:text="${i.nombre}" th:value="${i.id}">Principito</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-2 is-flex is-align-items-flex-end">
+                <button class="button  is-info is-small" type="button"
+                        id="btn-asignar-libro">
+                    <i class="fas fa-book mr-1"></i>Asignar
+                </button>
+            </div>
+        </div>
+        <div class="columns" th:if="${alumno.tieneLibro eq 1}">
+            <div class="column is-5">
+                <label class="is-size-7">Páginas leídas</label>
+                <div class="control">
+                    <input class="input is-small" required type="number" placeholder="Ingrese cantidad" id="paginasLeidas" name="paginasLeidas">
+                </div>
+            </div>
+            <div class="column is-2 is-flex is-align-items-flex-end">
+                <button class="button is-primary is-small" type="button"
+                         id="btn-registrar-avance">
+                    <i class="fas fa-book-open mr-1"></i>Registrar
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="table-container is-size-7 mt-6">
+    <table class="table display" id="tbl-detalle-lectura" th:if="${not detallesLectura.isEmpty()}">
+        <thead class="is-narrow">
+        <tr>
+            <th>#</th>
+            <th>Fecha</th>
+            <th> Operación</th>
+            <th>Páginas leídas</th>
+            <th>Libro</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i : ${detallesLectura}">
+            <td th:text="*{i.id}">10</td>
+            <td th:text="*{#temporals.format(i.fecha, 'dd/MM/yyyy')}">20/07/2022</td>
+            <td>
+                <span class="tag is-link" th:if="${i.operacion eq 1}">Asignación libro</span>
+                <span class="tag is-info" th:if="${i.operacion eq 2}">Avance lectura</span>
+                <span class="tag is-success" th:if="${i.operacion eq 3}">Lectura terminada</span>
+            </td>
+            <td th:text="*{i.paginasLeidas}">10</td>
+            <td th:text="*{i.libro}"> El ojo del uracan</td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="has-text-danger has-text-centered" th:if="${detallesLectura.isEmpty()}">** El alumno no tiene ningún
+        registro de lectura **</p>
+</div>

@@ -1,6 +1,7 @@
 package com.umg.controlnotas.services;
 
 
+import com.umg.controlnotas.model.Libro;
 import com.umg.controlnotas.model.dto.LibroDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.LibroRepository;
@@ -10,7 +11,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.umg.controlnotas.model.Libro;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -69,5 +70,26 @@ public class LibroServicelmpl implements LibroService {
                     .collect(Collectors.toList());
 
 
+    }
+
+    /** Obtener libros disponibles para prestamo
+     * @return
+     */
+    @Override
+    public List<LibroDto> consultarLibrosDisponibles() {
+        return libroRepository.findByEstadoAndDisponibilidad(
+                        Libro.ESTADO_ACTIVO,
+                        Libro.DISPONIBLE
+                )
+
+                .stream()
+                .map(libros -> LibroDto.builder()
+                        .id(libros.getId())
+                        .nombre(libros.getNombre())
+                        .descripcion(libros.getDescripcion())
+                        .disponibilidad(libros.getDisponibilidad())
+                        .build()
+                )
+                .collect(Collectors.toList());
     }
 }

@@ -16,6 +16,10 @@ public interface LibroRepository extends JpaRepository<Libro, Long> {
            Integer estado
     );
 
+    List<ConsultarLibros> findByEstadoAndDisponibilidad(
+            Integer estado, Integer disponibilidad
+    );
+
 
 
 }

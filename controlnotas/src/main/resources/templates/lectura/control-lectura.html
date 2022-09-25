@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">CONTROL LECTURA</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+                        <article class="message is-info" th:if="${grados ne null and not grados.isEmpty()}">
+                            <div class="message-body">
+                                A continuación se muestran los <strong>grados registrados</strong><br>
+                                Ayuda: Para ver el listado de alumnos, de clic en el botón <strong>Listar
+                                alumnos</strong>.
+                            </div>
+                        </article>
+
+                        <section class="section is-medium" th:if="${grados ne null and grados.isEmpty()}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                No se encontraron grados registrados.
+                            </p>
+                        </section>
+
+                        <div class="columns is-multiline">
+                            <div class="column is-4" th:each="i : ${grados}">
+                                <div class="card " title="De clic en el botón listar para mostrar a los alumnos">
+                                    <header class="card-header has-background-warning has-text-centered">
+                                        <div class="card-content">
+                                            <p class="title is-4" th:text="${i.gradoDescripcion}">
+                                                Tercero
+                                            </p>
+                                        </div>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <p class="subtitle is-6 is-italic">[[${i.countAlumnos}]] alumnos</p>
+                                        </div>
+                                        <hr class="dropdown-divider">
+                                        <a type="button" class="card-footer-item btn-listar-alumnos button is-info"
+                                           title="Listar alumnos"
+                                           th:data-id-grado="${i.idGrado}" th:data-descripcion-grado="${i.gradoDescripcion}">
+                                            <i class="fas fa-list mr-1"></i>Listar alumnos
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="dropdown-divider">
+                        <h5 class="title is-5 my-6" id="title-listado-alumnos"></h5>
+
+                        <div class="table-container" id="container-list-alumnos">
+                            <!-- aqui se inserta el listado de alumnos con ajax -->
+                            <p class="has-text-danger has-text-centered">** Liste a los alumnos del grado que desee **</p>
+                        </div>
+
+                        <!-- aqui no se toca-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<!-- vista modal de libro control-->
+<div th:replace="lectura/dialogo-control-lectura/modal-registro-lectura :: registro-lectura"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+<script src="/js/modal.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/control-lectura.js"></script>
+<script src="/js/show-message-localStorage.js"></script>
+
+</body>
+</html>
