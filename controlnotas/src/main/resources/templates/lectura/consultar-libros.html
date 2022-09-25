@@ -24,7 +24,7 @@
                         <div class="columns">
                             <div class="column"><br>
                                 <div class="buttons">
-                                    <a type="submit" class="button is-info  is-responsive" th:href="@{/libro/nuevo}">
+                                    <a type="submit" class="button is-info  is-responsive" th:href="@{/libros/nuevo}">
                                         <i class="fas fa-newspaper mr-1"></i>Añadir Nuevo
                                     </a>
                                 </div>
@@ -60,7 +60,7 @@
                                               th:if="*{i.disponibilidad eq 1}">disponible</span>
                                     </td>
                                     <td>
-                                        <a class="button is-warning is-small" th:href="@{/consultar-libros/editar}">
+                                        <a class="button is-warning is-small" th:href="@{/libros/editar/{id}(id=*{i.id})}">
                                             <i class="fas fa-edit mr-1"></i>Editar</a>
                                         <button class="button is-danger is-small btn-pre-eliminar" type="button"
                                                 th:data-id-libro="${i.id}">

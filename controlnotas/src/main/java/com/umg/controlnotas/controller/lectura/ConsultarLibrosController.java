@@ -16,14 +16,14 @@ import java.util.logging.Level;
 
 @Controller
 @Log
-@RequestMapping(value = "/consultar-libros")
+@RequestMapping(value = "/libros")
 public class ConsultarLibrosController {
 @Autowired
 private LibroService libroService;
 
 
 
-    @GetMapping(value = "/consultar")
+    @GetMapping
     public String ConsultarLibros(Model model){
 
 
@@ -38,12 +38,6 @@ private LibroService libroService;
 
 
         return "lectura/consultar-libros";
-    }
-
-
-    @GetMapping(value = "/editar")
-    public String EditarLibro(){
-        return "lectura/editar-libro";
     }
 
 

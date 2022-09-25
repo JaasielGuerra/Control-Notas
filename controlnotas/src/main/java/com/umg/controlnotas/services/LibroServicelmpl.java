@@ -4,6 +4,7 @@ package com.umg.controlnotas.services;
 import com.umg.controlnotas.model.Libro;
 import com.umg.controlnotas.model.dto.LibroDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
+import com.umg.controlnotas.model.query.ConsultaEditarLibro;
 import com.umg.controlnotas.repository.LibroRepository;
 import com.umg.controlnotas.repository.UsuarioRepository;
 import com.umg.controlnotas.web.UserFacade;
@@ -11,9 +12,11 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 
@@ -105,5 +108,44 @@ public class LibroServicelmpl implements LibroService {
                 .build();
     }
 
+    /**
+     * obtener datos de un libro para editar
+     * @param id  id del libro
+     * @return libroDto
+     */
+    @Override
+    public LibroDto editarLibro(Long id) {
 
+        ConsultaEditarLibro libro = libroRepository.obtenerLibroEditar(id);
+
+        log.info("Libro encontrado: " + libro);
+
+        if(libro == null){
+            throw new NoSuchElementException("No se encontro el libro");
+        }
+
+        return LibroDto.from(libro);
+    }
+
+    /**
+     * Actualizar datos de un libro
+     * @param libro  libro a actualizar
+     * @return ResponseDataDto
+     */
+    @Override
+    @Transactional
+    public ResponseDataDto actualizarLibro(LibroDto libro, Long id) {
+
+        Libro libroDb = libroRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el libro a actualizar"));
+        libroDb.setNombre(libro.getNombre());
+        libroDb.setDescripcion(libro.getDescripcion());
+
+        libroRepository.save(libroDb);
+
+        return ResponseDataDto.builder()
+                .code(1)
+                .data(libro)
+                .message("Libro " + libro.getNombre() + " actualizado correctamente! ")
+                .build();
+    }
 }

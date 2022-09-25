@@ -30,7 +30,7 @@
 
     function EliminarLibro(id){
         $.ajax({
-            url: '/consultar-libros/eliminar/' + id,
+            url: '/libros/eliminar/' + id,
             type: 'DELETE',
             dataType: 'json',
             success: function (data){
