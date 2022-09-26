@@ -1044,3 +1044,41 @@ BEGIN
 
 END$$
 DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS proc_consulta_calificar_evaluaciones;
+DELIMITER $$
+CREATE PROCEDURE proc_consulta_calificar_evaluaciones(
+	id_bimestre LONG,
+	estado_evaluacion INT,
+	ids_materia VARCHAR(255)
+)
+BEGIN
+	
+	SET @query_ = CONCAT('
+		SELECT
+			e.id_evaluacion idEvaluacion,
+			m.descripcion materia,
+			g.descripcion gradoMateria,
+			e.descripcion descripcionEvaluacion,
+			e.ponderacion ponderacionEvaluacion,
+			e.estado estadoEvaluacion,
+			e.id_materia idMateria
+		FROM
+			evaluacion e
+		JOIN materia m ON
+			m.id_materia = e.id_materia
+		JOIN grado g ON
+			g.id_grado = m.id_grado
+		WHERE
+			e.id_bimestre = ', id_bimestre,
+			' AND e.estado = ', estado_evaluacion,
+			' AND e.id_materia IN(
+	', ids_materia, ')');
+
+    PREPARE stmt FROM @query_;
+    EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+	
+END$$
+DELIMITER ;

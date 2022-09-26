@@ -1,12 +1,15 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Evaluacion;
-import com.umg.controlnotas.model.query.ConsultarEvaluacion;
+import com.umg.controlnotas.model.query.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface EvaluacionRepository extends JpaRepository<Evaluacion, Long> {
 
@@ -42,4 +45,17 @@ public interface EvaluacionRepository extends JpaRepository<Evaluacion, Long> {
     @Modifying
     @Query(value = "UPDATE Evaluacion e SET e.estado = 0 WHERE e.id = ?1")
     void eliminarEvaluacionById(long id);
+
+    @Query(value = "CALL proc_consulta_calificar_evaluaciones(:idBimestre,:estadoActividad,:idsMateria)", nativeQuery = true)
+    List<ConsultaCalificarEvaluacion> consultaCalificarEvaluaciones(
+            @Param("idBimestre") Long idBimestre,
+            @Param("estadoActividad") Integer estadoActividad,
+            @Param("idsMateria") String idsMateria
+    );
+
+    @Query("SELECT a.descripcion AS descripcion, " +
+            " a.ponderacion AS ponderacion, a.id AS id, " +
+            "a.idMateria.descripcion AS descripcionMateria " +
+            "FROM Evaluacion a WHERE a.id = ?1")
+    Optional<ConsultaEvaluacionCalificar> obtenerEvaluacionCalificarById(Long id);
 }

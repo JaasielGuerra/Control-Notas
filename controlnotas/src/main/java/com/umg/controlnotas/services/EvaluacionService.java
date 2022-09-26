@@ -1,7 +1,6 @@
 package com.umg.controlnotas.services;
 
-import com.umg.controlnotas.model.dto.EvaluacionDto;
-import com.umg.controlnotas.model.dto.ResponseDataDto;
+import com.umg.controlnotas.model.dto.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,4 +20,14 @@ public interface EvaluacionService {
 
     @Transactional
     ResponseDataDto eliminarEvaluacion(Long id);
+
+    List<EvaluacionesMateriaDto> obtenerEvaluacionesCalificar(Long idBimestre, Integer estadoEvaluacion, List<Long> idsMaterias);
+
+    EvaluacionDto obtenerEvaluacionCalificar(Long id);
+
+    @Transactional(readOnly = true)
+    List<CalificacionAlumnoDto> obtenerPlantillaCalificarEvaluacion(Long idEvaluacion, List<Long> idsSeccionesAsignadasUsuario);
+
+    @Transactional
+    ResponseDataDto guardarCalificacionesEvaluacion(EvaluacionDto evaluacion, List<CalificacionAlumnoDto> calificacionesAlumno);
 }

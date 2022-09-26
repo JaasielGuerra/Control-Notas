@@ -13,5 +13,6 @@ public interface ConsultaDetalleCalificacion {
     String getIdAlumnoIdSeccionDescripcion();
     String getIdAlumnoNombre();
     String getIdAlumnoApellido();
+    Long getIdEvaluacionId();
 
 }
