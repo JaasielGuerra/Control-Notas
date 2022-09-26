@@ -10,6 +10,7 @@ import com.umg.controlnotas.model.dto.CalificacionAlumnoDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.model.query.ConsultaAlumnoCalificacion;
 import com.umg.controlnotas.model.query.ConsultaCalificarActividad;
+import com.umg.controlnotas.model.query.ConsultaCalificarEvaluacion;
 import com.umg.controlnotas.model.query.ConsultaDetalleCalificacion;
 import com.umg.controlnotas.repository.ActividadRepository;
 import com.umg.controlnotas.repository.AlumnoRepository;
@@ -67,8 +68,17 @@ public class ActividadesServicioImpl implements ActividadesServicio {
             return actividadesMateriaDtos;
         }
 
+        //obtener los ids de las materias, solo los que sean distintos
+        List<Long> idsMateriasDistinct = actividades
+                .stream()
+                .map(ConsultaCalificarActividad::getid_materia)
+                .distinct()
+                .collect(Collectors.toList());
+
+        log.info("ids materias encontradas: " + Arrays.toString(idsMateriasDistinct.toArray()));
+
         //agregar en la lista cada actividad por materia
-        for (Long idMateria : idsMaterias) {
+        for (Long idMateria : idsMateriasDistinct) {
 
             ActividadesMateriaDto actividadesMateriaDto = new ActividadesMateriaDto();
 
