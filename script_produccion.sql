@@ -1082,3 +1082,25 @@ BEGIN
 	
 END$$
 DELIMITER ;
+
+
+-- -----------------------------------------------------
+-- Triggers
+-- -----------------------------------------------------
+
+DROP TRIGGER IF EXISTS trig_cambiar_estado_actividaes;
+DELIMITER $$
+CREATE TRIGGER trig_cambiar_estado_actividaes
+AFTER UPDATE 
+ON plan_trabajo FOR EACH ROW
+BEGIN 
+
+	UPDATE 
+		actividad a
+	SET
+		a.estado = NEW.estado
+	WHERE
+		a.id_plan_trabajo = NEW.id_plan_trabajo;
+	
+END$$
+DELIMITER ;
