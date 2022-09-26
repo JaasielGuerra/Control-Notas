@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">EVALUACIONES POR MATERIA</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <article class="message is-info" th:if="${evaluaciones ne null and not evaluaciones.isEmpty()}">
+                            <div class="message-body">
+                                A continuación se muestran las evaluaciones de las <strong>materias que tiene asignadas.</strong><br>
+                                Ayuda: Para calificar, haga clic en la descripción de la evaluación.
+                            </div>
+                        </article>
+
+                        <section class="section is-medium" th:if="${evaluaciones ne null and evaluaciones.isEmpty()}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                No hay registros de evaluaciones.
+                            </p>
+                        </section>
+
+                        <div class="columns is-multiline">
+                            <div class="column is-6" th:each="i: ${evaluaciones}">
+                                <div class="card" title="De clic en una evaluación para calificarla">
+                                    <header class="card-header has-background-warning">
+                                        <div class="card-content">
+                                            <p class="title is-4" th:text="${i.materia}">
+                                                Matemáticas
+                                            </p>
+                                            <p class="subtitle is-6" th:text="${i.gradoMateria}">Grado:</p>
+                                        </div>
+                                    </header>
+                                    <div class="card-content">
+
+                                        <p class="subtitle">
+                                            Evaluaciones:
+                                        </p>
+
+                                        <div class="content" th:each="x: ${i.evaluaciones}">
+                                            [#[[${x.id}]]]
+                                            <a class="is-underlined is-link is-italic" title="De clic para calificar esta evaluación"
+                                               th:href="@{/evaluacion/calificar/{idActividad}(idActividad=*{x.id})}">
+                                                [[${x.descripcion}]] ([[${x.ponderacion}]] Pts.)
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+<div th:replace="/evaluaciones/dialogo-evaluacion/clificar :: calificar-examen"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/show-message-localStorage.js"></script>
+
+</body>
+</html>

@@ -27,11 +27,6 @@ public class EvaluacionController {
     private EvaluacionService evaluacionService;
 
 
-    @GetMapping(value = "/calificar")
-    public String EvalaucionCalificar() {
-        return "evaluaciones/calificar-evaluacion";
-    }
-
     @GetMapping(value = "/crear")
     public String EvalaucionCrear(Model model) {
 

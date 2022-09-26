@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,4 +23,6 @@ public class EvaluacionDto implements Serializable {
     private String tipoEvaluacionDescripcion;
     private String materiaDescripcion;
     private String gradoDescripcion;
+    private Integer estado;
+    private List<CalificacionAlumnoDto> calificacionesAlumnos;
 }

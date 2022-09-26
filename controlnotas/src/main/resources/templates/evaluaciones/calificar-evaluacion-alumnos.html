@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">CALIFICAR EVALUACIÓN</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+
+                        <div class="card has-background-grey">
+                            <div class="card-content">
+                                <p class="title is-5 has-text-centered is-underlined is-italic has-text-white">
+                                    Evaluación
+                                </p>
+
+                                <div class="columns is-multiline">
+                                    <div class="column is-2 py-0">
+                                        <p class="title is-6 is-italic has-text-white">Descripción:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <p class="subtitle is-6 is-italic has-text-white"
+                                           th:text="${evaluacion.descripcion}">lorem ipsum dolor sit amet</p>
+                                    </div>
+                                    <div class="column is-2 py-0">
+                                        <p class="title is-6 is-italic has-text-white">Valor:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <p class="subtitle is-6 is-italic has-text-white">
+                                            [[${evaluacion.ponderacion}]] Pts.</p>
+                                    </div>
+                                    <div class="column is-2 py-0">
+                                        <p class="title is-6 is-italic has-text-white">Materia:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <p class="subtitle is-6 is-italic has-text-white">
+                                            [[${evaluacion.materiaDescripcion}]]</p>
+                                    </div>
+                                </div>
+
+                                <hr class="dropdown-divider">
+
+                                <div class="buttons">
+                                    <button class="button  is-success" id="btn-guardar-calificacion"><i
+                                            class="far fa-save mr-1"></i>Guardar cambios
+                                    </button>
+                                    <a class="button  is-info" th:href="@{/evaluacion/calificar}"><i
+                                            class="fas fa-arrow-circle-left mr-1"></i>Regresar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <h5 class="subtitle is-5 my-6">Listado de alumnos</h5>
+
+                        <article class="message is-info">
+                            <div class="message-body">
+                                Se muestran los alumnos de los <strong>grados y secciones que tiene asignadas.</strong>
+                            </div>
+                        </article>
+
+                        <table class="table display" id="tbl-listado-alumnos">
+                            <thead class="is-narrow">
+                            <tr>
+                                <th>ID</th>
+                                <th>Alumno</th>
+                                <th>Grado</th>
+                                <th>Punteo</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="i: ${plantilla}">
+                                <td th:text="${i.idAlumno}">1</td>
+                                <td th:text="${i.nombreAlumno}">Angel Chacon</td>
+                                <td th:text="${i.gradoAlumno}">PRIMERO BASICO</td>
+                                <td>
+                                    <div class="control">
+                                        <input class="input is-small is-rounded" style="width: 10rem"
+                                               type="number" th:value="${i.puntosObtenidos}"
+                                               placeholder="Ingresar punteo" onfocus="this.select()">
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/utilidades.js"></script>
+
+<script th:inline="javascript">
+    (function () {
+
+        let plantillaCalificacion = /*[[${plantilla}]]*/ [];
+        let evaluacion = /*[[${evaluacion}]]*/ [];
+
+        $('#tbl-listado-alumnos').DataTable({
+            lengthMenu: [10, 25, 50], language: {
+                lengthMenu: "Mostrar _MENU_ alumnos",
+                search: "Buscar: _INPUT_",
+                emptyTable: "No hay registros para mostrar",
+                sZeroRecords: "No se encontron resultados",
+                paginate: {
+                    previous: "Página anterior", next: "Página siguiente"
+                },
+                info: "Mostrando _START_ de _END_ de _TOTAL_ alumnos",
+                infoEmpty: "Mostrando 0 de 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros totales)",
+                searchPlaceholder: "Buscar alumno",
+            }
+        });
+
+        //evento para cambiar el valor del punteo obtenido
+        $('#tbl-listado-alumnos').on('change', 'input', function () {
+
+            let punteo = $(this).val();
+            let idAlumno = $(this).closest('tr').find('td:first').text(); // obtiene el id del alumno de la primer columna
+            console.log(punteo, idAlumno);
+
+            //obtener un item de la plantilla por id de alumno
+            let calificacion = plantillaCalificacion.find(c => c.idAlumno === Number(idAlumno));
+            console.log(calificacion);
+
+            // setear la calificacion
+            calificacion.puntosObtenidos = punteo;
+        });
+
+        //evento del boton btn-guardar-calificacion
+        $('#btn-guardar-calificacion').on('click', function () {
+
+            //agregar el detalle de calificacion a la evaluacion
+            evaluacion.calificacionesAlumnos = plantillaCalificacion;
+
+            $.ajax({
+                url: '/evaluacion/calificar/guardar-calificacion',
+                method: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(evaluacion),
+                success: function (data) {
+                    //si el code es 1
+                    if (data.code === 1) {
+
+                        //guardar mensaje de exito en el local storage
+                        localStorage.setItem('messageSuccess', data.message);
+                        location.assign('/evaluacion/calificar');
+                    }
+                    //si el code es 0
+                    else if (data.code === 0) {
+                        showMessageError(data.message);
+                        //recorrer los errores, concatenarlos
+                        let errores = '';
+                        $.each(data.errors, function (i, error) {
+                            errores += error + '<br>';
+                        });
+                        //mostrar errores
+                        showMessageError(errores);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    showMessageError('Se produjo un error en el servidor ' + xhr.responseText);
+                }
+            });
+        });
+
+    })();
+</script>
+<script src="/js/show-message-localStorage.js"></script>
+</body>
+</html>

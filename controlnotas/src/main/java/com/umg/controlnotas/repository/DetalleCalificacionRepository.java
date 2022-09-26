@@ -9,4 +9,5 @@ import java.util.List;
 public interface DetalleCalificacionRepository extends JpaRepository<DetalleCalificacion, Long> {
 
     List<ConsultaDetalleCalificacion> findByIdActividadIdAndIdAlumnoIdSeccionIdIn(Long idActividad, List<Long> idsSecciones);
+    List<ConsultaDetalleCalificacion> findByIdEvaluacionIdAndIdAlumnoIdSeccionIdIn(Long idActividad, List<Long> idsSecciones);
 }
