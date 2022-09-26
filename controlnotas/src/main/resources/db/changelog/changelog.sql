@@ -547,3 +547,21 @@ BEGIN
     DEALLOCATE PREPARE stmt;
 
 END
+
+-- changeset liquibase:jaasiel-46 endDelimiter:\nDELIMITER $$
+DROP TRIGGER IF EXISTS db_control_notas.trig_cambiar_estado_actividaes;
+
+-- changeset liquibase:jaasiel-47 endDelimiter:$$\nDELIMITER ;
+CREATE TRIGGER trig_cambiar_estado_actividaes
+AFTER UPDATE
+ON plan_trabajo FOR EACH ROW
+BEGIN
+
+	UPDATE
+		actividad a
+	SET
+		a.estado = NEW.estado
+	WHERE
+		a.id_plan_trabajo = NEW.id_plan_trabajo;
+
+END
