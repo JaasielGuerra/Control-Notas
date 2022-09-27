@@ -86,7 +86,6 @@
 
                 $('#aperturar-bimestre').find('form').html(data);
                 openModal('aperturar-bimestre');
-                showMessageSuccess('Se ha cargado la rúbrica del último bimestre');
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

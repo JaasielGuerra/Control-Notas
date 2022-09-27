@@ -6,4 +6,5 @@ public interface RubricaUltimoBimestre {
     double getPuntosActividades();
     double getPuntosActitudinal();
     double getPuntosEvaluaciones();
+    long getId();
 }

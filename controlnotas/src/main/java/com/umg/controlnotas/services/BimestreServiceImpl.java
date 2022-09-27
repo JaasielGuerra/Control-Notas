@@ -103,7 +103,13 @@ public class BimestreServiceImpl implements BimestreService {
     public BimestreDto obtenerUltimoBimestre() {
         RubricaUltimoBimestre bimestre = bimestreRepository.findTopByOrderByIdDesc();
 
+        //si no existe un bimestre registrado retornar una instancia vacia
+        if (bimestre == null) {
+            return new BimestreDto();
+        }
+
         return BimestreDto.builder()
+                .id(bimestre.getId())
                 .puntosBase(bimestre.getPuntosBase())
                 .puntosActitudinal(bimestre.getPuntosActitudinal())
                 .puntosActividades(bimestre.getPuntosActividades())
