@@ -26,14 +26,17 @@
                                 <div class="card">
                                     <header class="card-header has-background-warning">
                                         <div class="card-content">
-                                            <p class="title is-5">CICLO ACTUAL</p>
-                                            <p class="subtitle is-6" th:value="${cicloActual.anio}">2022</p>
+                                            <p class="title is-5" th:if="${cicloActual.id ne null}">CICLO ACTUAL</p>
+                                            <p class="title is-5" th:if="${cicloActual.id eq null}">< CICLO NO
+                                                APERTURADO ></p>
+                                            <p class="subtitle is-6" th:text="${cicloActual.anio}"></p>
+                                            <input type="hidden" th:value="${cicloActual.id}" id="input-id-ciclo">
                                         </div>
                                     </header>
 
                                     <div class="card-content">
 
-                                        <div class="columns is-multiline">
+                                        <div class="columns is-multiline" th:if="${cicloActual.id ne null}">
                                             <div class="column is-5 py-0">
                                                 <p class="title is-6 is-italic ">Apertura:</p>
                                             </div>
@@ -63,10 +66,15 @@
                                         <div class="buttons">
 
                                             <button class="button is-info is-small" id="btn-modal-ciclos-anteriores">
-                                                <i class="fas fa-angle-double-left mr-1"></i>Ciclos anteriores
+                                                <i class="fas fa-angle-double-left mr-1"></i>Historial ciclos
                                             </button>
-                                            <button class="button is-danger is-small">
+                                            <button class="button is-danger is-small" th:if="${cicloActual.id ne null}"
+                                                    id="btn-pre-cerrar-ciclo">
                                                 <i class="fas fa-window-close mr-1"></i>Cerrar ciclo
+                                            </button>
+                                            <button class="button is-small is-success" th:if="${cicloActual.id eq null}"
+                                                    id="btn-aperturar-ciclo">
+                                                <i class="fas fa-book mr-1"></i>Aperturar
                                             </button>
                                             <button th:if="${cicloActual.idBimestreActual ne null}"
                                                     class="button is-small is-warning"
@@ -74,16 +82,13 @@
                                                     th:data-id-bimestre="${cicloActual.idBimestreActual}">
                                                 <i class="fas fa-window-close mr-1"></i>Finalizar bimestre
                                             </button>
-                                            <button class="button is-small is-success">
-                                                <i class="fas fa-book mr-1"></i> Aperturar
-                                            </button>
-
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
-                            <div class="column is-5 is-offset-1" th:if="${cicloActual.idBimestreActual eq null}">
+                            <div class="column is-5 is-offset-1"
+                                 th:if="${cicloActual.idBimestreActual eq null and cicloActual.id ne null}">
                                 <button type="button" class="button is-info is-large is-responsive"
                                         data-target="aperturar-bimestre" id="btn-aperturar-bimestre">
                                     <i class="fas fa-book mr-1"></i>APERTURAR BIMESTRE
@@ -93,7 +98,8 @@
                         </div>
                         <h5 class="title is-5 my-6">Historial de bimestres</h5>
                         <div class="table-container">
-                            <table id="tbl-historial-bimestres" class="table display" th:if="${not bimestres.isEmpty()}">
+                            <table id="tbl-historial-bimestres" class="table display"
+                                   th:if="${not bimestres.isEmpty()}">
                                 <thead class="is-narrow">
                                 <tr>
                                     <th>#</th>

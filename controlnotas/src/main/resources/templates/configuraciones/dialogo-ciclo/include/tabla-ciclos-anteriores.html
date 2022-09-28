@@ -1,5 +1,5 @@
 <div class="table-container is-size-7">
-    <table class="table display" style="width: 100%" id="tbl-historial-ciclos">
+    <table class="table display" style="width: 100%" id="tbl-historial-ciclos" th:if="${not ciclosAnteriores.isEmpty()}">
         <thead class="is-narrow">
         <tr>
             <th>#</th>
@@ -25,4 +25,6 @@
         </tr>
         </tbody>
     </table>
+    <p class="has-text-danger has-text-centered" th:if="${ciclosAnteriores.isEmpty()}">
+        ** Aún no hay ningún historial de ciclos **</p>
 </div>
