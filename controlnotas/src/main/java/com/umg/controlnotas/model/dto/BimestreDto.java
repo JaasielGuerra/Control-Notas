@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -18,4 +19,8 @@ public class BimestreDto implements Serializable {
     private Double puntosActividades;
     private Double puntosActitudinal;
     private Double puntosEvaluaciones;
+    private Integer anioCiclo;
+    LocalDate fechaApertura;
+    LocalDate fechaCierre;
+    private Integer estado;
 }

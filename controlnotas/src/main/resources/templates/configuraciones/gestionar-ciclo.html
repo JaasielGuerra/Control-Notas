@@ -24,43 +24,66 @@
                         <div class="columns">
                             <div class="column is-6">
                                 <div class="card">
-                                    <header class="card-header ">
+                                    <header class="card-header has-background-warning">
                                         <div class="card-content">
-                                            <p class="title is-3">
-                                                Ciclo actual
-                                            </p>
-                                            <p class="subtitle is-6"> Año: 2021</p>
-                                            <p class="subtitle is-6"> Apertura: 15/01/2021</p>
-
-                                            <p class="subtitle is-6"> Días base asistencia: 200</p>
-
-                                            <p class="subtitle is-6"> Bimestre: 2do. bimestre</p>
-
+                                            <p class="title is-5">CICLO ACTUAL</p>
+                                            <p class="subtitle is-6" th:value="${cicloActual.anio}">2022</p>
                                         </div>
                                     </header>
-                                    <footer class="card-footer">
 
-                                        <button class="button  is-info  " data-target="ciclo-anterior"
-                                                >
-                                            <i class="fas fa-angle-double-left mr-1"></i>Ciclos anteriores
-                                        </button>
-                                        <button style="margin-left: 10px" class="button  is-danger "
-                                                data-target="confirmar-ciclo" >
-                                            <i class="fas fa-window-close mr-1"></i>Cerrar ciclo
-                                        </button>
-                                        <button th:if="${bimestreAperturado}" style="margin-left: 10px" class="button  is-warning" id="btn-cerrar-bimestre" th:data-id-bimestre="${bimestreActual.id}">
-                                            <i class="fas fa-window-close mr-1"></i>Finalizar bimestre
-                                        </button>
-                                        <button style="margin-left: 10px" class="button  is-success  is-fullwidth"
-                                                data-target="aperturar-ciclo" >
-                                            <i class="fas fa-book mr-1"></i> Aperturar
-                                        </button>
+                                    <div class="card-content">
 
-                                    </footer>
+                                        <div class="columns is-multiline">
+                                            <div class="column is-5 py-0">
+                                                <p class="title is-6 is-italic ">Apertura:</p>
+                                            </div>
+                                            <div class="column is-7 py-0">
+                                                <p class="subtitle is-6 is-italic "
+                                                   th:text="${#temporals.format(cicloActual.fechaApertura, 'dd/MM/yyyy')}">
+                                                    lorem ipsum dolor sit amet</p>
+                                            </div>
+                                            <div class="column is-5 py-0">
+                                                <p class="title is-6 is-italic ">Días asistencia:</p>
+                                            </div>
+                                            <div class="column is-7 py-0">
+                                                <p class="subtitle is-6 is-italic">[[${cicloActual.diasBaseAsistencia}]]
+                                                    días</p>
+                                            </div>
+                                            <div class="column is-5 py-0">
+                                                <p class="title is-6 is-italic ">Bimestre actual:</p>
+                                            </div>
+                                            <div class="column is-7 py-0">
+                                                <p class="subtitle is-6 is-italic"
+                                                   th:text="${cicloActual.descripcionBimestreActual}">bimestre</p>
+                                            </div>
+                                        </div>
 
+                                        <hr class="dropdown-divider">
+
+                                        <div class="buttons">
+
+                                            <button class="button is-info is-small">
+                                                <i class="fas fa-angle-double-left mr-1"></i>Ciclos anteriores
+                                            </button>
+                                            <button class="button is-danger is-small">
+                                                <i class="fas fa-window-close mr-1"></i>Cerrar ciclo
+                                            </button>
+                                            <button th:if="${cicloActual.idBimestreActual ne null}"
+                                                    class="button is-small is-warning"
+                                                    id="btn-cerrar-bimestre"
+                                                    th:data-id-bimestre="${cicloActual.idBimestreActual}">
+                                                <i class="fas fa-window-close mr-1"></i>Finalizar bimestre
+                                            </button>
+                                            <button class="button is-small is-success">
+                                                <i class="fas fa-book mr-1"></i> Aperturar
+                                            </button>
+
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                            <div class="column is-5 is-offset-1" th:if="${not bimestreAperturado}">
+                            <div class="column is-5 is-offset-1" th:if="${cicloActual.idBimestreActual eq null}">
                                 <button type="button" class="button is-info is-large is-responsive"
                                         data-target="aperturar-bimestre" id="btn-aperturar-bimestre">
                                     <i class="fas fa-book mr-1"></i>APERTURAR BIMESTRE
@@ -68,13 +91,14 @@
                             </div>
 
                         </div>
-                        <h5 class="title is-5 my-6">Bimestres anteriores</h5>
-                        <hr class="dropdown-divider">
-                        <div class="columns">
-                            <table class="table display">
+                        <h5 class="title is-5 my-6">Historial de bimestres</h5>
+                        <div class="table-container">
+                            <table id="tbl-historial-bimestres" class="table display" th:if="${not bimestres.isEmpty()}">
                                 <thead class="is-narrow">
                                 <tr>
-                                    <th>Descripcón</th>
+                                    <th>#</th>
+                                    <th>Bimestre</th>
+                                    <th>Ciclo</th>
                                     <th>Puntos actividades</th>
                                     <th>Puntos actitudinales</th>
                                     <th>Puntos evaluaciones</th>
@@ -85,18 +109,24 @@
                                 </thead>
 
                                 <tbody>
-                                <tr>
-                                    <td>Ciclo 2021</td>
-                                    <td>12</td>
-                                    <td>40</td>
-                                    <td> 60</td>
-                                    <td>15/01/2022</td>
-                                    <td>15/11/2022</td>
-                                    <td>Activo</td>
+                                <tr th:each="i : ${bimestres}">
+                                    <td th:text="*{i.id}">1</td>
+                                    <td th:text="*{i.descripcion}">bimestre</td>
+                                    <td th:text="*{i.anioCiclo}">Ciclo 2021</td>
+                                    <td th:text="*{i.puntosActividades}">12</td>
+                                    <td th:text="*{i.puntosActitudinal}">40</td>
+                                    <td th:text="*{i.puntosEvaluaciones}"> 60</td>
+                                    <td th:text="*{#temporals.format(i.fechaApertura, 'dd/MM/yyyy')}">15/01/2022</td>
+                                    <td th:text="*{#temporals.format(i.fechaCierre, 'dd/MM/yyyy')}">15/11/2022</td>
+                                    <td>
+                                        <span class="tag is-success" th:if="${i.estado eq 1}">APERTURADO</span>
+                                        <span class="tag is-danger" th:if="${i.estado eq 2}">CERRADO</span>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
-
+                            <p class="has-text-danger has-text-centered" th:if="${bimestres.isEmpty()}">
+                                ** Aún no hay ningún historial de bimestres **</p>
                         </div>
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
@@ -125,6 +155,7 @@
 <script src="/js/modal.js"></script>
 <script src="/js/utilidades.js"></script>
 <script src="/js/jquery.validate.min.js"></script>
+<script src="/js/datatables.min.js"></script>
 <script src="/js/gestionar-ciclo.js"></script>
 <script src="/js/show-message-localStorage.js"></script>
 
