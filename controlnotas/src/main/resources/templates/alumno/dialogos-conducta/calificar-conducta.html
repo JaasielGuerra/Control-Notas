@@ -1,10 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="modal" id="conducta" xmlns:th="http://www.thymeleaf.org" th:fragment="conducta">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title title has-text-centered is-4">HISTORIAL ACTITUDINAL</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
 
-</body>
-</html>
+            <div class="columns">
+
+                <div class="column is-5">
+                    <label >Materia</label>
+                    <div class="select is-fullwidth">
+                        <select id="grado-seccion" name="gradoseccion">
+                            <option >
+                                Mátematicas
+                            </option>
+                            Sociales
+                            <option >
+                                Español
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="columns" >
+                <div class="column">
+                    <label >Descripción</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Descripción">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="columns" >
+                <div class="column">
+                    <label >Fecha</label>
+                    <div class="control">
+                        <input class="input" type="date">
+                    </div>
+                </div>
+
+                <div class="column">
+                    <label >Operación</label>
+                    <div class="control">
+                        <div class="select  is-fullwidth">
+                            <select id="operacion" name="operacion">
+                                <option >Agregar(+)</option>
+                                <option >Quitar(-)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <label >Puntos</label>
+                    <div class="control">
+                        <input class="input" type="number">
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button  is-success" type="submit" > <i class="far fa-save mr-1"></i>Aceptar</button>
+            <button class="button  is-danger" type="button"> <i class="fas fa-window-close mr-1"></i>Cerrar</button>
+        </footer>
+    </div>
+</div>
