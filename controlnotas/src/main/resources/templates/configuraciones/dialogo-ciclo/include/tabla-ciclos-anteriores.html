@@ -1,0 +1,28 @@
+<div class="table-container is-size-7">
+    <table class="table display" style="width: 100%" id="tbl-historial-ciclos">
+        <thead class="is-narrow">
+        <tr>
+            <th>#</th>
+            <th>Año</th>
+            <th>Estado</th>
+            <th>Apertura</th>
+            <th>Cierre</th>
+            <th>Días base asistencia</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="i : ${ciclosAnteriores}">
+            <td th:text="*{i.id}">1</td>
+            <td th:text="*{i.anio}">Año</td>
+            <td>
+                <span th:if="${i.estado eq 1}" class="tag is-success">ABIERTO</span>
+                <span th:if="${i.estado eq 2}" class="tag is-danger">CERRADO</span>
+            </td>
+            <td th:text="*{#temporals.format(i.fechaApertura, 'dd/MM/yyyy')}">Apertura</td>
+            <td th:text="*{#temporals.format(i.fechaCierre, 'dd/MM/yyyy')}">Cierre</td>
+            <td th:text="*{i.diasBaseAsistencia}">Días base asistencia</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

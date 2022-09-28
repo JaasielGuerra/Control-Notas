@@ -90,4 +90,20 @@ public class GestionCicloController {
         return ResponseEntity.ok(responseDataDto);
     }
 
+    @GetMapping("/ciclos-anteriores")
+    public String ciclosAnteriores(Model model) {
+
+        log.info("consultando ciclos anteriores...");
+
+        try {
+            model.addAttribute("ciclosAnteriores", cicloEscolarService.obtenerCiclosAnteriores());
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al consultar ciclos anteriores " + ex.getMessage(), ex
+            );
+        }
+
+        return "configuraciones/dialogo-ciclo/include/tabla-ciclos-anteriores";
+    }
+
 }

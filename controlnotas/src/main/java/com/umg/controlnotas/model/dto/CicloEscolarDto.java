@@ -16,7 +16,9 @@ public class CicloEscolarDto implements Serializable {
 
     private Long id;
     private Integer anio;
+    private Integer estado;
     private LocalDate fechaApertura;
+    private LocalDate fechaCierre;
     private Integer diasBaseAsistencia;
     private Long idBimestreActual;
     private String descripcionBimestreActual;

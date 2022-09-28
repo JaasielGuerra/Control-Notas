@@ -1,41 +1,17 @@
-<div class="modal" id="ciclo-anterior" xmlns:th="http://www.thymeleaf.org" th:fragment="ciclo-anterior">
+<div class="modal" id="modal-ciclos" xmlns:th="http://www.thymeleaf.org" th:fragment="ciclo-anterior">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-
-            <h4 class="modal-card-title title has-text-centered is-4">CONFIRMACIÓN</h4>
+            <h4 class="modal-card-title title has-text-centered is-4">HISTORIAL CICLOS</h4>
             <button class="delete" aria-label="close"></button>
         </header>
+        <section class="modal-card-body" id="container-tbl-ciclos">
 
-        <div class="card">
-            <div class="card-content">
-                <div class="content">
-                    <table class="table display">
-                        <thead class="is-narrow">
-                        <tr>
-                            <th>Año</th>
-                            <th>Estado</th>
-                            <th>Apertura</th>
-                            <th>Cierre</th>
-                            <th>Días base asistencia</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        <tr>
-                            <td> 2021</td>
-                            <td>activo</td>
-                            <td>15/01/2022</td>
-                            <td>15/11/2022</td>
-                            <td>200</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        </section>
         <footer class="modal-card-foot ">
-            <button class="button  is-danger is-centered " value="Cancelar">   <i class="fas fa-window-close mr-1"></i>Cerrar</button>
+            <button class="button  is-danger"><i class="fas fa-window-close mr-1"></i>
+                Cerrar
+            </button>
         </footer>
     </div>
 </div>
