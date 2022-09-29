@@ -6,48 +6,46 @@
             <button class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
+            <form id="form-apertura-ciclo">
+                <p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
 
-            <div class="columns">
-                <div class="column is-4">
-                    <label>Año</label>
-                    <div class="control">
-                        <div class="select is-fullwidth ">
-                            <select name="select" id="anio">
-                                <option >2023</option>
-                                <option>2022</option>
-                                <option>2021</option>
-                                <option>2020</option>
-                            </select>
+                <div class="columns">
+                    <div class="column is-4">
+                        <label>*Año</label>
+                        <div class="control">
+                            <div class="select is-fullwidth ">
+                                <select name="anio" id="select-anios-ciclo">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label>*Fecha Apertura </label>
+                        <div class="control">
+                            <input class="input" type="date" name="fechaApertura" placeholder="fecha apertura">
                         </div>
                     </div>
                 </div>
-                <div class="column is-4">
+                <div class="columns">
+                    <div class="column is-5">
+                        <label>*Días base asistencia</label>
+                        <div class="control">
+                            <input class="input" type="number" name="diasBaseAsistencia">
 
-                    <label>Fecha Apertura </label>
-                    <div class="control">
-                        <input class="input" type="date" placeholder="fecha-apertura">
-
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-5">
-                    <label >Días base asistencia</label>
-                    <div class="control">
-                        <input class="input" type="number">
 
-                    </div>
                 </div>
 
-            </div>
+                <button class="button  is-success" type="submit">
+                    <i class="far fa-save mr-1"></i> Aperturar
+                </button>
 
-
+            </form>
         </section>
         <footer class="modal-card-foot">
-            <button class="button  is-success" type="button" id="btn" onclick="">
-                <i class="far fa-save mr-1"></i> Aperturar
-            </button>
-            <button class="button  is-danger" type="button"> <i class="fas fa-window-close mr-1"></i>Cerrar</button>
+            <button class="button  is-danger" type="button"><i class="fas fa-window-close mr-1"></i>Cerrar</button>
         </footer>
     </div>
 </div>l>

@@ -14,4 +14,7 @@ public interface CicloEscolarService {
 
     @Transactional
     ResponseDataDto cerrarCiclo(Long id);
+
+    @Transactional
+    ResponseDataDto aperturarCiclo(CicloEscolarDto cicloEscolarDto);
 }

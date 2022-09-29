@@ -3,10 +3,11 @@
         Se ha cargado la rúbrica del  <strong>último bimestre</strong>.
     </div>
 </article>
+<p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
 <p class="subtitle is-5">Bimestre</p>
 <div class="columns">
     <div class="column is-12">
-        <label> Descripción</label>
+        <label>*Descripción</label>
         <div class="control">
             <input class="input" type="text" id="descripcion" required
                    name="descripcion">
@@ -16,7 +17,7 @@
 </div>
 <div class="columns">
     <div class="column is-4">
-        <label> Puntos base</label>
+        <label>*Puntos base</label>
         <div class="control">
             <input class="input" type="number" id="fdgfdsg" name="puntosBase"
                    th:value="${ultimoBimestre.puntosBase}">
@@ -27,7 +28,7 @@
 <p class="subtitle is-5">Distribución</p>
 <div class="columns">
     <div class="column is-4">
-        <label> Actividadaes</label>
+        <label>*Actividadaes</label>
         <div class="control">
             <input class="input" type="number" id="actividades" name="puntosActividades"
                    th:value="${ultimoBimestre.puntosActividades}">
@@ -35,7 +36,7 @@
     </div>
 
     <div class="column is-4">
-        <label> Actitudinal</label>
+        <label>*Actitudinal</label>
         <div class="control">
             <input class="input" type="number" id="actitudinal" name="puntosActitudinal"
                    th:value="${ultimoBimestre.puntosActitudinal}">
@@ -43,7 +44,7 @@
     </div>
 
     <div class="column is-4">
-        <label> Evaluaciones</label>
+        <label>*Evaluaciones</label>
         <div class="control">
             <input class="input" type="number" id="evaluacion" name="puntosEvaluaciones"
                    th:value="${ultimoBimestre.puntosEvaluaciones}">
