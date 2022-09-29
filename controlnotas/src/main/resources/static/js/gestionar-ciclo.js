@@ -34,6 +34,18 @@
         ]
     });
 
+    $('#btn-pre-cerrar-ciclo').click(function () {
+        openModal('confirmar-ciclo')
+    });
+
+    $('#btn-confirmar-cierre-ciclo').click(function () {
+        CerrarCiclo($('#input-id-ciclo').val());
+    });
+
+    $('#btn-aperturar-ciclo').click(function () {
+        AperturarCiclo();
+    });
+
     $('#btn-modal-ciclos-anteriores').click(function () {
         modalCiclosAnteriores();
     });
@@ -173,8 +185,27 @@
         openModal('aperturar-ciclo')
     }
 
-    function CerrarCiclo() {
-        openModal('confirmar-ciclo')
+    function CerrarCiclo(idCiclo) {
+
+        $.ajax({
+            url: '/institucion/cerrar-ciclo/' + idCiclo,
+            type: 'PUT',
+            data: JSON.stringify({idCiclo: idCiclo}),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (data) {
+                //si el code es 1
+                if (data.code === 1) {
+                    //guardar mensaje de exito en el local storage
+                    localStorage.setItem('messageSuccess', "El ciclo se ha cerrado correctamente!");
+                    location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                showMessageError("Error " + xhr.status + ", respuesta del servidor: " + xhr.responseText);
+            }
+        });
+
     }
 
     function cerrarBimestre(idBimestre) {
@@ -247,7 +278,7 @@
 
                 removeLoadingBtn('#btn-modal-ciclos-anteriores');
                 openModal('modal-ciclos');
-                showMessageSuccess('Ciclos anteriores cargados correctamente');
+                showMessageSuccess('Historial de ciclos cargados correctamente');
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

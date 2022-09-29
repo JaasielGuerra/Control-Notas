@@ -8,20 +8,16 @@
             <button class="delete" aria-label="close"></button>
         </header>
 
-        <div class="card">
-            <div class="card-content">
-                <div class="content">
-                    Al cerrar el ciclo, no podrá hacer ninguna operación en el sistema, hasta aperturar uno nuevo. ¿Está seguro?
-                </div>
-            </div>
-        </div>
+        <section class="modal-card-body">
+            <p>
+                Al cerrar el ciclo, no podrá hacer ninguna operación en el sistema, hasta aperturar uno nuevo. ¿Está
+                seguro?
+            </p>
+        </section>
 
         <footer class="modal-card-foot ">
-
-            <button class="button  is-success is-fullwidth"  value="Guardar">   <i class="far fa-save mr-1"></i>Si</button>
-
-            <button class="button  is-danger is-fullwidth" value="Cancelar">   <i class="fas fa-window-close mr-1"></i>No</button>
-
+            <button class="button  is-success" id="btn-confirmar-cierre-ciclo"><i class="far fa-save mr-1"></i>Si</button>
+            <button class="button  is-danger"><i class="fas fa-window-close mr-1"></i>No</button>
         </footer>
     </div>
 </div>

@@ -106,4 +106,26 @@ public class GestionCicloController {
         return "configuraciones/dialogo-ciclo/include/tabla-ciclos-anteriores";
     }
 
+    @PutMapping("/cerrar-ciclo/{idCiclo}")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> cerrarCiclo(@PathVariable Long idCiclo) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Cerrando ciclo...");
+
+        try {
+
+            responseDataDto = cicloEscolarService.cerrarCiclo(idCiclo);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "Error al cerrar ciclo", ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al cerrar ciclo " + ex.getMessage(), ex
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
+    }
+
 }
