@@ -34,6 +34,11 @@ public class UserFacade {
         userSession.setBimestre(bimestre);
     }
 
+    public void refreshCicloEscolar(CicloEscolar cicloEscolar){
+        UserSession userSession = getUserSession();
+        userSession.setCicloEscolar(cicloEscolar);
+    }
+
     public List<AsignacionUsuarioDto> getAsignacionesUsuario(){
         return getUserSession().getAsignacionesUsuario();
     }

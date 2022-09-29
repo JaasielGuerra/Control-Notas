@@ -1254,3 +1254,23 @@ BEGIN
 
 END$$
 DELIMITER ;
+
+
+DROP TRIGGER IF EXISTS trig_cerrar_bimestres;
+DELIMITER $$
+CREATE TRIGGER trig_cerrar_bimestres
+AFTER UPDATE
+ON ciclo_escolar FOR EACH ROW
+BEGIN 
+	
+	IF NEW.estado = 2 THEN -- ciclo cerrado
+		UPDATE 
+			bimestre b
+		SET
+			b.estado = NEW.estado
+		WHERE
+			b.id_ciclo_escolar = NEW.id_ciclo_escolar;
+	END IF;
+	
+END$$
+DELIMITER ;

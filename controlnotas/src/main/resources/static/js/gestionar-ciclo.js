@@ -1,6 +1,43 @@
 (function () {
 
 
+    $('#tbl-historial-bimestres').DataTable({
+        lengthMenu: [5, 10, 25, 50], language: {
+            lengthMenu: "Mostrar _MENU_ registros",
+            emptyTable: "No hay registros para mostrar",
+            sZeroRecords: "No se encontron resultados",
+            paginate: {
+                previous: "Página anterior", next: "Página siguiente"
+            },
+            info: "Mostrando _START_ al _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrando 0 al 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            searchPlaceholder: "Buscar en todos los campos",
+        },
+        order: [],
+        dom: 'Blrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Excel',
+                title: 'HISTORIAL DE BIMESTRES',
+                sheetName: 'HISTORIAL DE BIMESTRES',
+            },
+            {
+                extend: 'pdf',
+                text: 'PDF',
+                title: 'HISTORIAL DE BIMESTRES',
+                orientation: 'landscape',
+                pageSize: 'LETTER',
+                filename: 'HISTORIAL DE BIMESTRES',
+            }
+        ]
+    });
+
+    $('#btn-modal-ciclos-anteriores').click(function () {
+        modalCiclosAnteriores();
+    });
+
     $('#btn-aperturar-bimestre').click(function () {
         aperturarBimestre();
     });
@@ -148,12 +185,12 @@
             dataType: 'json',
             success: function (data) {
 
-                    //si el code es 1
-                    if (data.code === 1) {
-                        //guardar mensaje de exito en el local storage
-                        localStorage.setItem('messageSuccess', "El bimestre se ha cerrado correctamente!");
-                        location.reload();
-                    }
+                //si el code es 1
+                if (data.code === 1) {
+                    //guardar mensaje de exito en el local storage
+                    localStorage.setItem('messageSuccess', "El bimestre se ha cerrado correctamente!");
+                    location.reload();
+                }
 
             },
             error: function (xhr, status, error) {
@@ -162,8 +199,61 @@
         })
     }
 
-    function CicloAnterior() {
-        openModal('ciclo-anterior')
+    function modalCiclosAnteriores() {
+
+        loadingBtn('#btn-modal-ciclos-anteriores', true);
+
+        $.ajax({
+            type: "GET",
+            url: `/institucion/ciclos-anteriores`,
+            dataType: 'html',
+            success: function (data) {
+
+                $('#modal-ciclos').find('#container-tbl-ciclos').html(data);
+
+                //init datatable
+                $('#tbl-historial-ciclos').DataTable({
+                    lengthMenu: [5, 10, 25, 50], language: {
+                        lengthMenu: "Mostrar _MENU_ registros",
+                        emptyTable: "No hay registros para mostrar",
+                        sZeroRecords: "No se encontron resultados",
+                        paginate: {
+                            previous: "Página anterior", next: "Página siguiente"
+                        },
+                        info: "Mostrando _START_ al _END_ de _TOTAL_ registros",
+                        infoEmpty: "Mostrando 0 al 0 de 0 registros",
+                        infoFiltered: "(filtrado de _MAX_ registros totales)",
+                        searchPlaceholder: "Buscar en todos los campos",
+                    },
+                    order: [],
+                    dom: 'Blrtip',
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            text: 'Excel',
+                            title: 'HISTORIAL DE CICLOS',
+                            sheetName: 'HISTORIAL DE CICLOS',
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'PDF',
+                            title: 'HISTORIAL DE CICLOS',
+                            orientation: 'landscape',
+                            pageSize: 'LETTER',
+                            filename: 'HISTORIAL DE CICLOS',
+                        }
+                    ]
+                });
+
+                removeLoadingBtn('#btn-modal-ciclos-anteriores');
+                openModal('modal-ciclos');
+                showMessageSuccess('Ciclos anteriores cargados correctamente');
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                showMessageError("Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText);
+            }
+        });
     }
 
 })();

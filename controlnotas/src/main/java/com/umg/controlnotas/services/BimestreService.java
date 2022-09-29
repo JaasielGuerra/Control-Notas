@@ -4,6 +4,8 @@ import com.umg.controlnotas.model.dto.BimestreDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface BimestreService {
 
     @Transactional
@@ -13,4 +15,5 @@ public interface BimestreService {
 
     @Transactional
     ResponseDataDto cerrarBimestre(Long idBimestre);
+    List<BimestreDto> obtenerTodosBimestres();
 }

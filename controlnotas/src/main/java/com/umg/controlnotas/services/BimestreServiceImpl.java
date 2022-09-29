@@ -3,6 +3,7 @@ package com.umg.controlnotas.services;
 import com.umg.controlnotas.model.Bimestre;
 import com.umg.controlnotas.model.dto.BimestreDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
+import com.umg.controlnotas.model.query.ConsultaBimestresCiclo;
 import com.umg.controlnotas.model.query.RubricaUltimoBimestre;
 import com.umg.controlnotas.repository.BimestreRepository;
 import com.umg.controlnotas.repository.CicloEscolarRepository;
@@ -15,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BimestreServiceImpl implements BimestreService {
@@ -131,11 +134,34 @@ public class BimestreServiceImpl implements BimestreService {
         bimestreRepository.save(bimestre);
 
         //refrescar el bimestre en la sesion del usuario
-        userFacade.refreshBimestre(bimestre);
+        userFacade.refreshBimestre(null);
 
         return ResponseDataDto.builder()
                 .code(1)
                 .message("Bimestre cerrado con éxito!")
                 .build();
+    }
+
+    /**
+     * Obtener todos los bimestres
+     *
+     * @return List<BimestreDto>
+     */
+    @Override
+    public List<BimestreDto> obtenerTodosBimestres() {
+
+        List<ConsultaBimestresCiclo> bimestres = bimestreRepository.findBimestresByEstadoInOrderByIdDesc(Arrays.asList(Bimestre.CERRADO, Bimestre.ACTIVO));
+
+        return bimestres.stream().map(b -> BimestreDto.builder()
+                .id(b.getId())
+                .descripcion(b.getDescripcion())
+                .puntosActividades(b.getPuntosActividades())
+                .puntosActitudinal(b.getPuntosActitudinal())
+                .puntosEvaluaciones(b.getPuntosEvaluaciones())
+                .fechaApertura(b.getFechaApertura())
+                .fechaCierre(b.getFechaCierre())
+                .anioCiclo(b.getIdCicloEscolarAnio())
+                .estado(b.getEstado())
+                .build()).collect(Collectors.toList());
     }
 }

@@ -565,3 +565,23 @@ BEGIN
 		a.id_plan_trabajo = NEW.id_plan_trabajo;
 
 END
+
+-- changeset liquibase:jaasiel-48 endDelimiter:\nDELIMITER $$
+DROP TRIGGER IF EXISTS db_control_notas.trig_cerrar_bimestres;
+
+-- changeset liquibase:jaasiel-49 endDelimiter:$$\nDELIMITER ;
+CREATE  TRIGGER trig_cerrar_bimestres
+AFTER UPDATE
+ON ciclo_escolar FOR EACH ROW
+BEGIN
+
+	IF NEW.estado = 2 THEN -- ciclo cerrado
+		UPDATE
+			bimestre b
+		SET
+			b.estado = NEW.estado
+		WHERE
+			b.id_ciclo_escolar = NEW.id_ciclo_escolar;
+	END IF;
+
+END
