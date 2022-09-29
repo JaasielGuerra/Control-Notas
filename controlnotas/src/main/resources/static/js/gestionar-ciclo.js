@@ -125,6 +125,53 @@
     });
 
 
+    $('#form-apertura-ciclo').validate({
+        errorClass: 'is-danger',
+        validClass: 'is-success',
+        errorElement: 'p',
+        rules: {
+            anio: {
+                required: true,
+            },
+            fechaApertura: {
+                required: true,
+                date: true,
+                dateISO: true,
+            },
+            diasBaseAsistencia: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 200
+            }
+        },
+        messages: {
+            anio: {
+                required: "Este campo es requerido",
+            },
+            fechaApertura: {
+                required: "Este campo es requerido",
+                date: "Debe ingresar una fecha válida",
+                dateISO: "Debe ingresar una fecha válida",
+            },
+            diasBaseAsistencia: {
+                required: "Este campo es requerido",
+                number: "Este campo debe ser un número",
+                min: "El mínimo de días es 1",
+                max: "El máximo de días es 200"
+            }
+
+        },
+        errorPlacement: function (error, element) {
+            error.addClass('help');
+            error.insertAfter(element);
+        },
+        submitHandler: function (form) {
+            registrarAperturaCiclo(form);
+        }
+    });
+
+
     function aperturarBimestre() {
 
         $.ajax({
@@ -182,7 +229,62 @@
     }
 
     function AperturarCiclo() {
+
+        let $selectAniosCiclo = $('#select-anios-ciclo');
+        //limpiar el select
+        $selectAniosCiclo.empty();
+
+        //llenar select con options de años desde 2000 hasta el año actual, en orden inverso
+        let fullYear = new Date().getFullYear();
+        for (let i = fullYear; i >= fullYear - 10; i--) {
+            $selectAniosCiclo.append($('<option />').val(i).html(i));
+        }
+
         openModal('aperturar-ciclo')
+    }
+
+    function registrarAperturaCiclo(form) {
+
+        let formJson = formToJSON(form);
+
+        loadingBtn($('#form-apertura-ciclo').find('button[type="submit"]'));
+
+        $.ajax({
+            url: '/institucion/aperturar-ciclo',
+            type: 'POST',
+            data: JSON.stringify(formJson),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (data) {
+
+                removeLoadingBtn($('#form-apertura-ciclo').find('button[type="submit"]'));
+
+                //si el code es 1
+                if (data.code === 1) {
+                    //guardar mensaje de exito en el local storage
+                    localStorage.setItem('messageSuccess', data.message);
+                    location.reload();
+                }
+                //si el code es 0
+                else if (data.code === 0) {
+                    showMessageError(data.message);
+                    //recorrer los errores, concatenarlos
+                    let errores = '';
+                    $.each(data.errors, function (i, error) {
+                        errores += error + '<br>';
+                    });
+                    //mostrar errores
+                    showMessageError(errores);
+                }
+
+
+
+            },
+            error: function (XMLHttpRequest, status, error) {
+                showMessageError("Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText);
+                removeLoadingBtn($('#form-apertura-ciclo').find('button[type="submit"]'));
+            }
+        });
     }
 
     function CerrarCiclo(idCiclo) {
@@ -283,6 +385,7 @@
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 showMessageError("Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText);
+                removeLoadingBtn('#btn-modal-ciclos-anteriores');
             }
         });
     }

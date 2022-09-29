@@ -1,6 +1,7 @@
 package com.umg.controlnotas.controller.configuracion;
 
 import com.umg.controlnotas.model.dto.BimestreDto;
+import com.umg.controlnotas.model.dto.CicloEscolarDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.services.BimestreService;
 import com.umg.controlnotas.services.CicloEscolarService;
@@ -122,6 +123,27 @@ public class GestionCicloController {
             log.log(java.util.logging.Level.SEVERE, "Error al cerrar ciclo", ex);
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al cerrar ciclo " + ex.getMessage(), ex
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
+    }
+
+    @PostMapping("/aperturar-ciclo")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> aperturarCiclo(@RequestBody CicloEscolarDto cicloEscolarDto) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Aperturando nuevo ciclo...");
+
+        try {
+
+            responseDataDto = cicloEscolarService.aperturarCiclo(cicloEscolarDto);
+
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al aperturar ciclo " + ex.getMessage(), ex
             );
         }
 

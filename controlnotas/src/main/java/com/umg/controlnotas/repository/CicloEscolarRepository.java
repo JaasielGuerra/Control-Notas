@@ -16,4 +16,6 @@ public interface CicloEscolarRepository extends JpaRepository<CicloEscolar, Long
     @Modifying
     @Query("update CicloEscolar c set c.estado = ?1 where c.id = ?2")
     void updateEstado(int estado, Long id);
+
+    boolean existsByEstadoAndAnio(int estado, int anio);
 }
