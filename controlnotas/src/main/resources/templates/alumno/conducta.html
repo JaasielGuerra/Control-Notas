@@ -1,10 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
 <body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4"> CONDUCTA</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+                        <div class="columns">
+                            <div class="column is-2 is-offset-2">
+                                <label>Grado y sección</label>
+                            </div>
+                            <div class="column is-3">
+                                <div class="select  is-fullwidth">
+                                    <select id="grado-seccion" name="gradoseccion">
+                                        <option >
+                                            PRIMERO
+                                        </option>
+                                        <option >SEGUNDO</option>
+
+                                        <option >
+                                            TERCERO
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="column">
+                                <button class="button is-link is-small is-rounded" title="Listar alumnos"
+                                        type="submit">
+                                    <i class="fas fa-list mr-1"></i>Listar alumnos
+                                </button>
+                            </div>
+                        </div>
+
+                        <h5>Control de conducta</h5>
+                        <div class="columns">
+                            <table class="table display">
+                                <thead  class="is-narrow">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Código</th>
+                                    <th>Nombre completo</th>
+                                    <th>Operaciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>HGH443</td>
+                                    <td>Juan antonio posdasas mirbel </td>
+                                    <td>
+                                        <a class="button is-info is-small" data-target="conducta" onclick="Historial()">
+                                            <i class="fas fa-list-alt mr-1"></i>Historial</a>
+                                        <a class="button is-success is-small" data-target="conducta" onclick="Conducta()">
+                                            <i class="fas fa-book-reader mr-1"></i>Conducta</a>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+<div th:replace="alumno/dialogos-conducta/historial:: historial"></div>
+<div th:replace="alumno/dialogos-conducta/calificar-conducta:: conducta"></div>
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+<script src="/js/modal.js"></script>
+
+<script type="text/javascript">
+
+    function Historial() {
+
+        //abrir modal
+        openModal('historial');
+    }
+
+    function Conducta() {
+
+        //abrir modal
+        openModal('conducta');
+    }
+</script>
 
 </body>
 </html>
