@@ -29,4 +29,11 @@ public class DetalleListado {
     @JoinColumn(name = "id_listado_asistencia", nullable = false)
     private ListadoAsistencia idListadoAsistencia;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_bimestre", nullable = false)
+    private Bimestre idBimestre;
+
+    @Column(name="motivo")
+    private Integer motivo;
+
 }

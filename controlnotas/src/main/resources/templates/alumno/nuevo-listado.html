@@ -17,104 +17,108 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">NUEVO  LISTADO</h4>
-                        <hr class="dropdown-divider">
+                        <form id="form-nuevo-listado">
 
-                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <h5 class="title is-5 my-6">Datos del listado</h5>
-                        <div class="columns">
 
-                            <div class="column is-11">
-                                <label> Observación</label>
-                                <div class="control">
-                                    <input class="input" type="text" id="descripcion" required
-                                           name="obser">
+                            <h4 class="title has-text-centered is-4">NUEVA PLANTILLA ASISTENCIA</h4>
+                            <hr class="dropdown-divider">
+
+                            <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                            <article class="message is-info">
+                                <div class="message-body">
+                                    Crear esta <strong>plantilla</strong> le servirá para tomar asistencia, complete los
+                                    campos que se le presentan a continuación y haga clic en el botón
+                                    de <strong>Registrar</strong>.
                                 </div>
-                            </div>
-                        </div>
+                            </article>
 
-                        <div class="columns">
-                            <div class="column is-3">
-                                <label> Fecha</label>
-                                <div class="control">
-                                    <input class="input" type="date" id="fecha" required
-                                           name="obser">
-                                </div>
-                            </div>
+                            <p class="subtitle is-5 has-text-danger">* indica un campo obligatorio</p>
+                            <h5 class="title is-5 my-6">Datos del listado</h5>
+                            <div class="columns">
 
-
-                            <div class="column is-3">
-                                <label>Tipo</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth ">
-                                        <select name="select" id="tipo" required>
-                                            <option>Evento</option>
-                                            <option>Limpieza</option>
-                                            <option>Laboratorio</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column"><br>
-                                <button class="button is-link  is-rounded"
-                                        type="submit">
-                                    <i class="fas fa-question mr-1"></i>
-                                </button>
-                            </div>
-
-                        </div>
-
-                        <h5 class="title is-5 my-6">Asignación</h5>
-                        <hr class="dropdown-divider">
-                        <div class="columns">
-                            <div class="column is-5">
-                                <label>Grado</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth ">
-                                        <select name="select" id="grado" required>
-                                            <option>Primero</option>
-                                            <option>Segundo</option>
-                                            <option>Tercero</option>
-                                        </select>
+                                <div class="column is-11">
+                                    <label>Observación</label>
+                                    <div class="control">
+                                        <input class="input" type="text" name="observacion">
                                     </div>
                                 </div>
                             </div>
 
-
-                            <div class="column is-5">
-                                <label>Sección</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth ">
-                                        <select name="select" id="seccion" required>
-                                            <option>A</option>
-                                            <option>B</option>
-
-                                        </select>
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <label>*Fecha</label>
+                                    <div class="control">
+                                        <input class="input" type="date" required name="fecha">
                                     </div>
                                 </div>
+
+
+                                <div class="column is-3">
+                                    <label>*Tipo</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth ">
+                                            <select name="tipo" required>
+                                                <option value="1">ASISTENCIA</option>
+                                                <option value="2">OTRO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-flex is-align-items-end">
+                                    <button class="button is-link is-rounded" type="button" id="btn-modal-ayuda"
+                                            title="ver leyenda">
+                                        <i class="fas fa-question mr-1"></i>Ayuda
+                                    </button>
+                                </div>
+
                             </div>
 
-                        </div>
+                            <h5 class="title is-5 my-6">Asignación</h5>
+                            <hr class="dropdown-divider">
+                            <div class="columns">
+                                <div class="column is-5 ">
+                                    <label>*Grado</label>
+                                    <div class="control">
+                                        <div class="select is-medium is-fullwidth">
+                                            <select name="grado" id="grado" required>
+                                                <option disabled selected>- Seleccione -</option>
+                                                <option th:each="g : ${grados}" th:value="${g.id}"
+                                                        th:text="${g.descripcion}">Primero
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <label>*Sección</label>
+                                    <div class="control">
+                                        <div class="select is-medium is-fullwidth">
+                                            <select name="idSeccion" id="seccion" required>
+                                                <option disabled selected>- Seleccione -</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="columns">
-                            <div class="column is-3 is-offset-3 ">
-                                <button class="button  is-success is-large is-fullwidth" type="submit"
-                                        id="btn-submit"  >
-                                    <i class="far fa-save mr-1"></i>Registar
-                                </button>
                             </div>
-                            <div class="column is-3 ">
-                                <a class="button  is-light is-large is-fullwidth" type="button" >
-                                    <i class="fas fa-database mr-1"></i>Consultar
-                                </a>
-                            </div>
-                        </div>
 
+                            <div class="columns">
+                                <div class="column is-3 is-offset-3 ">
+                                    <button class="button  is-success is-large is-fullwidth" type="submit">
+                                        <i class="far fa-save mr-1"></i>Registar
+                                    </button>
+                                </div>
+                                <div class="column is-3 ">
+                                    <a class="button  is-light is-large is-fullwidth" th:href="@{/asistencia}">
+                                        <i class="fas fa-database mr-1"></i>Consultar
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <!-- aqui va el footer-->
                 </div>
             </div>
-        </div>
         </div>
     </section>
 
@@ -124,9 +128,14 @@
 
 </main>
 
+<div th:replace="alumno/dialogos-nuevo-listado/modal-ayuda-tipo-listado::modal-ayuda-tipo-listado"></div>
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/nuevo-listado-asistencia.js"></script>
 
 </body>
 </html>

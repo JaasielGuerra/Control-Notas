@@ -17,22 +17,67 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">CONTROL  ASISTENCIA</h4>
+                        <h4 class="title has-text-centered is-4">CONTROL ASISTENCIA</h4>
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+                        <form method="get">
+                            <section class="section">
+                                <div class="columns">
+
+                                    <div class="column  is-3 is-offset-2">
+                                        <label>Grado y sección:</label>
+                                        <div class="control">
+                                            <div class="select is-small is-fullwidth ">
+                                                <select name="idSeccion">
+                                                    <option value="">
+                                                        << TODOS >>
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-3">
+                                        <label>Fecha:</label>
+                                        <div class="control is-fullwidth ">
+                                            <input class="input is-small" type="date" required name="fecha">
+                                        </div>
+                                    </div>
+                                    <div class="column"><br>
+                                        <button class="button is-link is-small is-rounded"
+                                                title="Consultar listados"
+                                                type="submit">
+                                            <i class="fas fa-list mr-1"></i>Listar
+                                        </button>
+                                    </div>
+                                </div>
+                            </section>
+                        </form>
+
+                        <section class="section is-medium" th:if="${false}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                No se encontraron registros.
+                            </p>
+                        </section>
+
                         <div class="columns">
-                            <div class="column"><br>
-                                <div class="buttons" >
-                                    <a type="submit" class="button is-info  is-responsive " th:href="@{/asistencia/nuevo}">
-                                        <i class="fas fa-clipboard-list mr-1"></i>Nuevo listado
+                            <div class="column">
+                                <div class="buttons">
+                                    <a type="submit" class="button is-info  is-responsive "
+                                       th:href="@{/asistencia/nuevo}" title="Cree una plantilla para tomar asistencia">
+                                        <i class="fas fa-clipboard-list mr-1"></i>Crear plantilla asistencia
                                     </a>
                                 </div>
 
                             </div>
                         </div>
 
-                        <h5 class="title is-5 my-6">Listado asistencia</h5>
+                        <h5 class="title is-5 my-6">Listados de asistencia</h5>
                         <hr class="dropdown-divider">
                         <div class="columns">
 
@@ -58,7 +103,8 @@
                                     <td>Activo</td>
                                     <td>
                                         <button class="button is-danger is-small">
-                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar</button>
+                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar
+                                        </button>
                                         <a class="button is-success is-small" th:href="@{/asistencia/tomar}">
                                             <i class="fas fa-clipboard-list mr-1"></i>Tomar asistencia</a>
                                         <a class="button is-info is-small" th:href="@{/asistencia/detalle}">
@@ -85,6 +131,8 @@
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/show-message-localStorage.js"></script>
 
 </body>
 </html>

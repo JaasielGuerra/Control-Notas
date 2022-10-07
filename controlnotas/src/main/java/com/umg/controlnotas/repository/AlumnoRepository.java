@@ -31,6 +31,16 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     public List<AlumnoConsultar> findAlumnosActivosBySeccion(Long seccion);
 
     @Query("SELECT " +
+            "a.id AS id " +
+            "FROM " +
+            "Alumno a " +
+            "WHERE " +
+            "a.estado = 1 " +
+            "AND " +
+            "a.idSeccion.id = ?1")
+    List<Long> findIdAlumnosActivosBySeccion(Long seccion);
+
+    @Query("SELECT " +
             "a.id AS id, a.codigoAlumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
             "a.observacionExpediente AS observacionExpediente," +
             "CONCAT(g.descripcion, ' ', s.descripcion) AS descripcionGradoSeccion," +

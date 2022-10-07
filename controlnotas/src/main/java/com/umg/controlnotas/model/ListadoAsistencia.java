@@ -12,6 +12,12 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "listado_asistencia")
 public class ListadoAsistencia {
+
+    public static final int TIPO_ASISTENCIA = 1;
+    public static final int TIPO_OTRO = 2;
+    public static final int ESTADO_ACTIVO = 1;
+    public static final int ESTADO_ELIMINADO = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_listado_asistencia", nullable = false)
@@ -39,5 +45,10 @@ public class ListadoAsistencia {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario idUsuario;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_bimestre", nullable = false)
+    private Bimestre idBimestre;
+    @Column(name="tipo", nullable = false)
+    private Integer tipo;
 
 }

@@ -585,3 +585,28 @@ BEGIN
 	END IF;
 
 END
+
+-- changeset liquibase:jaasiel-50
+ALTER TABLE `db_control_notas`.`listado_asistencia`
+ADD COLUMN `id_bimestre` BIGINT NOT NULL AFTER `id_usuario`,
+ADD COLUMN `tipo` INT NOT NULL COMMENT '1 = ASISTENCIA\n2 = OTRO' AFTER `id_bimestre`,
+ADD INDEX `fk_listado_asistencia_bimestre1_idx` (`id_bimestre` ASC) ;
+;
+ALTER TABLE `db_control_notas`.`listado_asistencia`
+ADD CONSTRAINT `fk_listado_asistencia_bimestre1`
+  FOREIGN KEY (`id_bimestre`)
+  REFERENCES `db_control_notas`.`bimestre` (`id_bimestre`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `db_control_notas`.`detalle_listado`
+    ADD COLUMN `id_bimestre` BIGINT NOT NULL AFTER `id_listado_asistencia`,
+    ADD COLUMN `motivo` VARCHAR(45) NULL AFTER `id_bimestre`,
+    ADD INDEX `fk_detalle_listado_bimestre1_idx` (`id_bimestre` ASC) ;
+;
+ALTER TABLE `db_control_notas`.`detalle_listado`
+    ADD CONSTRAINT `fk_detalle_listado_bimestre1`
+        FOREIGN KEY (`id_bimestre`)
+            REFERENCES `db_control_notas`.`bimestre` (`id_bimestre`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
