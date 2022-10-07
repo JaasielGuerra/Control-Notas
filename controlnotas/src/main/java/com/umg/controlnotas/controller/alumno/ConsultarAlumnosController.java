@@ -34,10 +34,13 @@ public class ConsultarAlumnosController {
     @GetMapping(value = "/consultar")
     public String consultarAlumnos(Model model, Long gradoseccion) {
 
-        logger.info("Consultando seccion ID: " + gradoseccion);
-        logger.info("Alumnos sin expediente: " + alumnoRepository.contarAlumnosExpedienteIncompleto());
 
         try {
+
+            int countSinExpediente = alumnoRepository.contarAlumnosExpedienteIncompleto();
+
+            logger.info("Consultando seccion ID: " + gradoseccion);
+            logger.info("Alumnos sin expediente: " + countSinExpediente);
 
             List<GradoSeccion> gradosSecciones = seccionRepository.findGradosSeccionesByEstadoGrado(Grado.ACTIVO);
             model.addAttribute("grados", gradosSecciones);
@@ -45,7 +48,7 @@ public class ConsultarAlumnosController {
             List<AlumnoConsultar> alumnos = alumnoService.consultarAlumnos(gradoseccion).orElse(null);
             model.addAttribute("alumnos", alumnos);
 
-            model.addAttribute("expedienteIncompleto", alumnoRepository.contarAlumnosExpedienteIncompleto());
+            model.addAttribute("expedienteIncompleto", countSinExpediente);
 
             model.addAttribute("seleccion", gradoseccion);
 

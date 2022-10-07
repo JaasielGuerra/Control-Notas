@@ -870,7 +870,7 @@ CREATE FUNCTION func_obtener_porcentaje_asistencia_alumno(
 	id_bimestre_actual long,
 	id_alumno long
 )
-RETURNS DOUBLE(16,2)
+RETURNS DOUBLE
 BEGIN
 	
 	-- Variables
@@ -907,7 +907,7 @@ BEGIN
 	RETURN (
 		
 		-- Formula calculo % asistencia: (DIAS_BASE - INASISTENCIAS ) / DIAS_BASE
-		SELECT ((dias_base - inasistencias) / dias_base) * 100
+		SELECT ((dias_base - inasistencias) / dias_base)
 	
 	);
 	

@@ -112,18 +112,21 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Override
     public Optional<List<AlumnoConsultar>> consultarAlumnos(Long idSeccion) {
 
+        Long idCicloActual = userFacade.getCicloActual().getId();
+        Long idBimestreActual = userFacade.getBimestreActual().getId();
+
         List<AlumnoConsultar> alumnos = null;
 
         if (idSeccion != null && idSeccion > 0) {
-            alumnos = alumnoRepository.findAlumnosActivosBySeccion(idSeccion);
+            alumnos = alumnoRepository.findAlumnosActivosBySeccion(idSeccion, idCicloActual, idBimestreActual);
         }
 
         if (idSeccion != null && idSeccion == 0) {
-            alumnos = alumnoRepository.findAlumnosActivosNoAsignados();
+            alumnos = alumnoRepository.findAlumnosActivosNoAsignados(idCicloActual, idBimestreActual);
         }
 
         if (idSeccion == null) {
-            alumnos = alumnoRepository.findAlumnosActivos();
+            alumnos = alumnoRepository.findAlumnosActivos(idCicloActual, idBimestreActual);
         }
 
         return Optional.ofNullable(alumnos);
