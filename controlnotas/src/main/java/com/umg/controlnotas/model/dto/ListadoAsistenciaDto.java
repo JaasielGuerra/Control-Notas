@@ -1,5 +1,6 @@
 package com.umg.controlnotas.model.dto;
 
+import com.umg.controlnotas.model.query.ConsultaListadoAsistencia;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,15 @@ public class ListadoAsistenciaDto implements Serializable {
     private Long idSeccion;
     private String gradoSeccion;
     private Integer tipo;
+    private Integer estado;
+
+    public static ListadoAsistenciaDto from(ConsultaListadoAsistencia listadoAsistencia) {
+        return ListadoAsistenciaDto.builder()
+            .id(listadoAsistencia.getId())
+            .observacion(listadoAsistencia.getObservacion())
+            .fecha(listadoAsistencia.getFecha())
+            .gradoSeccion(listadoAsistencia.getIdSeccionIdGradoDescripcion() + " " + listadoAsistencia.getIdSeccionDescripcion())
+            .estado(listadoAsistencia.getEstado())
+            .build();
+    }
 }

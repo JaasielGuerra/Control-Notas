@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -92,5 +93,54 @@ public class AsistenciaServiceImpl implements AsistenciaService {
                 .data(listadoAsistenciaDto)
                 .message("Listado de asistencia registrado correctamente")
                 .build();
+    }
+
+    /**
+     * Consultar listado de asistencia por sección y fecha
+     *
+     * @param idSeccion Identificador de la sección
+     * @param fecha     Fecha del listado de asistencia
+     * @return Lista de listados de asistencia
+     */
+    @Override
+    public List<ListadoAsistenciaDto> consultarListadoAsistencia(Long idSeccion, LocalDate fecha) {
+
+        Long idBimestre = userFacade.getBimestreActual().getId();
+        List<ListadoAsistenciaDto> listadoAsistencia = new ArrayList<>();
+
+        //si la seccion es null, y la fecha es null, se consulta por la fecha actual
+        if (Objects.isNull(idSeccion) && Objects.isNull(fecha)) {
+            listadoAsistencia = listadoAsistenciaRepository.findByIdBimestreIdAndEstadoAndFechaOrderByIdDesc(idBimestre, ListadoAsistencia.ESTADO_ACTIVO, LocalDate.now())
+                    .stream()
+                    .map(ListadoAsistenciaDto::from)
+                    .collect(Collectors.toList());
+        }
+
+        //si la seccion no es null, y la fecha es null, se consulta por la fecha actual y idSeccion
+        if (Objects.nonNull(idSeccion) && Objects.isNull(fecha)) {
+            listadoAsistencia = listadoAsistenciaRepository.findByIdBimestreIdAndEstadoAndIdSeccionIdAndFechaOrderByIdDesc(idBimestre, ListadoAsistencia.ESTADO_ACTIVO, idSeccion, LocalDate.now())
+                    .stream()
+                    .map(ListadoAsistenciaDto::from)
+                    .collect(Collectors.toList());
+        }
+
+        //si la seccion es null, y la fecha no es null, se consulta por la fecha
+        if (Objects.isNull(idSeccion) && Objects.nonNull(fecha)) {
+            listadoAsistencia = listadoAsistenciaRepository.findByIdBimestreIdAndEstadoAndFechaOrderByIdDesc(idBimestre, ListadoAsistencia.ESTADO_ACTIVO, fecha)
+                    .stream()
+                    .map(ListadoAsistenciaDto::from)
+                    .collect(Collectors.toList());
+        }
+
+        //si la seccion no es null, y la fecha no es null, se consulta por la fecha y idSeccion
+        if (Objects.nonNull(idSeccion) && Objects.nonNull(fecha)) {
+            listadoAsistencia = listadoAsistenciaRepository.findByIdBimestreIdAndEstadoAndIdSeccionIdAndFechaOrderByIdDesc(idBimestre, ListadoAsistencia.ESTADO_ACTIVO, idSeccion, fecha)
+                    .stream()
+                    .map(ListadoAsistenciaDto::from)
+                    .collect(Collectors.toList());
+        }
+
+
+        return listadoAsistencia;
     }
 }
