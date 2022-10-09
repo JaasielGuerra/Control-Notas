@@ -717,3 +717,6 @@ BEGIN
     );
 
 END
+
+-- changeset liquibase:jaasiel-55
+ALTER TABLE db_control_notas.detalle_listado MODIFY COLUMN id_detalle_listado BIGINT auto_increment NOT NULL;

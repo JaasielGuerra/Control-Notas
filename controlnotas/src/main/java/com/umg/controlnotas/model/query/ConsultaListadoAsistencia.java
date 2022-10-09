@@ -10,5 +10,6 @@ public interface ConsultaListadoAsistencia {
     String getIdSeccionDescripcion();
     String getIdSeccionIdGradoDescripcion();
     Integer getEstado();
+    Integer getTipo();
 
 }

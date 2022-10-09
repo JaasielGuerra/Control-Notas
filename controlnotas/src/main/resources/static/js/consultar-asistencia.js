@@ -2,7 +2,7 @@
 (function () {
 
     $('#tbl-listado').DataTable({
-        lengthMenu: [5, 10, 25, 50], language: {
+        lengthMenu: [10, 25, 50], language: {
             lengthMenu: "Mostrar _MENU_ registros",
             search: "Buscar: _INPUT_",
             searchPlaceholder: "Buscar en todos los campos",

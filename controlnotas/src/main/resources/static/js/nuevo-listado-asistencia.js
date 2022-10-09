@@ -107,7 +107,7 @@
                 if (data.code === 1) {
                     //guardar mensaje de exito en el local storage
                     localStorage.setItem('messageSuccess', data.message);
-                    location.assign('/asistencia');
+                    location.assign('/asistencia/' + data.data.id);
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

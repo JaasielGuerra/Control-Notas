@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * A DTO for the {@link com.umg.controlnotas.model.ListadoAsistencia} entity
@@ -24,6 +25,7 @@ public class ListadoAsistenciaDto implements Serializable {
     private String gradoSeccion;
     private Integer tipo;
     private Integer estado;
+    private List<DetalleListadoDto> plantillaDetalleListado;
 
     public static ListadoAsistenciaDto from(ConsultaListadoAsistencia listadoAsistencia) {
         return ListadoAsistenciaDto.builder()
@@ -32,6 +34,7 @@ public class ListadoAsistenciaDto implements Serializable {
             .fecha(listadoAsistencia.getFecha())
             .gradoSeccion(listadoAsistencia.getIdSeccionIdGradoDescripcion() + " " + listadoAsistencia.getIdSeccionDescripcion())
             .estado(listadoAsistencia.getEstado())
+            .tipo(listadoAsistencia.getTipo())
             .build();
     }
 }

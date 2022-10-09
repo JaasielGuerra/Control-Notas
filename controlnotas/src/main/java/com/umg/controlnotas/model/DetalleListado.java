@@ -13,7 +13,7 @@ public class DetalleListado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_listado", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "temperatura")
     private Double temperatura;
@@ -34,6 +34,6 @@ public class DetalleListado {
     private Bimestre idBimestre;
 
     @Column(name="motivo")
-    private Integer motivo;
+    private String motivo;
 
 }

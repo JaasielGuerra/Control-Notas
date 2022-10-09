@@ -2,6 +2,7 @@ package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.DetalleListado;
 import com.umg.controlnotas.model.ListadoAsistencia;
+import com.umg.controlnotas.model.dto.DetalleListadoDto;
 import com.umg.controlnotas.model.dto.ListadoAsistenciaDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.*;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -142,5 +144,81 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 
 
         return listadoAsistencia;
+    }
+
+    /**
+     * Consultar listado de asistencia por id
+     *
+     * @param id Identificador del listado de asistencia
+     * @return Listado de asistencia
+     */
+    @Override
+    public ListadoAsistenciaDto consultarListadoAsistenciaPorId(Long id) {
+        return ListadoAsistenciaDto.from(listadoAsistenciaRepository.findByEstadoAndId(ListadoAsistencia.ESTADO_ACTIVO, id)
+                .orElseThrow(() -> new NoSuchElementException("No se encontró el listado de asistencia")));
+    }
+
+    /**
+     * Consultar la plantilla de un listado de asistencia
+     *
+     * @param idListadoAsistencia Identificador del listado de asistencia
+     * @return Lista de la plantilla de detalle de listado de asistencia
+     */
+    @Override
+    public List<DetalleListadoDto> consultarPlantillaListadoAsistencia(Long idListadoAsistencia) {
+        return detalleListadoRepository.findByIdListadoAsistenciaIdOrderByIdAlumnoNombre(idListadoAsistencia)
+                .stream()
+                .map(DetalleListadoDto::from)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Guardar el listado de asistencia
+     * @param idListado Identificador del listado de asistencia
+     * @param listadoAsistenciaDto Listado de asistencia
+     * @return Listado de asistencia
+     */
+    @Override
+    @Transactional
+    public ResponseDataDto guardarAsistencia(Long idListado, ListadoAsistenciaDto listadoAsistenciaDto) {
+
+        //validar la longitud del campo observacion
+        if (Objects.nonNull(listadoAsistenciaDto.getObservacion()) && listadoAsistenciaDto.getObservacion().length() > 255) {
+            return ResponseDataDto.builder()
+                    .code(0)
+                    .data(null)
+                    .message("La longitud del campo observación no puede ser mayor a 255 caracteres")
+                    .build();
+        }
+
+        //validar la longitud del campo observacion de cada item
+        for (DetalleListadoDto detalle : listadoAsistenciaDto.getPlantillaDetalleListado()) {
+            if (Objects.nonNull(detalle.getObservacion()) && detalle.getObservacion().length() > 255) {
+                return ResponseDataDto.builder()
+                        .code(0)
+                        .data(null)
+                        .message("La longitud del campo observación no puede ser mayor a 255 caracteres")
+                        .build();
+            }
+        }
+
+        //primero guardar la observacion del listado
+        listadoAsistenciaRepository.updateObservacionListadoAsistencia(idListado, listadoAsistenciaDto.getObservacion());
+
+
+        //ahora recorrer la plantilla detalle lista y actualizar cada item
+        listadoAsistenciaDto.getPlantillaDetalleListado().forEach(detalle -> {
+
+            log.info("detalle:" + detalle);
+            detalleListadoRepository.updateDetalleListado(detalle.getId(), detalle.getTemperatura(), detalle.getMotivo(), detalle.getObservacion());
+
+        });
+
+
+        return ResponseDataDto.builder()
+                .code(1)
+                .message("Listado de asistencia guardado correctamente")
+                .data(listadoAsistenciaDto)
+                .build();
     }
 }

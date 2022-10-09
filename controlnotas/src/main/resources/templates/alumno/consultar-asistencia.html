@@ -22,7 +22,7 @@
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
 
-                        <form th:action="@{/asistencia}"  method="get">
+                        <form th:action="@{/asistencia}" method="get">
                             <section class="section">
                                 <div class="columns">
 
@@ -33,7 +33,7 @@
                                                 <select id="grado-seccion" name="idSeccion">
                                                     <option value=""
                                                             th:attrappend="selected=${idSeccion eq null? 'selected' : ''}">
-                                                       << TODOS >>
+                                                        << TODOS >>
                                                     </option>
                                                     <option th:each="s: ${grados}" th:value="${s.idSeccion}"
                                                             th:text="${s.descripcionGrado +' '+ s.descripcionSeccion}"
@@ -90,7 +90,30 @@
                             </p>
                         </section>
 
-                        <h5 class="title is-5 my-6" th:if="${asistencia ne null and not asistencia.isEmpty()}">Listados de asistencia</h5>
+                        <h5 class="title is-5 my-6" th:if="${asistencia ne null and not asistencia.isEmpty()}">Listados
+                            de asistencia</h5>
+
+                        <article class="message is-info" th:if="${asistencia ne null and not asistencia.isEmpty()}">
+                            <div class="message-body">
+                                <p><strong>Leyenda tipo:</strong></p>
+                                <ul>
+                                    <li>
+                                        <p class="is-italic">
+                                            <strong>ASISTENCIA:</strong> tipo de listado para marcar la asistencia a
+                                            clases, y se
+                                            toma en cuenta para el cálculo de porcentaje (%) de asistencia del alumno.
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="is-italic">
+                                            <strong>OTRO:</strong> este listado es usado para cualquier otro fin, y no
+                                            se toma en cuenta para
+                                            cálculos de asistencia.
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
 
                         <div class="table-container" th:if="${asistencia ne null and not asistencia.isEmpty()}">
 
@@ -100,6 +123,7 @@
                                     <th>#</th>
                                     <th>Observación</th>
                                     <th>Fecha</th>
+                                    <th>Tipo</th>
                                     <th>Grado y sección</th>
                                     <th>Operaciones</th>
 
@@ -111,15 +135,20 @@
                                     <td th:text="${item.id}">1</td>
                                     <td th:text="${item.observacion}">No se presento</td>
                                     <td th:text="*{#temporals.format(item.fecha, 'dd/MM/yyyy')}">21/09/2022</td>
+                                    <td>
+                                        <span class="tag is-primary" th:if="${item.tipo eq 1}">Asistencia</span>
+                                        <span class="tag is-info" th:if="${item.tipo eq 2}">Otro</span>
+                                    </td>
                                     <td th:text="${item.gradoSeccion}"> primero A</td>
                                     <td>
-                                        <button class="button is-danger is-small">
+                                        <button class="button is-danger is-small"
+                                                title="Eliminar este listado de asistencia">
                                             <i class="fas fa-trash-alt mr-1"></i>Eliminar
                                         </button>
-                                        <a class="button is-success is-small" th:href="@{/asistencia/tomar}">
-                                            <i class="fas fa-clipboard-list mr-1"></i>Tomar asistencia</a>
-                                        <a class="button is-info is-small" th:href="@{/asistencia/detalle}">
-                                            <i class="fas fa-info-circle mr-1"></i>Detalle</a>
+                                        <a class="button is-success is-small"
+                                           th:href="@{/asistencia/{id}(id=*{item.id})}"
+                                           title="Visualizar listado para tomar asistencia">
+                                            <i class="fas fa-clipboard-list mr-1"></i>Visualizar</a>
                                     </td>
 
                                 </tr>

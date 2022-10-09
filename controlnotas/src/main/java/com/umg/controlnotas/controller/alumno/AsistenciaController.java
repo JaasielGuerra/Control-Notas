@@ -40,12 +40,19 @@ public class AsistenciaController {
 
         log.info("Consultando asistencia de seccion: " + idSeccion + " fecha: " + fecha);
 
-        List<GradoSeccion> gradosSecciones = seccionRepository.findGradosSeccionesByEstadoGrado(Grado.ACTIVO);
-        model.addAttribute("grados", gradosSecciones);
-        model.addAttribute("idSeccion", idSeccion);
-        model.addAttribute("fecha", Objects.isNull(fecha) ? LocalDate.now() : fecha);
-        model.addAttribute("asistencia", asistenciaService.consultarListadoAsistencia(idSeccion, fecha));
+        try {
 
+            List<GradoSeccion> gradosSecciones = seccionRepository.findGradosSeccionesByEstadoGrado(Grado.ACTIVO);
+            model.addAttribute("grados", gradosSecciones);
+            model.addAttribute("idSeccion", idSeccion);
+            model.addAttribute("fecha", Objects.isNull(fecha) ? LocalDate.now() : fecha);
+            model.addAttribute("asistencia", asistenciaService.consultarListadoAsistencia(idSeccion, fecha));
+
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al consultar control de asistencia " + ex.getMessage()
+            );
+        }
         return "alumno/consultar-asistencia";
     }
 
@@ -62,8 +69,21 @@ public class AsistenciaController {
         return "alumno/detalle-asistencia";
     }
 
-    @GetMapping(value = "/tomar")
-    public String TomarAssitencia() {
+    @GetMapping(value = "/{idListado}")
+    public String TomarAsistencia(Model model, @PathVariable Long idListado) {
+
+        log.info("Tomando asistencia del listado: " + idListado);
+
+        try {
+
+            model.addAttribute("listado", asistenciaService.consultarListadoAsistenciaPorId(idListado));
+            model.addAttribute("plantilla", asistenciaService.consultarPlantillaListadoAsistencia(idListado));
+
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al consultar ultimo bimestre " + ex.getMessage()
+            );
+        }
         return "alumno/tomar-asistencia";
     }
 
@@ -83,6 +103,28 @@ public class AsistenciaController {
             log.log(java.util.logging.Level.SEVERE, "Error al registrar nuevo listado", ex);
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al registrar listado de asistencia " + ex.getMessage(), ex
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
+    }
+
+    @PutMapping(value = "/guardar-asistencia/{idListado}")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> guardarAsistencia(@PathVariable Long idListado, @RequestBody ListadoAsistenciaDto listadoAsistencia) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Guardando asistencia del listado: " + idListado);
+
+        try {
+
+            responseDataDto = asistenciaService.guardarAsistencia(idListado, listadoAsistencia);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "Error al guardar asistencia", ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al guardar asistencia " + ex.getMessage(), ex
             );
         }
 
