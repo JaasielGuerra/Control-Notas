@@ -13,7 +13,7 @@ public class DetalleListado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_listado", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "temperatura")
     private Double temperatura;
@@ -28,5 +28,12 @@ public class DetalleListado {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_listado_asistencia", nullable = false)
     private ListadoAsistencia idListadoAsistencia;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_bimestre", nullable = false)
+    private Bimestre idBimestre;
+
+    @Column(name="motivo")
+    private String motivo;
 
 }

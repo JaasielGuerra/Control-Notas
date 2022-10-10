@@ -10,7 +10,15 @@ function loadingBtn(btn) {
 }
 
 function removeLoadingBtn(btn) {
-    $(btn).removeClass("is-loading");//quitar efecto carga boton
+    $(btn).removeClass("is-loading");//quitar efecto carga
+}
+
+function loadingSelect(select) {
+    $(select).addClass("is-loading");
+}
+
+function removeLoadingSelect(select) {
+    $(select).removeClass("is-loading");//quitar efecto carga
 }
 
 function resetForm(form) {

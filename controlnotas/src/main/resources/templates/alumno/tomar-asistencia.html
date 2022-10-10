@@ -6,139 +6,283 @@
 
 <body>
 <main>
-  <div th:replace="layout/pageloader :: #pageloader"></div>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
 
-  <!-- aqui va el nav -->
-  <nav th:replace="layout/nav :: nav"></nav>
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
 
-  <section class="section">
-    <div class="container">
-      <div class="card">
-        <div class="card-content">
-          <div class="content">
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
 
-            <h4 class="title has-text-centered is-4">TOMAR ASISTENCIA</h4>
-            <hr class="dropdown-divider">
+                        <h4 class="title has-text-centered is-4">TOMAR ASISTENCIA</h4>
+                        <hr class="dropdown-divider">
 
-            <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <div class="card has-background-grey">
+                            <div class="card-content">
+                                <p class="title is-5 has-text-centered is-underlined is-italic has-text-white">
+                                    Asistencia</p>
 
-            <div class="columns">
-              <div class="column">
-                <div class="card">
-                  <header>
-                    <div class="card-content">
-                      <p class="title is-3 is-offset-2">
-                        Asistencia
-                      </p>
-                      <p class="subtitle is-6"> Fecha: 2021</p>
-                      <p class="subtitle is-6"> Grado: Primero A</p>
+                                <div class="columns is-multiline">
+                                    <div class="column is-2 py-0">
+                                        <input type="hidden" id="id-listado" th:value="${listado.id}">
+                                        <p class="title is-6 is-italic has-text-white">Fecha:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <p class="subtitle is-6 is-italic has-text-white"
+                                           th:text="${#temporals.format(listado.fecha, 'dd/MM/yyyy')}">fecha</p>
+                                    </div>
+                                    <div class="column is-2 py-0">
+                                        <p class="title is-6 is-italic has-text-white">Grado:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <p class="subtitle is-6 is-italic has-text-white"
+                                           th:text="${listado.gradoSeccion}"></p>
+                                    </div>
+                                    <div class="column is-2 py-0">
+                                        <p class="title is-6 is-italic has-text-white">Tipo:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <span class="tag is-primary" th:if="${listado.tipo eq 1}">Asistencia</span>
+                                        <span class="tag is-info" th:if="${listado.tipo eq 2}">Otro</span>
+                                    </div>
+                                    <div class="column is-2 py-0">
+                                        <p class="title is-6 is-italic has-text-white">Observación:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <div class="control">
+                                            <input class="input is-small" type="text" id="observacion-listado"
+                                                   th:value="${listado.observacion}" onfocus="this.select()">
+                                        </div>
+                                    </div>
+                                </div>
 
-                      <p class="subtitle is-6"> Tipo: asistencia/otro</p>
+                                <hr class="dropdown-divider">
 
-                      <p class="subtitle is-6"> Descripción: Listado</p>
+                                <div class="buttons">
+                                    <button class="button is-success" id="btn-guardar-cambios">
+                                        <i class="far fa-save mr-1"></i>
+                                        Guardar cambios
+                                    </button>
+                                    <a class="button is-danger" th:href="@{/asistencia}"><i
+                                            class="fas fa-window-close mr-1"></i>Cancelar y regresar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
+
+                        <h5 class="title is-5 my-6">Pasar asistencia</h5>
+
+                        <article class="message is-info">
+                            <div class="message-body">
+                                <p><strong>Leyenda motivo:</strong></p>
+                                <ul>
+                                    <li>
+                                        <p class="is-italic">
+                                            <strong>A</strong> = Asistencia
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="is-italic">
+                                            <strong>F</strong> = Faltó
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="is-italic">
+                                            <strong>P</strong> = Permiso
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+
+
+                        <div class="table-container">
+                            <table id="tbl-tomar-asistencia" class="table display is-fullwidth">
+                                <thead class="is-narrow">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre alumno</th>
+                                    <th>Código</th>
+                                    <th>Toma temperatura</th>
+                                    <th>Motivo</th>
+                                    <th>Observación</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item: ${plantilla}">
+                                    <td th:text="${item.id}">1</td>
+                                    <td th:text="${item.nombreAlumno + ' ' + item.apellidoAlumno}">Juan gabriel</td>
+                                    <td th:text="${item.codigo}">144455-7</td>
+                                    <td class="pb-4">
+                                        <div class="control">
+                                            <input class="input is-small temperatura" type="number" placeholder="Campo opcional"
+                                                   onfocus="this.select()" th:value="${item.temperatura}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="select is-small">
+                                            <select th:value="${item.motivo}" class="motivo">
+                                                <option value="A" th:attrappend="selected=${item.motivo eq 'A'? 'selected' : ''}">A</option>
+                                                <option value="P" th:attrappend="selected=${item.motivo eq 'P'? 'selected' : ''}">P</option>
+                                                <option value="F" th:attrappend="selected=${item.motivo eq 'F'? 'selected' : ''}">F</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="control">
+                                            <input class="input is-small observacion" type="text" placeholder="Campo opcional"
+                                                   onfocus="this.select()" th:value="${item.observacion}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                  </header>
-                  <div class="card-content">
-
-                    <div class="buttons">
-                      <button class="button  is-success ">
-                        <i class="fas fa-check mr-1"></i>Registrar Asistencia
-                      </button>
-                      <button class="button  is-info ">
-                        <i class="fas fa-undo-alt mr-1"></i>Regresar
-                      </button>
-                    </div>
-                  </div>
                 </div>
-
-
-
-              </div>
             </div>
-            <hr class="dropdown-divider">
-
-
-            <div class="columns">
-              <div class="column is-5">
-                <h5 class="title is-5 my-6">Listado de asistencia</h5>
-              </div>
-              <div class="column is-2 is-offset-2 "><br><br>
-                <label>Buscar alumno:</label>
-              </div>
-              <div class="column is-3"><br><br>
-
-                <div class="control">
-                  <input class="input" type="text" id="puntos"
-                         name="alumno">
-                </div>
-              </div>
-            </div>
-            <div class="columns">
-              <table class="table display">
-                <thead class="is-narrow">
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre alumno</th>
-                  <th>Código</th>
-                  <th>Toma temperatura</th>
-                  <th>Motivo</th>
-                  <th>Observación</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Juan gabriel</td>
-                  <td>144455-7</td>
-                  <td>
-                    <div class="class-control">
-                      <input class="input" type="text">
-                    </div>
-
-                  </td>
-                  <td>
-                    <div class="class-control">
-                      <div class="select">
-                        <select name="" id="">
-                          <option >A</option>
-                          <option >P</option>
-                          <option >F</option>
-                        </select>
-                      </div>
-                    </div>
-
-                  </td>
-                  <td>
-                    <div class="class-control">
-                      <input class="input" type="text">
-                    </div>
-                  </td>
-
-                </tr>
-                </tbody>
-              </table>
-            </div>
-
-
-            <!-- aqui va el footer-->
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- aqui va el footer-->
-  <footer th:replace="layout/footer :: footer"></footer>
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
 
 </main>
 
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/show-message-localStorage.js"></script>
+<script src="/js/datatables.min.js"></script>
+<script th:inline="javascript">
+    (function () {
+
+        let listadoAsistencia = /*[[${listado}]]*/ [];
+        let plantillaAsistencia = /*[[${plantilla}]]*/ [];
+
+        $('#tbl-tomar-asistencia').DataTable({
+            lengthMenu: [25, 50], language: {
+                lengthMenu: "Mostrar _MENU_ alumnos",
+                search: "Buscar: _INPUT_",
+                emptyTable: "No hay registros para mostrar",
+                sZeroRecords: "No se encontron resultados",
+                paginate: {
+                    previous: "Página anterior", next: "Página siguiente"
+                },
+                info: "Mostrando _START_ al _END_ de _TOTAL_ alumnos",
+                infoEmpty: "Mostrando 0 de 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros totales)",
+                searchPlaceholder: "Buscar alumno",
+            },
+            order: [],
+        });
+
+        //evento para cambiar el valor de temperatura
+        $('#tbl-tomar-asistencia').on('change', '.temperatura', function () {
+
+            //valor de la temperatura
+            let temperatura = $(this).val();
+
+            //obtener el id
+            let id = $(this).closest('tr').find('td:eq(0)').text();
+
+            refrescarPlantillaAsistencia(temperatura, id, 'temperatura');
+
+        });
+
+        //evento para cambiar el valor de motivo
+        $('#tbl-tomar-asistencia').on('change', '.motivo', function () {
+
+            //valor del motivo
+            let motivo = $(this).val();
+
+            //obtener el id
+            let id = $(this).closest('tr').find('td:eq(0)').text();
+
+            refrescarPlantillaAsistencia(motivo, id, 'motivo');
+
+        });
+
+        //evento para cambiar el valor de observacion
+        $('#tbl-tomar-asistencia').on('change', '.observacion', function () {
+
+            //valor de la observacion
+            let observacion = $(this).val();
+
+            //obtener el id
+            let id = $(this).closest('tr').find('td:eq(0)').text();
+
+            refrescarPlantillaAsistencia(observacion, id, 'observacion');
+
+        });
+
+
+        function refrescarPlantillaAsistencia (valor, id, propiedad) {
+            plantillaAsistencia.forEach(item => {
+                if (item.id === Number(id)) {
+                    item[propiedad] = valor;
+                }
+            });
+         }
+
+        //evento del boton btn-guardar-cambios
+        $('#btn-guardar-cambios').on('click', function () {
+
+            loadingBtn(this);
+
+            let id = $('#id-listado').val();
+            let observacion = $('#observacion-listado').val();
+
+            listadoAsistencia.plantillaDetalleListado = plantillaAsistencia;
+            listadoAsistencia.observacion = observacion;
+
+            $.ajax({
+                url: '/asistencia/guardar-asistencia/' + id,
+                method: 'PUT',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(listadoAsistencia),
+                success: function (data) {
+
+                    removeLoadingBtn(this);
+
+                    //si el code es 1
+                    if (data.code === 1) {
+
+                        //guardar mensaje de exito en el local storage
+                        localStorage.setItem('messageSuccess', data.message);
+                        location.assign('/asistencia');
+                    }
+                    //si el code es 0
+                    else if (data.code === 0) {
+                        showMessageError(data.message);
+                        //recorrer los errores, concatenarlos
+                        let errores = '';
+                        $.each(data.errors, function (i, error) {
+                            errores += error + '<br>';
+                        });
+                        //mostrar errores
+                        showMessageError(errores);
+                    }
+
+
+                },
+                error: function (xhr, status, error) {
+                    removeLoadingBtn(this);
+                    showMessageError('Se produjo un error en el servidor ' + xhr.responseText);
+                }
+            });
+        });
+
+
+    })();
+</script>
 
 </body>
 </html>

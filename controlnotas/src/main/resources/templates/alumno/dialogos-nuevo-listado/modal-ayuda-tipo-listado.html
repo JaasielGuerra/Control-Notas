@@ -1,0 +1,28 @@
+<!-- MOdal -->
+<div class="modal" id="modal-ayuda-tipo" xmlns:th="http://www.thymeleaf.org"
+     th:fragment="modal-ayuda-tipo-listado">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">AYUDA</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+
+            <ul>
+                <li><strong>ASISTENCIA:</strong> tipo de listado para marcar la asistencia a clases, y se
+                    toma en cuenta para el cálculo de porcentaje (%) de asistencia del alumno.
+                </li>
+                <li><strong>OTRO:</strong> este listado es usado para cualquier otro fin, y no se toma en cuenta para
+                    cálculos de asistencia.
+                </li>
+            </ul>
+
+        </section>
+
+        <footer class="modal-card-foot">
+            <button class="button  is-danger" type="button"><i class="fas fa-window-close mr-1"></i>Cerrar</button>
+        </footer>
+    </div>
+</div>

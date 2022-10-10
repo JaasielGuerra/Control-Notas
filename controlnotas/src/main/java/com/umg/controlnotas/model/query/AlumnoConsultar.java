@@ -9,5 +9,6 @@ public interface AlumnoConsultar {
     String getObservacionExpediente();
     String getDescripcionGradoSeccion();
     String getEstadoExpediente();
+    Double getPorcentajeAsistencia();
 
 }

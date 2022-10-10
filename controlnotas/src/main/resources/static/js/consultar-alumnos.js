@@ -7,8 +7,35 @@ $('#tbl-alumnos').DataTable({
         paginate: {
             previous: "Página anterior", next: "Página siguiente"
         },
-        info: "Mostrando _START_ de _END_ de _TOTAL_ alumnos"
-    }
+        info: "Mostrando _START_ de _END_ de _TOTAL_ alumnos",
+    },
+    order: [2, "asc"],
+    dom: 'Blrftip',
+    buttons: [
+        {
+            extend: 'excel',
+            text: 'Excel',
+            title: 'ALUMNOS',
+            sheetName: 'ALUMNOS',
+            exportOptions: {
+                //no export last column
+                columns: ':not(:last-child)'
+            }
+        },
+        {
+            extend: 'pdf',
+            text: 'PDF',
+            title: 'ALUMNOS',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            filename: 'ALUMNOS',
+            exportOptions: {
+                //no export last column
+                columns: ':not(:last-child)'
+            },
+
+        }
+    ]
 });
 
 

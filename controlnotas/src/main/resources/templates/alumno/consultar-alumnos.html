@@ -70,59 +70,65 @@
 
                             <article class="message is-warning" th:if="${expedienteIncompleto ne 0}">
                                 <div class="message-body">
-                                    Hay <strong th:text="${expedienteIncompleto}"></strong> alumnos con expediente incompleto o no definido.
+                                    Hay <strong th:text="${expedienteIncompleto}"></strong> alumnos con expediente
+                                    incompleto o no definido.
                                 </div>
                             </article>
 
-                            <table id="tbl-alumnos" class="table display" style="width:100%">
-                                <h5 class="subtitle is-5 my-6">Datos del alumno</h5>
-                                <thead class="is-narrow">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Código</th>
-                                    <th>Nombre</th>
-                                    <th>Observación</th>
-                                    <th>Expediente</th>
-                                    <th>Grado</th>
-                                    <th class="has-text-right">Opciones</th>
-                                </tr>
-                                </thead>
+                            <div class="table-container">
+                                <table id="tbl-alumnos" class="table display" style="width:100%">
+                                    <h5 class="subtitle is-5 my-6">Datos del alumno</h5>
+                                    <thead class="is-narrow">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Observación</th>
+                                        <th>Expediente</th>
+                                        <th>Asistencia</th>
+                                        <th>Grado</th>
+                                        <th class="has-text-right">Opciones</th>
+                                    </tr>
+                                    </thead>
 
-                                <tbody>
-                                <tr th:each="a: ${alumnos}">
-                                    <td th:text="*{a.id}">#</td>
-                                    <td th:text="*{a.codigo}">demo</td>
-                                    <td th:text="*{a.nombre +' '+a.apellido}">demo</td>
-                                    <td th:text="*{a.observacionExpediente}">
-                                        lorem ipsum dolor sit amet, consectet
-                                    </td>
-                                    <td>
+                                    <tbody>
+                                    <tr th:each="a: ${alumnos}" th:class="${a.porcentajeAsistencia < 0.80 ? 'has-background-danger-dark has-text-white' : ''}">
+                                        <td th:text="*{a.id}">#</td>
+                                        <td th:text="*{a.codigo}">demo</td>
+                                        <td th:text="*{a.nombre +' '+a.apellido}">demo</td>
+                                        <td th:text="*{a.observacionExpediente}">
+                                            lorem ipsum dolor sit amet, consectet
+                                        </td>
+                                        <td>
                                         <span class="tag is-success"
                                               th:if="${a.estadoExpediente eq '1'}">Completo</span>
-                                        <span class="tag is-warning"
-                                              th:if="${a.estadoExpediente eq '0'}">Incompleto</span>
-                                        <span class="tag is-dark"
-                                              th:if="${a.estadoExpediente eq null}">No definido</span>
-                                    </td>
-                                    <td th:text="${a.descripcionGradoSeccion ne null ? a.descripcionGradoSeccion : '*NO ASIGNADO*'}">
-                                    </td>
-                                    <td class="has-text-right">
-                                        <a th:href="@{/alumno/editar/{id}(id=*{a.id})}"
-                                           class="button is-warning is-small"> <i class="far fa-eye mr-1"></i>Visualizar</a>
-                                        <a class="button is-danger is-small"
-                                           th:onclick="preEliminarAlumno([[${a.id}]])">
-                                            <input type="hidden" th:value="${2}">
-                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar
-                                        </a>
-                                        <a data-target="modal-expediente" th:onclick="verExpediente([[${a.id}]])"
-                                           class="button is-info is-small"> <i class="fas fa-paperclip mr-1"></i>Expediente</a>
-                                        <a data-target="cambiar-grado" th:onclick="cambiarGradoAlumno([[${a.id}]])"
-                                           class="button is-success is-small"> <i class="fas fa-address-card mr-1"></i>Grado</a>
-                                    </td>
-                                </tr>
+                                            <span class="tag is-warning"
+                                                  th:if="${a.estadoExpediente eq '0'}">Incompleto</span>
+                                            <span class="tag is-dark"
+                                                  th:if="${a.estadoExpediente eq null}">No definido</span>
+                                        </td>
+                                        <td th:text="${#numbers.formatPercent(a.porcentajeAsistencia, 0, 2)}">100%</td>
+                                        <td th:text="${a.descripcionGradoSeccion ne null ? a.descripcionGradoSeccion : '*NO ASIGNADO*'}">
+                                        </td>
+                                        <td class="has-text-right">
+                                            <a th:href="@{/alumno/editar/{id}(id=*{a.id})}"
+                                               class="button is-warning is-small"> <i class="far fa-eye mr-1"></i>Visualizar</a>
+                                            <a class="button is-danger is-small"
+                                               th:onclick="preEliminarAlumno([[${a.id}]])">
+                                                <input type="hidden" th:value="${2}">
+                                                <i class="fas fa-trash-alt mr-1"></i>Eliminar
+                                            </a>
+                                            <a data-target="modal-expediente" th:onclick="verExpediente([[${a.id}]])"
+                                               class="button is-info is-small"> <i class="fas fa-paperclip mr-1"></i>Expediente</a>
+                                            <a data-target="cambiar-grado" th:onclick="cambiarGradoAlumno([[${a.id}]])"
+                                               class="button is-success is-small"> <i
+                                                    class="fas fa-address-card mr-1"></i>Grado</a>
+                                        </td>
+                                    </tr>
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- Aqui no se toca-->
                     </div>

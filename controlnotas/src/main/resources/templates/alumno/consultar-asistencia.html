@@ -17,52 +17,138 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">CONTROL  ASISTENCIA</h4>
+                        <h4 class="title has-text-centered is-4">CONTROL ASISTENCIA</h4>
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+                        <form th:action="@{/asistencia}" method="get">
+                            <section class="section">
+                                <div class="columns">
+
+                                    <div class="column  is-3 is-offset-2">
+                                        <label>Grado y sección:</label>
+                                        <div class="control">
+                                            <div class="select is-small is-fullwidth ">
+                                                <select id="grado-seccion" name="idSeccion">
+                                                    <option value=""
+                                                            th:attrappend="selected=${idSeccion eq null? 'selected' : ''}">
+                                                        << TODOS >>
+                                                    </option>
+                                                    <option th:each="s: ${grados}" th:value="${s.idSeccion}"
+                                                            th:text="${s.descripcionGrado +' '+ s.descripcionSeccion}"
+                                                            th:attrappend="selected=${idSeccion eq s.idSeccion ? 'selected' : ''}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-3">
+                                        <label>Fecha:</label>
+                                        <div class="control is-fullwidth ">
+                                            <input class="input is-small" type="date" name="fecha" th:value="${fecha}">
+                                        </div>
+                                    </div>
+                                    <div class="column"><br>
+                                        <button class="button is-link is-small is-rounded"
+                                                title="Consultar listados"
+                                                type="submit">
+                                            <i class="fas fa-list mr-1"></i>Listar
+                                        </button>
+                                    </div>
+                                </div>
+                            </section>
+                        </form>
+
+                        <section class="section is-medium" th:if="${false}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                No se encontraron registros.
+                            </p>
+                        </section>
+
                         <div class="columns">
-                            <div class="column"><br>
-                                <div class="buttons" >
-                                    <a type="submit" class="button is-info  is-responsive " th:href="@{/asistencia/nuevo}">
-                                        <i class="fas fa-clipboard-list mr-1"></i>Nuevo listado
+                            <div class="column">
+                                <div class="buttons">
+                                    <a type="submit" class="button is-info  is-responsive "
+                                       th:href="@{/asistencia/nuevo}" title="Cree una plantilla para tomar asistencia">
+                                        <i class="fas fa-clipboard-list mr-1"></i>Crear plantilla asistencia
                                     </a>
                                 </div>
 
                             </div>
                         </div>
 
-                        <h5 class="title is-5 my-6">Listado asistencia</h5>
-                        <hr class="dropdown-divider">
-                        <div class="columns">
+                        <section class="section is-medium" th:if="${asistencia ne null and asistencia.isEmpty()}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                No hay datos.
+                            </p>
+                        </section>
 
-                            <table class="table display">
+                        <h5 class="title is-5 my-6" th:if="${asistencia ne null and not asistencia.isEmpty()}">Listados
+                            de asistencia</h5>
+
+                        <article class="message is-info" th:if="${asistencia ne null and not asistencia.isEmpty()}">
+                            <div class="message-body">
+                                <p><strong>Leyenda tipo:</strong></p>
+                                <ul>
+                                    <li>
+                                        <p class="is-italic">
+                                            <strong>ASISTENCIA:</strong> tipo de listado para marcar la asistencia a
+                                            clases, y se
+                                            toma en cuenta para el cálculo de porcentaje (%) de asistencia del alumno.
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="is-italic">
+                                            <strong>OTRO:</strong> este listado es usado para cualquier otro fin, y no
+                                            se toma en cuenta para
+                                            cálculos de asistencia.
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <div class="table-container" th:if="${asistencia ne null and not asistencia.isEmpty()}">
+
+                            <table id="tbl-listado" class="table display">
                                 <thead class="is-narrow">
                                 <tr>
-                                    <th>ID</th>
+                                    <th>#</th>
                                     <th>Observación</th>
                                     <th>Fecha</th>
+                                    <th>Tipo</th>
                                     <th>Grado y sección</th>
-                                    <th>Estado</th>
                                     <th>Operaciones</th>
 
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>No se presento</td>
-                                    <td>21/09/2022</td>
-                                    <td> primero A</td>
-                                    <td>Activo</td>
+                                <tr th:each="item: ${asistencia}">
+                                    <td th:text="${item.id}">1</td>
+                                    <td th:text="${item.observacion}">No se presento</td>
+                                    <td th:text="*{#temporals.format(item.fecha, 'dd/MM/yyyy')}">21/09/2022</td>
                                     <td>
-                                        <button class="button is-danger is-small">
-                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar</button>
-                                        <a class="button is-success is-small" th:href="@{/asistencia/tomar}">
-                                            <i class="fas fa-clipboard-list mr-1"></i>Tomar asistencia</a>
-                                        <a class="button is-info is-small" th:href="@{/asistencia/detalle}">
-                                            <i class="fas fa-info-circle mr-1"></i>Detalle</a>
+                                        <span class="tag is-primary" th:if="${item.tipo eq 1}">Asistencia</span>
+                                        <span class="tag is-info" th:if="${item.tipo eq 2}">Otro</span>
+                                    </td>
+                                    <td th:text="${item.gradoSeccion}"> primero A</td>
+                                    <td>
+                                        <button class="button is-danger is-small btn-pre-eliminar"
+                                                title="Eliminar este listado de asistencia" th:data-id-listado="${item.id}">
+                                            <i class="fas fa-trash-alt mr-1"></i>Eliminar
+                                        </button>
+                                        <a class="button is-success is-small"
+                                           th:href="@{/asistencia/{id}(id=*{item.id})}"
+                                           title="Visualizar listado para tomar asistencia">
+                                            <i class="fas fa-clipboard-list mr-1"></i>Visualizar</a>
                                     </td>
 
                                 </tr>
@@ -82,9 +168,16 @@
 
 </main>
 
+<div th:replace="alumno/dialogos-asistencia/confirmacion-eliminar::confirmacion-eliminar"></div>
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/show-message-localStorage.js"></script>
+<!-- datatables -->
+<script type="text/javascript" src="/js/datatables.min.js"></script>
+<script src="/js/consultar-asistencia.js"></script>
 
 </body>
 </html>

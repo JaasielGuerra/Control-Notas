@@ -13,54 +13,67 @@ import java.util.List;
 
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
 
-    @Query("SELECT " +
-            "a.id AS id, a.codigoAlumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
-            "a.observacionExpediente AS observacionExpediente," +
+    @Query(value = "SELECT " +
+            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
+            "a.observacion_expediente AS observacionExpediente," +
             "CONCAT(g.descripcion, ' ', s.descripcion) AS descripcionGradoSeccion," +
-            "a.estadoExpediente AS estadoExpediente " +
+            "a.estado_expediente AS estadoExpediente, " +
+            "func_obtener_porcentaje_asistencia_alumno(?2, ?3, a.id_alumno) AS porcentajeAsistencia " +
+            "FROM " +
+            "alumno a " +
+            "LEFT JOIN " +
+            "seccion s ON s.id_seccion = a.id_seccion " +
+            "LEFT JOIN " +
+            "grado g ON g.id_grado = s.id_grado " +
+            "WHERE " +
+            "a.estado = 1 " +
+            "AND " +
+            "a.id_seccion = ?1", nativeQuery = true)
+    public List<AlumnoConsultar> findAlumnosActivosBySeccion(Long seccion, Long idCicloActual, Long idBimestreActual);
+
+    @Query("SELECT " +
+            "a.id AS id " +
             "FROM " +
             "Alumno a " +
-            "LEFT JOIN " +
-            "Seccion s ON s = a.idSeccion " +
-            "LEFT JOIN " +
-            "Grado g ON g = s.idGrado " +
             "WHERE " +
             "a.estado = 1 " +
             "AND " +
             "a.idSeccion.id = ?1")
-    public List<AlumnoConsultar> findAlumnosActivosBySeccion(Long seccion);
+    List<Long> findIdAlumnosActivosBySeccion(Long seccion);
 
-    @Query("SELECT " +
-            "a.id AS id, a.codigoAlumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
-            "a.observacionExpediente AS observacionExpediente," +
+    @Query(value = "SELECT " +
+            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
+            "a.observacion_expediente AS observacionExpediente," +
             "CONCAT(g.descripcion, ' ', s.descripcion) AS descripcionGradoSeccion," +
-            "a.estadoExpediente AS estadoExpediente " +
+            "a.estado_expediente AS estadoExpediente, " +
+            "func_obtener_porcentaje_asistencia_alumno(?1, ?2, a.id_alumno) AS porcentajeAsistencia " +
             "FROM " +
-            "Alumno a " +
+            "alumno a " +
             "LEFT JOIN " +
-            "Seccion s ON s = a.idSeccion " +
+            "seccion s ON s.id_seccion = a.id_seccion " +
             "LEFT JOIN " +
-            "Grado g ON g = s.idGrado " +
+            "grado g ON g.id_grado = s.id_grado " +
             "WHERE " +
             "a.estado = 1 " +
             "AND " +
-            "a.idSeccion.id IS NULL")
-    public List<AlumnoConsultar> findAlumnosActivosNoAsignados();
+            "a.id_seccion IS NULL", nativeQuery = true)
+    public List<AlumnoConsultar> findAlumnosActivosNoAsignados(Long idCicloActual, Long idBimestreActual);
 
-    @Query("SELECT " +
-            "a.id AS id, a.codigoAlumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
-            "a.observacionExpediente AS observacionExpediente," +
+    @Query(value = "SELECT " +
+            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
+            "a.observacion_expediente AS observacionExpediente," +
             "CONCAT(g.descripcion, ' ', s.descripcion) AS descripcionGradoSeccion," +
-            "a.estadoExpediente AS estadoExpediente " +
+            "a.estado_expediente AS estadoExpediente, " +
+            "func_obtener_porcentaje_asistencia_alumno(?1, ?2, a.id_alumno) AS porcentajeAsistencia " +
             "FROM " +
-            "Alumno a " +
+            "alumno a " +
             "LEFT JOIN " +
-            "Seccion s ON s = a.idSeccion " +
+            "seccion s ON s.id_seccion = a.id_seccion " +
             "LEFT JOIN " +
-            "Grado g ON g = s.idGrado " +
+            "grado g ON g.id_grado = s.id_grado " +
             "WHERE " +
-            "a.estado = 1 ")
-    public List<AlumnoConsultar> findAlumnosActivos();
+            "a.estado = 1 ", nativeQuery = true)
+    public List<AlumnoConsultar> findAlumnosActivos(Long idCicloActual, Long idBimestreActual);
 
     @Query("SELECT " +
             "a.id AS id, a.codigoAlumno AS codigo,a.nombre AS nombre,a.apellido AS apellido," +
