@@ -131,5 +131,27 @@ public class AsistenciaController {
         return ResponseEntity.ok(responseDataDto);
     }
 
+    @DeleteMapping(value = "/eliminar-listado/{idListado}")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> eliminarListadoAsistencia(@PathVariable Long idListado) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Eliminando listado de asistencia: " + idListado);
+
+        try {
+
+            responseDataDto = asistenciaService.eliminarListadoAsistencia(idListado);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "Error al eliminar listado de asistencia", ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar listado de asistencia " + ex.getMessage(), ex
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
+    }
+
 
 }

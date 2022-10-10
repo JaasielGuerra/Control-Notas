@@ -20,5 +20,9 @@ public interface ListadoAsistenciaRepository extends JpaRepository<ListadoAsiste
     @Query("update ListadoAsistencia l set l.observacion = ?2 where l.id = ?1")
     void updateObservacionListadoAsistencia(Long id, String observacion);
 
+    @Modifying
+    @Query("update ListadoAsistencia l set l.estado = ?2 where l.id = ?1")
+    void updateEstadoListadoAsistencia(Long id, Integer estado);
+
 
 }

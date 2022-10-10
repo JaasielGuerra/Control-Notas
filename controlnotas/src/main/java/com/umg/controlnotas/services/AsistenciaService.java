@@ -20,4 +20,7 @@ public interface AsistenciaService {
 
     @Transactional
     ResponseDataDto guardarAsistencia(Long idListado, ListadoAsistenciaDto listadoAsistenciaDto);
+
+    @Transactional
+    ResponseDataDto eliminarListadoAsistencia(Long idListado);
 }

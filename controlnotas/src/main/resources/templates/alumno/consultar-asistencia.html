@@ -141,8 +141,8 @@
                                     </td>
                                     <td th:text="${item.gradoSeccion}"> primero A</td>
                                     <td>
-                                        <button class="button is-danger is-small"
-                                                title="Eliminar este listado de asistencia">
+                                        <button class="button is-danger is-small btn-pre-eliminar"
+                                                title="Eliminar este listado de asistencia" th:data-id-listado="${item.id}">
                                             <i class="fas fa-trash-alt mr-1"></i>Eliminar
                                         </button>
                                         <a class="button is-success is-small"
@@ -168,9 +168,11 @@
 
 </main>
 
+<div th:replace="alumno/dialogos-asistencia/confirmacion-eliminar::confirmacion-eliminar"></div>
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+<script src="/js/modal.js"></script>
 <script src="/js/utilidades.js"></script>
 <script src="/js/show-message-localStorage.js"></script>
 <!-- datatables -->

@@ -174,7 +174,8 @@ public class AsistenciaServiceImpl implements AsistenciaService {
 
     /**
      * Guardar el listado de asistencia
-     * @param idListado Identificador del listado de asistencia
+     *
+     * @param idListado            Identificador del listado de asistencia
      * @param listadoAsistenciaDto Listado de asistencia
      * @return Listado de asistencia
      */
@@ -219,6 +220,25 @@ public class AsistenciaServiceImpl implements AsistenciaService {
                 .code(1)
                 .message("Listado de asistencia guardado correctamente")
                 .data(listadoAsistenciaDto)
+                .build();
+    }
+
+    /**
+     * Eliminar un listado de asistencia por su ID
+     *
+     * @param idListado Identificador del listado de asistencia
+     * @return
+     */
+    @Override
+    @Transactional
+    public ResponseDataDto eliminarListadoAsistencia(Long idListado) {
+
+        listadoAsistenciaRepository.updateEstadoListadoAsistencia(idListado, ListadoAsistencia.ESTADO_ELIMINADO);
+
+        return ResponseDataDto.builder()
+                .code(1)
+                .message("Listado de asistencia eliminado correctamente")
+                .data(null)
                 .build();
     }
 }
