@@ -97,11 +97,17 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item">
-                        Notas de bimestre
+                    <a class="navbar-item" th:href="@{/reportes/alumnos?init=true}">
+                        Reporte de alumnos
                     </a>
-                    <a class="navbar-item">
-                        Notas de fin de año
+                    <a class="navbar-item"  th:href="@{/reportes/notas-bimestre}">
+                        Reporte notas por bimestre
+                    </a>
+                    <a class="navbar-item" th:href="@{/reportes/notas-finales}">
+                        Reporte notas finales
+                    </a>
+                    <a class="navbar-item" th:href="@{/reportes/actitudinal}">
+                        Reporte actitudinal alumno
                     </a>
                 </div>
             </div>

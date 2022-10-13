@@ -1077,6 +1077,97 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- Procedimientos
 -- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS proc_reporte_alumnos;
+DELIMITER $$
+CREATE  PROCEDURE `proc_reporte_alumnos`(
+	seccion BIGINT,
+	idCicloActual BIGINT,
+	idBimestreActual BIGINT
+)
+BEGIN
+	
+	
+	-- por seccion	
+	IF seccion IS NOT NULL AND seccion > 0 THEN
+		SELECT
+			a.codigo_alumno codigo,
+			a.nombre nombre,
+			a.apellido apellido,
+			a.observacion_expediente observacion,
+			a.estado_expediente expediente,
+			func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+			idBimestreActual,
+			a.id_alumno) asistencia,
+			CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+		FROM
+			alumno a
+		LEFT JOIN
+		seccion s ON
+			s.id_seccion = a.id_seccion
+		LEFT JOIN
+		grado g ON
+			g.id_grado = s.id_grado
+		WHERE
+			a.estado = 1
+			AND a.id_seccion = seccion;
+	END IF;
+
+	-- todos los alumnos	
+	IF seccion IS NULL THEN
+		SELECT
+			a.codigo_alumno codigo,
+			a.nombre nombre,
+			a.apellido apellido,
+			a.observacion_expediente observacion,
+			a.estado_expediente expediente,
+			func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+			idBimestreActual,
+			a.id_alumno) asistencia,
+			CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+		FROM
+			alumno a
+		LEFT JOIN
+		seccion s ON
+			s.id_seccion = a.id_seccion
+		LEFT JOIN
+		grado g ON
+			g.id_grado = s.id_grado
+		WHERE
+			a.estado = 1;
+	END IF;
+
+	-- sin asignacion
+	IF seccion = 0 THEN
+		SELECT
+			a.codigo_alumno codigo,
+			a.nombre nombre,
+			a.apellido apellido,
+			a.observacion_expediente observacion,
+			a.estado_expediente expediente,
+			func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+			idBimestreActual,
+			a.id_alumno) asistencia,
+			CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+		FROM
+			alumno a
+		LEFT JOIN
+		seccion s ON
+			s.id_seccion = a.id_seccion
+		LEFT JOIN
+		grado g ON
+			g.id_grado = s.id_grado
+		WHERE
+			a.estado = 1
+			AND a.id_seccion IS NULL;
+	END IF;
+	
+	
+	
+END$$
+DELIMITER ;
+
+
+
 DROP PROCEDURE IF EXISTS proc_consulta_calificar_actividades;
 DELIMITER $$
 CREATE  PROCEDURE `proc_consulta_calificar_actividades`( 

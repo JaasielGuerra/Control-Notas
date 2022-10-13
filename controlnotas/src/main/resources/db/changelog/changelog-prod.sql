@@ -95,3 +95,91 @@ CREATE TABLE IF NOT EXISTS `db_control_notas`.`control_actitudinal` (
                                                                             REFERENCES `db_control_notas`.`bimestre` (`id_bimestre`)
                                                                             ON DELETE NO ACTION ON UPDATE NO ACTION
 )  ENGINE=INNODB;
+
+-- changeset liquibase:jaasiel-7 endDelimiter:\nDELIMITER $$
+DROP PROCEDURE IF EXISTS db_control_notas.proc_reporte_alumnos;
+
+-- changeset liquibase:jaasiel-8 endDelimiter:$$\nDELIMITER ;
+CREATE  PROCEDURE `proc_reporte_alumnos`(
+    seccion BIGINT,
+    idCicloActual BIGINT,
+    idBimestreActual BIGINT
+)
+BEGIN
+
+
+    -- por seccion
+    IF seccion IS NOT NULL AND seccion > 0 THEN
+        SELECT
+            a.codigo_alumno codigo,
+            a.nombre nombre,
+            a.apellido apellido,
+            a.observacion_expediente observacion,
+            a.estado_expediente expediente,
+            func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+                                                      idBimestreActual,
+                                                      a.id_alumno) asistencia,
+            CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+        FROM
+            alumno a
+                LEFT JOIN
+            seccion s ON
+                    s.id_seccion = a.id_seccion
+                LEFT JOIN
+            grado g ON
+                    g.id_grado = s.id_grado
+        WHERE
+                a.estado = 1
+          AND a.id_seccion = seccion;
+    END IF;
+
+    -- todos los alumnos
+    IF seccion IS NULL THEN
+        SELECT
+            a.codigo_alumno codigo,
+            a.nombre nombre,
+            a.apellido apellido,
+            a.observacion_expediente observacion,
+            a.estado_expediente expediente,
+            func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+                                                      idBimestreActual,
+                                                      a.id_alumno) asistencia,
+            CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+        FROM
+            alumno a
+                LEFT JOIN
+            seccion s ON
+                    s.id_seccion = a.id_seccion
+                LEFT JOIN
+            grado g ON
+                    g.id_grado = s.id_grado
+        WHERE
+                a.estado = 1;
+    END IF;
+
+    -- sin asignacion
+    IF seccion = 0 THEN
+        SELECT
+            a.codigo_alumno codigo,
+            a.nombre nombre,
+            a.apellido apellido,
+            a.observacion_expediente observacion,
+            a.estado_expediente expediente,
+            func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+                                                      idBimestreActual,
+                                                      a.id_alumno) asistencia,
+            CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+        FROM
+            alumno a
+                LEFT JOIN
+            seccion s ON
+                    s.id_seccion = a.id_seccion
+                LEFT JOIN
+            grado g ON
+                    g.id_grado = s.id_grado
+        WHERE
+                a.estado = 1
+          AND a.id_seccion IS NULL;
+    END IF;
+
+END
