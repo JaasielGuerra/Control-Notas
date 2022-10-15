@@ -164,4 +164,13 @@ public class BimestreServiceImpl implements BimestreService {
                 .estado(b.getEstado())
                 .build()).collect(Collectors.toList());
     }
+
+    /**
+     * Obtener ids bimestre por ciclo escolar, y que no esten eliminados
+     * @param idCicloEscolar
+     */
+    @Override
+    public List<Long> obtenerIdsBimestre(Long idCicloEscolar) {
+        return bimestreRepository.findIdBimestreByIdCicloEscolarId(idCicloEscolar, Bimestre.ELIMINADO);
+    }
 }
