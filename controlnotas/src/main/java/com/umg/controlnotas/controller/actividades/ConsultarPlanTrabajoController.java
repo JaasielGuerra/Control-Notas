@@ -48,7 +48,7 @@ public class ConsultarPlanTrabajoController {
         //agregar a la vista los grados sin plan de trabajo
         model.addAttribute("gradosSinPlanTrabajoList", gradosSinPlanTrabajoList);
         //agregar a la vista los plantes de trabajo
-        model.addAttribute("planTrabajoList", planTrabajoRepository.findByEstado(PlanTrabajo.ACTIVO));
+        model.addAttribute("planTrabajoList", planTrabajoRepository.findByEstadoAndIdBimestreId(PlanTrabajo.ACTIVO, idBimestre));
 
         return "actividades/consultar-plan-trabajo";
     }
