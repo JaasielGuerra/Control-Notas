@@ -144,4 +144,12 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
             "WHERE a.id_alumno = ?1", nativeQuery = true)
     ConsultaAlumnosLectura obtenerAlumnoLectura(Long idAlumno);
 
+    @Query(value="CALL proc_reporte_alumnos(?1, ?2, ?3)", nativeQuery = true)
+    List<AlumnoReporte> consultarReporteAlumnos(Long seccion, Long idCicloActual, Long idBimestreActual);
+
+    @Query(value="CALL proc_datos_alumno(?1, ?2)", nativeQuery = true)
+    DatosAlumnoReporte consultarDatosAlumno(String codAlumno, Long idCiclo);
+
+    @Query(value="CALL proc_reporte_notas_por_bimestre(?1, ?2)", nativeQuery = true)
+    List<ConsultaReporteNotasBimestre> consultarReporteNotasBimestre(Long idBimestre, Long idAlumno);
 }

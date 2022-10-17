@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+
+
+            <div class="card mb-4">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">GENERAR REPORTE DE ALUMNOS</h4>
+                        <hr class="dropdown-divider mb-6">
+
+                        <form th:action="@{/reportes/alumnos}" method="get">
+                            <div class="columns">
+                                <div class="column is-3 is-offset-4">
+                                    <label>Grado y sección:</label>
+                                    <div class="select is-small is-fullwidth">
+                                        <select id="grado-seccion" name="seccion">
+                                            <option value=""
+                                                    th:attrappend="selected=${seleccion eq null? 'selected' : ''}">
+                                                << TODOS >>
+                                            </option>
+                                            <option th:each="s: ${grados}" th:value="${s.idSeccion}"
+                                                    th:text="${s.descripcionGrado +' '+ s.descripcionSeccion}"
+                                                    th:attrappend="selected=${seleccion eq s.idSeccion ? 'selected' : ''}">
+                                            </option>
+                                            <option value="0"
+                                                    th:attrappend="selected=${seleccion eq 0 ? 'selected' : ''}">
+                                                SIN ASIGNACIÓN
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="column is-flex is-align-items-end">
+                                    <button class="button is-info is-small" title="Consultar alumnos"
+                                            type="submit">
+                                        <i class="fas fa-search mr-1"></i>Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENCABEZADO -->
+            <div class="card mb-4" th:if="${alumnos ne null}" id="encabezado">
+                <div class="card-content">
+                    <div class="content has-text-centered">
+                        <p class="title is-5 pb-2">REPORTE DE ALUMNOS</p>
+                        <p class="subtitle is-6">
+                            [[${institucion.nombre}]]
+                            <br>
+                            [[${institucion.direccion}]]
+                            <br>
+                            [[${institucion.codigo}]]
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-4" th:if="${alumnos ne null}">
+
+                <div class="card-content">
+
+                    <section class="section is-medium" th:if="${alumnos ne null and alumnos.isEmpty()}">
+                        <figure class="image is-128x128" style="margin: auto">
+                            <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                        </figure>
+                        <p class="subtitle has-text-centered">
+                            No se encontraron registros con los parámetros indicados.
+                        </p>
+                    </section>
+
+                    <div class="table-container" th:if="${alumnos ne null and not alumnos.isEmpty()}">
+                        <table id="tbl-alumnos" class="is-size-7 table display" style="width:100%">
+                            <thead class="is-narrow">
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Observación</th>
+                                <th>Expediente</th>
+                                <th>Asistencia</th>
+                                <th>Grado</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="a: ${alumnos}">
+                                <td th:text="*{a.codigo}"></td>
+                                <td th:text="*{a.nombre +' '+a.apellido}"></td>
+                                <td th:text="*{a.observacion}"></td>
+                                <td>
+                                    <span class="tag is-success"
+                                          th:if="${a.expediente eq '1'}">Completo</span>
+                                    <span class="tag is-warning"
+                                          th:if="${a.expediente eq '0'}">Incompleto</span>
+                                    <span class="tag is-dark"
+                                          th:if="${a.expediente eq null}">No definido</span>
+                                </td>
+                                <td th:text="${#numbers.formatPercent(a.asistencia, 0, 2)}"></td>
+                                <td th:text="${a.gradoSeccion ne null ? a.gradoSeccion : '*NO ASIGNADO*'}"></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+<!-- datatables -->
+<script type="text/javascript" src="/js/datatables.min.js"></script>
+<script type="text/javascript" src="/js/reporte-alumnos.js"></script>
+
+</body>
+</html>

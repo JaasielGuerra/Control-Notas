@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+
+
+            <div class="card mb-4">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">GENERAR REPORTE ACTITUDINAL</h4>
+                        <hr class="dropdown-divider mb-6">
+
+                        <form th:action="@{/alumno/consultar}" method="get">
+                            <div class="columns">
+                                <div class="column is-4">
+                                    <label>Código alumno:</label>
+                                    <div class="control">
+                                        <input class="input is-small" type="text" name="codigo">
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <label>Ciclo:</label>
+                                    <div class="control">
+                                        <div class="select is-small is-fullwidth">
+                                            <select name="ciclo">
+                                                <option disabled selected>- Seleccione -</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-flex is-align-items-end">
+                                    <button class="button is-info is-small" title="Consultar alumnos"
+                                            type="submit">
+                                        <i class="fas fa-search mr-1"></i>Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-4">
+
+                <div class="card-content">
+
+                    <section class="section is-medium" th:if="${alumnos ne null and alumnos.isEmpty()}">
+                        <figure class="image is-128x128" style="margin: auto">
+                            <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                        </figure>
+                        <p class="subtitle has-text-centered">
+                            No se encontraron registros con los parámetros indicados.
+                        </p>
+                    </section>
+
+                    <div class="table-container" th:if="${true}">
+                        <table id="tbl-actitudinal" class="table display" style="width:100%">
+                            <thead class="is-narrow">
+                            <tr>
+                                <th>Código</th>
+                                <th>Alumno</th>
+                                <th>Descripción</th>
+                                <th>Fecha</th>
+                                <th>Materia</th>
+                                <th>Puntos restados (-)</th>
+                                <th>Puntos sumados (+)</th>
+                                <th>Puntos actuales</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="a: ${alumnos}">
+                                <td th:text="*{a.codigo}">demo</td>
+                                <td th:text="*{a.nombre +' '+a.apellido}">demo</td>
+                                <td th:text="*{''}">
+                                    lorem ipsum dolor sit amet, consectet
+                                </td>
+                                <td th:text="*{#temporals.format(LocalDate, 'dd/MM/yyyy')}">12/10/2022</td>
+                                <td th:text="*{''}">materia</td>
+                                <td th:text="${#numbers.formatDecimal(100, 0, 2)}">100</td>
+                                <td th:text="${#numbers.formatDecimal(100, 0, 2)}">100</td>
+                                <td th:text="${#numbers.formatDecimal(100, 0, 2)}">100</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+<!-- datatables -->
+<script type="text/javascript" src="/js/datatables.min.js"></script>
+<script type="text/javascript">
+    $('#tbl-actitudinal').DataTable({
+        lengthMenu: [25], language: {
+            lengthMenu: "Mostrar _MENU_ registros",
+            search: "Buscar en todos los campos: _INPUT_",
+            emptyTable: "No hay registros para mostrar",
+            sZeroRecords: "No se encontron resultados",
+            paginate: {
+                previous: "Página anterior", next: "Página siguiente"
+            },
+            info: "Mostrando _START_ al _END_ de _TOTAL_ registros",
+        },
+        order: [1, "asc"],
+        dom: 'Brtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Excel',
+                title: 'ACTITUDINAL',
+                sheetName: 'ACTITUDINAL',
+
+            },
+            {
+                extend: 'pdf',
+                text: 'PDF',
+                title: 'ACTITUDINAL',
+                orientation: 'landscape',
+                pageSize: 'LETTER',
+                filename: 'ACTITUDINAL',
+
+            }
+        ]
+    });
+</script>
+
+</body>
+</html>

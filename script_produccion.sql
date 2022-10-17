@@ -1077,6 +1077,213 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- Procedimientos
 -- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS proc_reporte_notas_por_bimestre;
+DELIMITER $$
+CREATE PROCEDURE proc_reporte_notas_por_bimestre(
+	idBimestre BIGINT,
+	idAlumno BIGINT
+)
+BEGIN
+	
+	DECLARE puntosActitudinal DOUBLE(16,2);
+
+	-- consultar los puntos actitudinal configurados en el bimestre
+	SELECT b.puntos_actitudinal INTO puntosActitudinal FROM bimestre b WHERE b.id_bimestre = idBimestre;
+	
+
+	
+	SELECT
+		(
+			SELECT 
+				b.descripcion
+			FROM
+				bimestre b
+			WHERE
+				b.id_bimestre = idBimestre -- id bimestre 
+		) bimestre,
+		m.descripcion materia,
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				actividad a ON a.id_actividad = dc.id_actividad 
+			JOIN
+				materia m2 ON m2.id_materia = a.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_actividad IS NOT NULL -- que no sea null, significa que es calificacion de actividad
+		), 0) puntos_actividades,
+		COALESCE((
+			SELECT
+				-- si no hay registros, devolver el 100% de actitudinal configurado en el bimestre
+				IF((SUM(ca.puntos_sumados) - SUM(ca.puntos_restados)) IS NULL, puntosActitudinal, SUM(ca.puntos_sumados) - SUM(ca.puntos_restados))
+			FROM
+				control_actitudinal ca 
+			WHERE 
+				ca.id_alumno = idAlumno -- El ID del alumno
+				AND ca.id_bimestre = idBimestre -- id bimestre
+				AND ca.id_materia = m.id_materia 
+		), 0) puntos_conducta,
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				evaluacion e  ON e.id_evaluacion  = dc.id_evaluacion  
+			JOIN
+				materia m2 ON m2.id_materia = e.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_evaluacion  IS NOT NULL -- que no sea null, significa que es evaluacion
+		), 0) puntos_evaluaciones
+	FROM
+		materia m 
+	WHERE
+		m.id_grado = (SELECT s.id_grado FROM alumno a JOIN seccion s on a.id_seccion = s.id_seccion WHERE a.id_alumno = idAlumno ) -- El ID del alumno
+		AND m.estado = 1; -- que no este eliminado
+END$$
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS proc_datos_alumno;
+DELIMITER $$
+CREATE PROCEDURE proc_datos_alumno(
+	codAlumno VARCHAR(45),
+	idCiclo BIGINT
+)
+BEGIN
+	SELECT
+    a.id_alumno id,
+		a.nombre nombre ,
+		a.apellido apellido,
+		a.codigo_alumno codigo,
+		a.direccion direccion ,
+		CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion,
+		(
+		SELECT
+			ce.anio
+		FROM
+			ciclo_escolar ce
+		WHERE
+			ce.id_ciclo_escolar = idCiclo
+		) anioCiclo
+	FROM
+		alumno a
+	LEFT JOIN
+	seccion s ON
+		s.id_seccion = a.id_seccion
+	LEFT JOIN
+	grado g ON
+		g.id_grado = s.id_grado
+	WHERE 
+		a.codigo_alumno  = codAlumno
+    AND a.estado = 1
+	LIMIT 1;
+
+END$$
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS proc_reporte_alumnos;
+DELIMITER $$
+CREATE  PROCEDURE `proc_reporte_alumnos`(
+	seccion BIGINT,
+	idCicloActual BIGINT,
+	idBimestreActual BIGINT
+)
+BEGIN
+	
+	
+	-- por seccion	
+	IF seccion IS NOT NULL AND seccion > 0 THEN
+		SELECT
+			a.codigo_alumno codigo,
+			a.nombre nombre,
+			a.apellido apellido,
+			a.observacion_expediente observacion,
+			a.estado_expediente expediente,
+			func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+			idBimestreActual,
+			a.id_alumno) asistencia,
+			CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+		FROM
+			alumno a
+		LEFT JOIN
+		seccion s ON
+			s.id_seccion = a.id_seccion
+		LEFT JOIN
+		grado g ON
+			g.id_grado = s.id_grado
+		WHERE
+			a.estado = 1
+			AND a.id_seccion = seccion;
+	END IF;
+
+	-- todos los alumnos	
+	IF seccion IS NULL THEN
+		SELECT
+			a.codigo_alumno codigo,
+			a.nombre nombre,
+			a.apellido apellido,
+			a.observacion_expediente observacion,
+			a.estado_expediente expediente,
+			func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+			idBimestreActual,
+			a.id_alumno) asistencia,
+			CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+		FROM
+			alumno a
+		LEFT JOIN
+		seccion s ON
+			s.id_seccion = a.id_seccion
+		LEFT JOIN
+		grado g ON
+			g.id_grado = s.id_grado
+		WHERE
+			a.estado = 1;
+	END IF;
+
+	-- sin asignacion
+	IF seccion = 0 THEN
+		SELECT
+			a.codigo_alumno codigo,
+			a.nombre nombre,
+			a.apellido apellido,
+			a.observacion_expediente observacion,
+			a.estado_expediente expediente,
+			func_obtener_porcentaje_asistencia_alumno(idCicloActual,
+			idBimestreActual,
+			a.id_alumno) asistencia,
+			CONCAT(g.descripcion, ' ', s.descripcion) AS gradoSeccion
+		FROM
+			alumno a
+		LEFT JOIN
+		seccion s ON
+			s.id_seccion = a.id_seccion
+		LEFT JOIN
+		grado g ON
+			g.id_grado = s.id_grado
+		WHERE
+			a.estado = 1
+			AND a.id_seccion IS NULL;
+	END IF;
+	
+	
+	
+END$$
+DELIMITER ;
+
+
+
 DROP PROCEDURE IF EXISTS proc_consulta_calificar_actividades;
 DELIMITER $$
 CREATE  PROCEDURE `proc_consulta_calificar_actividades`( 

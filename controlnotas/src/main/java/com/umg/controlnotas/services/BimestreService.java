@@ -16,4 +16,6 @@ public interface BimestreService {
     @Transactional
     ResponseDataDto cerrarBimestre(Long idBimestre);
     List<BimestreDto> obtenerTodosBimestres();
+
+    List<Long> obtenerIdsBimestre(Long idCicloEscolar);
 }

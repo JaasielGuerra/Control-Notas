@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+
+
+            <div class="card mb-4">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">GENERAR REPORTE DE NOTAS FINALES</h4>
+                        <hr class="dropdown-divider mb-6">
+
+                        <form th:action="@{/alumno/consultar}" method="get">
+                            <div class="columns">
+                                <div class="column is-4">
+                                    <label>Código alumno:</label>
+                                    <div class="control">
+                                        <input class="input is-small" type="text" name="codigo">
+                                    </div>
+                                </div>
+                                <div class="column is-5">
+                                    <label>Ciclo:</label>
+                                    <div class="control">
+                                        <div class="select is-small is-fullwidth">
+                                            <select name="ciclo">
+                                                <option disabled selected>- Seleccione -</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-flex is-align-items-end">
+                                    <button class="button is-info is-small" title="Consultar alumnos"
+                                            type="submit">
+                                        <i class="fas fa-search mr-1"></i>Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENCABEZADO -->
+            <div class="card mb-4">
+                <div class="card-content">
+                    <div class="content has-text-centered">
+                        <p class="title is-5 pb-2">REPORTE DE NOTAS FINALES</p>
+                        <p class="subtitle is-7 is-uppercase">
+                            [[${institucion.nombre}]]
+                            <br>
+                            [[${institucion.direccion}]]
+                            <br>
+                            [[${institucion.codigo}]]
+                            <br>
+                            [[${institucion.nombreDirector}]]
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <header class="card-header is-shadowless has-background-warning">
+                    <p class="card-header-title is-size-6">
+                        DATOS DEL ALUMNO
+                    </p>
+                </header>
+
+                <div class="card-content">
+                    <table class="table is-fullwidth is-narrow">
+                        <tbody>
+                        <tr>
+                            <td class="is-size-7 title">Nombre:</td>
+                            <td class="is-size-7 is-uppercase">Perez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Apellido:</td>
+                            <td class="is-size-7 is-uppercase">Perez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Código:</td>
+                            <td class="is-size-7 is-uppercase">Perez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Dirección:</td>
+                            <td class="is-size-7 is-uppercase">Perez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Grado:</td>
+                            <td class="is-size-7 is-uppercase">Perez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Ciclo:</td>
+                            <td class="is-size-7 is-uppercase">Perez</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+            <div class="card mb-4">
+                <header class="card-header is-shadowless has-background-warning">
+                    <p class="card-header-title is-size-6">
+                        PROMEDIO DE NOTAS
+                    </p>
+                </header>
+
+                <div class="card-content">
+                    <table class="table is-fullwidth is-narrow is-bordered">
+
+                        <thead class="has-background-white-ter">
+                        <tr>
+                            <th class="is-size-7 has-text-centered" rowspan="2">Materia</th>
+                            <th class="is-size-7 has-text-centered" colspan="2">Puntajes</th>
+                        </tr>
+                        <tr>
+                            <th class="is-size-7 has-text-centered">En números</th>
+                            <th class="is-size-7 has-text-centered">En letras</th>
+                        </tr>
+                        </thead>
+
+                        <tbody class="is-uppercase">
+                        <tr>
+                            <td class="is-size-7">Matematica</td>
+                            <td class="is-size-7 has-text-centered">10</td>
+                            <td class="is-size-7">Diez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7">comunicacion y lenguaje</td>
+                            <td class="is-size-7 has-text-centered">10</td>
+                            <td class="is-size-7">Diez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7">Ciencias Naturales</td>
+                            <td class="is-size-7 has-text-centered">10</td>
+                            <td class="is-size-7">Diez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7">Ciencias Sociales</td>
+                            <td class="is-size-7 has-text-centered">10</td>
+                            <td class="is-size-7">Diez</td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7">Educacion Fisica</td>
+                            <td class="is-size-7 has-text-centered">10</td>
+                            <td class="is-size-7">Diez</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+            <div class="buttons is-centered">
+                <button class="button is-info is-large"><i class="fas fa-print mr-1"></i>IMPRIMIR REPORTE</button>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+
+</body>
+</html>
