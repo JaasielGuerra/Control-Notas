@@ -75,15 +75,22 @@
                 <!-- ENCABEZADO -->
                 <div class="card mb-4 is-shadowless" id="encabezado" th:if="${reporte ne null}">
                     <div class="card-content">
-                        <div class="content has-text-centered">
-                            <p class="title is-5 pb-2">REPORTE DE NOTAS POR BIMESTRE</p>
-                            <p class="subtitle is-6">
-                                [[${institucion.nombre}]]
-                                <br>
-                                [[${institucion.direccion}]]
-                                <br>
-                                [[${institucion.codigo}]]
-                            </p>
+                        <div class="content">
+                            <div class="is-flex is-justify-content-center is-flex-direction-row">
+                                <figure class="image is-96x96">
+                                    <img th:src="${'/img/logo.png'}">
+                                </figure>
+                                <div class="has-text-centered">
+                                    <p class="title is-5 pb-2">REPORTE DE NOTAS POR BIMESTRE</p>
+                                    <p class="subtitle is-6">
+                                        [[${institucion.nombre}]]
+                                        <br>
+                                        [[${institucion.direccion}]]
+                                        <br>
+                                        [[${institucion.codigo}]]
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,7 +178,8 @@
             </div>
 
             <div class="buttons is-centered" th:if="${reporte ne null}">
-                <button class="button is-info is-large" id="btn-print" type="button"><i class="fas fa-print mr-1"></i>IMPRIMIR REPORTE
+                <button class="button is-info is-large" id="btn-print" type="button"><i class="fas fa-print mr-1"></i>IMPRIMIR
+                    REPORTE
                 </button>
             </div>
 
