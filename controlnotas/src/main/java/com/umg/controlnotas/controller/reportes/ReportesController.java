@@ -1,7 +1,9 @@
 package com.umg.controlnotas.controller.reportes;
 
 import com.umg.controlnotas.model.Grado;
+import com.umg.controlnotas.model.dto.ReporteNotasFinalesDto;
 import com.umg.controlnotas.model.dto.ReporteNotasPorBimestreDto;
+import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.model.query.DatosAlumnoReporte;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.services.CicloEscolarService;
@@ -73,10 +75,42 @@ public class ReportesController {
     }
 
     @GetMapping(value = "/notas-finales")
-    public String reporteNotasFinales(Model model) {
+    public String reporteNotasFinales(Model model, String codAlumno, Long ciclo, @RequestParam(defaultValue = "false") boolean init) {
 
         log.info("consultar reporte de notas finales");
-        model.addAttribute("institucion", institucionService.getInstitucion(1));
+        log.info("codAlumno: " + codAlumno);
+        log.info("ciclo: " + ciclo);
+        log.info("init: " + init);
+
+
+        try {
+
+            model.addAttribute("ciclos", cicloEscolarService.obtenerCiclosAnteriores());
+
+            if (init) {
+                model.addAttribute("reporte", null);
+            } else {
+
+                //consultar los datos del alumno y sus calificaciones finales
+                ResponseDataDto reporte = reportesService.reporteNotasFinales(codAlumno, ciclo);
+
+                //si hay algun error
+                if (reporte.getCode() == ResponseDataDto.ERROR) {
+                    model.addAttribute("mensaje", reporte.getMessage());
+                    return "reportes/reporte-notas-finales";
+                }
+
+                model.addAttribute("reporte", reporte.getData());
+                model.addAttribute("institucion", institucionService.getInstitucion(1));
+            }
+
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
 
         return "reportes/reporte-notas-finales";
     }
