@@ -1,10 +1,8 @@
 package com.umg.controlnotas.controller.reportes;
 
 import com.umg.controlnotas.model.Grado;
-import com.umg.controlnotas.model.dto.ReporteNotasFinalesDto;
 import com.umg.controlnotas.model.dto.ReporteNotasPorBimestreDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
-import com.umg.controlnotas.model.query.DatosAlumnoReporte;
 import com.umg.controlnotas.repository.SeccionRepository;
 import com.umg.controlnotas.services.CicloEscolarService;
 import com.umg.controlnotas.services.InstitucionService;
@@ -14,12 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.Objects;
+import java.util.logging.Level;
 
 @Controller
 @RequestMapping(value = "/reportes")
@@ -122,6 +126,20 @@ public class ReportesController {
         log.info("seccion: " + seccion);
         log.info("init: " + init);
 
+        //get image from resources and encode to base64
+        String logoBase64 = null;
+        try {
+            File logo = ResourceUtils.getFile("classpath:static/img/logo.png");
+            byte[] fileContent = Files.readAllBytes(logo.toPath());
+            logoBase64 = Base64.getEncoder().encodeToString(fileContent);
+        } catch (IOException e) {
+            log.log(Level.SEVERE, "error: " + e.getMessage(), e);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + e.getMessage(), e
+            );
+        }
+        model.addAttribute("logoBase64", logoBase64);
+
         try {
 
             model.addAttribute("grados", seccionRepository.findGradosSeccionesByEstadoGrado(Grado.ACTIVO));
@@ -135,7 +153,7 @@ public class ReportesController {
             }
 
         } catch (Exception ex) {
-            log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+            log.log(Level.SEVERE, "error: " + ex.getMessage(), ex);
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
             );
