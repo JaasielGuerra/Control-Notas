@@ -4,9 +4,11 @@ import com.umg.controlnotas.model.Grado;
 import com.umg.controlnotas.model.dto.ReporteNotasPorBimestreDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.SeccionRepository;
+import com.umg.controlnotas.services.BimestreService;
 import com.umg.controlnotas.services.CicloEscolarService;
 import com.umg.controlnotas.services.InstitucionService;
 import com.umg.controlnotas.services.ReportesService;
+import com.umg.controlnotas.web.UserFacade;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,10 @@ public class ReportesController {
     private SeccionRepository seccionRepository;
     @Autowired
     private CicloEscolarService cicloEscolarService;
+    @Autowired
+    private BimestreService bimestreService;
+    @Autowired
+    private UserFacade userFacade;
 
     @GetMapping(value = "/notas-bimestre")
     public String reporteNotasPorBimestre(Model model, String codAlumno, Long ciclo, @RequestParam(defaultValue = "false") boolean init) {
@@ -127,17 +133,7 @@ public class ReportesController {
         log.info("init: " + init);
 
         //get image from resources and encode to base64
-        String logoBase64 = null;
-        try {
-            File logo = ResourceUtils.getFile("classpath:static/img/logo.png");
-            byte[] fileContent = Files.readAllBytes(logo.toPath());
-            logoBase64 = Base64.getEncoder().encodeToString(fileContent);
-        } catch (IOException e) {
-            log.log(Level.SEVERE, "error: " + e.getMessage(), e);
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + e.getMessage(), e
-            );
-        }
+        String logoBase64 = getLogoBase64();
         model.addAttribute("logoBase64", logoBase64);
 
         try {
@@ -162,10 +158,60 @@ public class ReportesController {
     }
 
     @GetMapping(value = "/actitudinal")
-    public String reporteActitudinal(Model model) {
+    public String reporteActitudinal(Model model, String codAlumno, Long idBimestre, @RequestParam(defaultValue = "false") boolean init) {
 
         log.info("consultar reporte actitudinal");
+        log.info("codAlumno: " + codAlumno);
+        log.info("idBimestre: " + idBimestre);
+        log.info("init: " + init);
+
+        //get image from resources and encode to base64
+        String logoBase64 = getLogoBase64();
+        model.addAttribute("logoBase64", logoBase64);
+
+        try {
+
+            model.addAttribute("bimestres", bimestreService.obtenerBimestresPorCiclo(userFacade.getCicloActual().getId()));
+
+            if (init) {
+                model.addAttribute("reporte", null);
+            } else {
+
+                //consultar el reporte de actitudinal del alumno
+                ResponseDataDto reporte = reportesService.reporteActitudinalAlumno(codAlumno, idBimestre);
+
+                //si hay algun error
+                if (reporte.getCode() == ResponseDataDto.ERROR) {
+                    model.addAttribute("mensaje", reporte.getMessage());
+                    return "reportes/reporte-actitudinal-alumno";
+                }
+
+                model.addAttribute("institucion", institucionService.getInstitucion(1));
+                model.addAttribute("reporte", reporte.getData());
+            }
+
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "error: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + ex.getMessage()
+            );
+        }
 
         return "reportes/reporte-actitudinal-alumno";
+    }
+
+    private String getLogoBase64() {
+        String base64 = null;
+        try {
+            File file = ResourceUtils.getFile("classpath:static/img/logo.png");
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            base64 = Base64.getEncoder().encodeToString(fileContent);
+        } catch (IOException e) {
+            log.log(Level.SEVERE, "error: " + e.getMessage(), e);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "error: " + e.getMessage(), e
+            );
+        }
+        return base64;
     }
 }

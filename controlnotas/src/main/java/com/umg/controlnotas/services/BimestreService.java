@@ -18,4 +18,5 @@ public interface BimestreService {
     List<BimestreDto> obtenerTodosBimestres();
 
     List<Long> obtenerIdsBimestre(Long idCicloEscolar);
+    List<BimestreDto> obtenerBimestresPorCiclo(Long idCicloEscolar);
 }

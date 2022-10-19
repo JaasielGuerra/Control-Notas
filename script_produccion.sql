@@ -1077,6 +1077,35 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- Procedimientos
 -- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS proc_reporte_actitudinal_alumno;
+DELIMITER $$
+CREATE PROCEDURE proc_reporte_actitudinal_alumno(
+	idBimestre BIGINT,
+    idAlumno BIGINT
+)
+BEGIN
+	
+	SELECT
+		ca.descripcion descripcion ,
+		ca.fecha fecha,
+		m.descripcion materia,
+		ca.puntos_restados puntosRestados,
+		ca.puntos_sumados puntosSumados,
+		ca.puntos_actuales puntosActuales
+	FROM
+		control_actitudinal ca
+	JOIN materia m ON
+		m.id_materia = ca.id_materia
+	WHERE
+		ca.id_alumno = idAlumno -- ID alumno 
+		AND ca.id_bimestre = idBimestre -- ID bimestre
+	ORDER BY ca.fecha DESC;
+
+END$$
+DELIMITER ;
+
+
+
 DROP PROCEDURE IF EXISTS proc_reporte_notas_finales;
 DELIMITER $$
 CREATE PROCEDURE proc_reporte_notas_finales(

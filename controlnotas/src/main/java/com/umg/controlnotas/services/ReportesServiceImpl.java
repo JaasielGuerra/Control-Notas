@@ -1,10 +1,7 @@
 package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.dto.*;
-import com.umg.controlnotas.model.query.AlumnoReporte;
-import com.umg.controlnotas.model.query.ConsultaReporteNotaFinal;
-import com.umg.controlnotas.model.query.ConsultaReporteNotasBimestre;
-import com.umg.controlnotas.model.query.DatosAlumnoReporte;
+import com.umg.controlnotas.model.query.*;
 import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.web.UserFacade;
 import liquibase.repackaged.org.apache.commons.lang3.math.NumberUtils;
@@ -15,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportesServiceImpl implements ReportesService {
@@ -191,6 +189,75 @@ public class ReportesServiceImpl implements ReportesService {
                 .code(1)
                 .message("Datos obtenidos correctamente.")
                 .data(notaFinal)
+                .build();
+    }
+
+    /**
+     * Reporte de actitudinal alumno
+     *
+     * @param codAlumno  codigo del alumno
+     * @param idBimestre id del ciclo
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public ResponseDataDto reporteActitudinalAlumno(String codAlumno, Long idBimestre) {
+
+        //si codigo de alumno, o id bimestre es nulo, retornar error
+        if (Objects.isNull(codAlumno) || Objects.isNull(idBimestre)) {
+            return ResponseDataDto.builder()
+                    .code(0)
+                    .message("No ha indicado los parámetros requeridos")
+                    .build();
+        }
+
+        //consultar datos del alumno
+        DatosAlumnoReporte datosAlumno = obtenerDatosAlumno(codAlumno, null);
+
+        //si no hay resultado, retornar null
+        if (Objects.isNull(datosAlumno)) {
+            return ResponseDataDto.builder()
+                    .code(0)
+                    .message("No se encontraron datos del alumno.")
+                    .build();
+        }
+
+        //consultar el reporte actitudinal del alumno
+        List<ConsultaReporteActitudinalAlumno> actitudinalAlumno = alumnoRepository.consultarReporteActitudinalAlumno(idBimestre, datosAlumno.getId());
+
+        //si no hay datos retornar mensaje
+        if (actitudinalAlumno.isEmpty()) {
+            return ResponseDataDto.builder()
+                    .code(0)
+                    .message("El alumno no tiene registros de actitudinal.")
+                    .build();
+        }
+
+        //mapear reporte a detalles de actitudinal
+        List<ReporteDetalleActitudinalDto> detalles = actitudinalAlumno.stream()
+                .map(r -> ReporteDetalleActitudinalDto.builder()
+                        .descripcion(r.getDescripcion())
+                        .fecha(r.getFecha())
+                        .materia(r.getMateria())
+                        .puntosRestados(r.getPuntosRestados())
+                        .puntosSumados(r.getPuntosSumados())
+                        .puntosActuales(r.getPuntosActuales())
+                        .build())
+                .collect(Collectors.toList());
+
+        ReporteActitudinalAlumnoDto reporte = ReporteActitudinalAlumnoDto.builder()
+                .codigoAlumno(datosAlumno.getCodigo())
+                .nombreAlumno(datosAlumno.getNombre())
+                .apellidoAlumno(datosAlumno.getApellido())
+                .gradoSeccionAlumno(datosAlumno.getGradoSeccion())
+                .direccionAlumno(datosAlumno.getDireccion())
+                .detalles(detalles)
+                .build();
+
+
+        return ResponseDataDto.builder()
+                .code(1)
+                .message("Datos obtenidos correctamente.")
+                .data(reporte)
                 .build();
     }
 }

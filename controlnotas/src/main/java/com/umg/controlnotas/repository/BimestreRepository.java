@@ -18,4 +18,6 @@ public interface BimestreRepository extends JpaRepository<Bimestre, Long> {
     List<ConsultaBimestresCiclo> findBimestresByEstadoInOrderByIdDesc(Collection<Integer> estados);
     @Query("SELECT b.id FROM Bimestre b WHERE b.idCicloEscolar.id = ?1 AND NOT b.estado = ?2 ORDER BY b.id ASC")
     List<Long> findIdBimestreByIdCicloEscolarId(Long idCicloEscolar, int estado);
+
+    List<ConsultaBimestresCiclo> findBimestresByIdCicloEscolarIdAndEstadoNot(Long idCicloEscolar, int estado);
 }

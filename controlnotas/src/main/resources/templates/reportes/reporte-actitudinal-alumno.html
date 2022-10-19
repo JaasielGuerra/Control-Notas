@@ -22,20 +22,23 @@
                         <h4 class="title has-text-centered is-4">GENERAR REPORTE ACTITUDINAL</h4>
                         <hr class="dropdown-divider mb-6">
 
-                        <form th:action="@{/alumno/consultar}" method="get">
+                        <form th:action="@{/reportes/actitudinal}" method="get" id="form-parametros">
                             <div class="columns">
-                                <div class="column is-4">
+                                <div class="column is-2 is-offset-3">
                                     <label>Código alumno:</label>
                                     <div class="control">
-                                        <input class="input is-small" type="text" name="codigo">
+                                        <input class="input is-small" type="text" name="codAlumno">
                                     </div>
                                 </div>
-                                <div class="column is-5">
-                                    <label>Ciclo:</label>
+                                <div class="column is-2">
+                                    <label>Bimestre:</label>
                                     <div class="control">
                                         <div class="select is-small is-fullwidth">
-                                            <select name="ciclo">
+                                            <select name="idBimestre">
                                                 <option disabled selected>- Seleccione -</option>
+                                                <option th:each="bimestre : ${bimestres}" th:value="${bimestre.id}"
+                                                        th:text="${bimestre.descripcion}">
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -53,26 +56,93 @@
                 </div>
             </div>
 
+            <div class="card mb-4" th:if="${mensaje}">
+                <div class="card-content">
+                    <div class="content">
+                        <section class="section is-medium">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered" th:text="${mensaje}">
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
 
-            <div class="card mb-4">
+            <!-- ENCABEZADO -->
+            <div class="card mb-4 is-shadowless" id="encabezado" th:if="${reporte ne null}">
+                <div class="card-content">
+                    <div class="content">
+                        <div class="is-flex is-justify-content-center is-flex-direction-row">
+                            <figure class="image is-96x96">
+                                <img th:src="${'data:image/png;base64,'+logoBase64}" alt="logo institucion">
+                            </figure>
+                            <div class="has-text-centered">
+                                <p class="title is-5 pb-2">REPORTE ACTITUDINAL</p>
+                                <p class="subtitle is-6">
+                                    [[${institucion.nombre}]]
+                                    <br>
+                                    [[${institucion.direccion}]]
+                                    <br>
+                                    [[${institucion.codigo}]]
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4 is-shadowless" id="datos-alumno" th:if="${reporte ne null}">
+                <header class="card-header is-shadowless has-background-warning">
+                    <p class="card-header-title is-size-6">
+                        DATOS DEL ALUMNO
+                    </p>
+                </header>
 
                 <div class="card-content">
+                    <table class="table is-fullwidth is-narrow">
+                        <tbody>
+                        <tr>
+                            <td class="is-size-7 title">Nombre:</td>
+                            <td class="is-size-7 is-uppercase" th:text="${reporte.nombreAlumno}"></td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Apellido:</td>
+                            <td class="is-size-7 is-uppercase" th:text="${reporte.apellidoAlumno}"></td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Código:</td>
+                            <td class="is-size-7 is-uppercase" th:text="${reporte.codigoAlumno}"></td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Dirección:</td>
+                            <td class="is-size-7 is-uppercase" th:text="${reporte.direccionAlumno}"></td>
+                        </tr>
+                        <tr>
+                            <td class="is-size-7 title">Grado:</td>
+                            <td class="is-size-7 is-uppercase" th:text="${reporte.gradoSeccionAlumno}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                    <section class="section is-medium" th:if="${alumnos ne null and alumnos.isEmpty()}">
-                        <figure class="image is-128x128" style="margin: auto">
-                            <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
-                        </figure>
-                        <p class="subtitle has-text-centered">
-                            No se encontraron registros con los parámetros indicados.
-                        </p>
-                    </section>
+            </div>
 
+
+            <div class="card mb-4 is-shadowless" th:if="${reporte ne null}">
+
+                <header class="card-header is-shadowless has-background-warning">
+                    <p class="card-header-title is-size-6">
+                        DETALLE ACTITUDINAL
+                    </p>
+                </header>
+
+                <div class="card-content">
                     <div class="table-container" th:if="${true}">
                         <table id="tbl-actitudinal" class="table display" style="width:100%">
                             <thead class="is-narrow">
                             <tr>
-                                <th>Código</th>
-                                <th>Alumno</th>
                                 <th>Descripción</th>
                                 <th>Fecha</th>
                                 <th>Materia</th>
@@ -83,17 +153,13 @@
                             </thead>
 
                             <tbody>
-                            <tr th:each="a: ${alumnos}">
-                                <td th:text="*{a.codigo}">demo</td>
-                                <td th:text="*{a.nombre +' '+a.apellido}">demo</td>
-                                <td th:text="*{''}">
-                                    lorem ipsum dolor sit amet, consectet
-                                </td>
-                                <td th:text="*{#temporals.format(LocalDate, 'dd/MM/yyyy')}">12/10/2022</td>
-                                <td th:text="*{''}">materia</td>
-                                <td th:text="${#numbers.formatDecimal(100, 0, 2)}">100</td>
-                                <td th:text="${#numbers.formatDecimal(100, 0, 2)}">100</td>
-                                <td th:text="${#numbers.formatDecimal(100, 0, 2)}">100</td>
+                            <tr th:each="i: ${reporte.detalles}">
+                                <td th:text="*{i.descripcion}"></td>
+                                <td th:text="*{#temporals.format(i.fecha, 'dd/MM/yyyy')}"></td>
+                                <td th:text="*{i.materia}"></td>
+                                <td th:text="${#numbers.formatDecimal(i.puntosRestados, 0, 2)}">100</td>
+                                <td th:text="${#numbers.formatDecimal(i.puntosSumados, 0, 2)}">100</td>
+                                <td th:text="${#numbers.formatDecimal(i.puntosActuales, 0, 2)}">100</td>
                             </tr>
 
                             </tbody>
@@ -116,39 +182,113 @@
 <script th:replace="layout/scripts :: script"></script>
 <!-- datatables -->
 <script type="text/javascript" src="/js/datatables.min.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
-    $('#tbl-actitudinal').DataTable({
-        lengthMenu: [25], language: {
-            lengthMenu: "Mostrar _MENU_ registros",
-            search: "Buscar en todos los campos: _INPUT_",
-            emptyTable: "No hay registros para mostrar",
-            sZeroRecords: "No se encontron resultados",
-            paginate: {
-                previous: "Página anterior", next: "Página siguiente"
-            },
-            info: "Mostrando _START_ al _END_ de _TOTAL_ registros",
-        },
-        order: [1, "asc"],
-        dom: 'Brtip',
-        buttons: [
-            {
-                extend: 'excel',
-                text: 'Excel',
-                title: 'ACTITUDINAL',
-                sheetName: 'ACTITUDINAL',
 
-            },
-            {
-                extend: 'pdf',
-                text: 'PDF',
-                title: 'ACTITUDINAL',
-                orientation: 'landscape',
-                pageSize: 'LETTER',
-                filename: 'ACTITUDINAL',
+    //function wrapper
+    (function () {
 
+
+        $('#tbl-actitudinal').DataTable({
+            lengthMenu: [25], language: {
+                lengthMenu: "Mostrar _MENU_ registros",
+                search: "Buscar en todos los campos: _INPUT_",
+                emptyTable: "No hay registros para mostrar",
+                sZeroRecords: "No se encontron resultados",
+                paginate: {
+                    previous: "Página anterior", next: "Página siguiente"
+                },
+                info: "Mostrando _START_ al _END_ de _TOTAL_ registros",
+                infoEmpty: "_TOTAL_ registros",
+            },
+            order: [],
+            dom: 'Brtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '<i class="fas fa-file-excel mr-1"></i>Exportar a Excel',
+                    title: 'REPORTE ACTITUDINAL',
+                    sheetName: 'ACTITUDINAL',
+                    className: 'button is-success',
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print mr-1"></i>Imprimir',
+                    className: 'button is-info',
+                    title: '',
+                    customize: function (win) {
+
+                        var last = null;
+                        var current = null;
+                        var bod = [];
+
+                        var css = '@page { size: landscape; }',
+                            head = win.document.head || win.document.getElementsByTagName('head')[0],
+                            style = win.document.createElement('style');
+
+                        style.type = 'text/css';
+                        style.media = 'print';
+
+                        if (style.styleSheet) {
+                            style.styleSheet.cssText = css;
+                        } else {
+                            style.appendChild(win.document.createTextNode(css));
+                        }
+
+                        head.appendChild(style);
+
+                        $(win.document.body).prepend(
+                            '<p class="card-header-title is-size-6 mb-6">DETALLE ACTITUDINAL</p>'
+                        );
+
+                        $(win.document.body).prepend(
+                            $('#datos-alumno').html()
+                        );
+
+                        $(win.document.body).prepend(
+                            $('#encabezado').html()
+                        );
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ]
+        });
+
+
+        $('#form-parametros').validate({
+            errorClass: 'is-danger',
+            validClass: 'is-success',
+            errorElement: 'p',
+            rules: {
+                codAlumno: {
+                    required: true,
+                },
+                idBimestre: {
+                    required: true
+                }
+            },
+            messages: {
+                codAlumno: {
+                    required: 'El código es requerido',
+                },
+                idBimestre: {
+                    required: "Seleccione un bimestre"
+                }
+            },
+            errorPlacement: function (error, element) {
+                // Add the `help` class to the error element
+                error.addClass("help");
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                form.submit();
             }
-        ]
-    });
+        });
+
+    })();
 </script>
 
 </body>

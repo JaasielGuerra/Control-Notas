@@ -167,10 +167,35 @@ public class BimestreServiceImpl implements BimestreService {
 
     /**
      * Obtener ids bimestre por ciclo escolar, y que no esten eliminados
+     *
      * @param idCicloEscolar
      */
     @Override
     public List<Long> obtenerIdsBimestre(Long idCicloEscolar) {
         return bimestreRepository.findIdBimestreByIdCicloEscolarId(idCicloEscolar, Bimestre.ELIMINADO);
+    }
+
+    /**
+     * Obtener bimestre por id ciclo escolar
+     *
+     * @param idCicloEscolar id ciclo escolar
+     * @return List<BimestreDto>
+     */
+    @Override
+    public List<BimestreDto> obtenerBimestresPorCiclo(Long idCicloEscolar) {
+
+        List<ConsultaBimestresCiclo> bimestres = bimestreRepository.findBimestresByIdCicloEscolarIdAndEstadoNot(idCicloEscolar, Bimestre.ELIMINADO);
+
+        return bimestres.stream().map(b -> BimestreDto.builder()
+                .id(b.getId())
+                .descripcion(b.getDescripcion())
+                .puntosActividades(b.getPuntosActividades())
+                .puntosActitudinal(b.getPuntosActitudinal())
+                .puntosEvaluaciones(b.getPuntosEvaluaciones())
+                .fechaApertura(b.getFechaApertura())
+                .fechaCierre(b.getFechaCierre())
+                .anioCiclo(b.getIdCicloEscolarAnio())
+                .estado(b.getEstado())
+                .build()).collect(Collectors.toList());
     }
 }

@@ -19,4 +19,7 @@ public interface ReportesService {
 
     @Transactional(readOnly = true)
     ResponseDataDto reporteNotasFinales(String codAlumno, Long idCiclo);
+
+    @Transactional(readOnly = true)
+    ResponseDataDto reporteActitudinalAlumno(String codAlumno, Long idBimestre);
 }
