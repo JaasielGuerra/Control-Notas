@@ -1077,6 +1077,246 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- Procedimientos
 -- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS proc_reporte_actitudinal_alumno;
+DELIMITER $$
+CREATE PROCEDURE proc_reporte_actitudinal_alumno(
+	idBimestre BIGINT,
+    idAlumno BIGINT
+)
+BEGIN
+	
+	SELECT
+		ca.descripcion descripcion ,
+		ca.fecha fecha,
+		m.descripcion materia,
+		ca.puntos_restados puntosRestados,
+		ca.puntos_sumados puntosSumados,
+		ca.puntos_actuales puntosActuales
+	FROM
+		control_actitudinal ca
+	JOIN materia m ON
+		m.id_materia = ca.id_materia
+	WHERE
+		ca.id_alumno = idAlumno -- ID alumno 
+		AND ca.id_bimestre = idBimestre -- ID bimestre
+	ORDER BY ca.fecha DESC;
+
+END$$
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS proc_reporte_notas_finales;
+DELIMITER $$
+CREATE PROCEDURE proc_reporte_notas_finales(
+	idBimestre_1 BIGINT,
+	idBimestre_2 BIGINT,
+	idBimestre_3 BIGINT,
+	idBimestre_4 BIGINT,
+	idAlumno BIGINT
+)
+BEGIN
+	
+		
+	DECLARE puntosActitudinal_bim_1 DOUBLE(16,2);
+	DECLARE puntosActitudinal_bim_2 DOUBLE(16,2);
+	DECLARE puntosActitudinal_bim_3 DOUBLE(16,2);
+	DECLARE puntosActitudinal_bim_4 DOUBLE(16,2);
+
+	-- consultar los puntos actitudinal configurados en el bimestre
+	SELECT b.puntos_actitudinal INTO puntosActitudinal_bim_1 FROM bimestre b WHERE b.id_bimestre = idBimestre_1;
+	SELECT b.puntos_actitudinal INTO puntosActitudinal_bim_2 FROM bimestre b WHERE b.id_bimestre = idBimestre_2;
+	SELECT b.puntos_actitudinal INTO puntosActitudinal_bim_3 FROM bimestre b WHERE b.id_bimestre = idBimestre_3;
+	SELECT b.puntos_actitudinal INTO puntosActitudinal_bim_4 FROM bimestre b WHERE b.id_bimestre = idBimestre_4;
+	
+
+	
+	SELECT
+		m.descripcion materia,
+		
+		-- PARA PRIMER BIMESTRE
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				actividad a ON a.id_actividad = dc.id_actividad 
+			JOIN
+				materia m2 ON m2.id_materia = a.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_1 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_actividad IS NOT NULL -- que no sea null, significa que es calificacion de actividad
+		), 0) +
+		COALESCE((
+			SELECT
+				-- si no hay registros, devolver el 100% de actitudinal configurado en el bimestre
+				IF((SUM(ca.puntos_sumados) - SUM(ca.puntos_restados)) IS NULL, puntosActitudinal_bim_1, SUM(ca.puntos_sumados) - SUM(ca.puntos_restados))
+			FROM
+				control_actitudinal ca 
+			WHERE 
+				ca.id_alumno = idAlumno -- El ID del alumno
+				AND ca.id_bimestre = idBimestre_1 -- id bimestre
+				AND ca.id_materia = m.id_materia 
+		), 0) +
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				evaluacion e  ON e.id_evaluacion  = dc.id_evaluacion  
+			JOIN
+				materia m2 ON m2.id_materia = e.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_1 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_evaluacion  IS NOT NULL -- que no sea null, significa que es evaluacion
+		), 0) bimestre_1,
+		
+		-- PARA SEGUNDO BIMESTRE
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				actividad a ON a.id_actividad = dc.id_actividad 
+			JOIN
+				materia m2 ON m2.id_materia = a.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_2 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_actividad IS NOT NULL -- que no sea null, significa que es calificacion de actividad
+		), 0) +
+		COALESCE((
+			SELECT
+				-- si no hay registros, devolver el 100% de actitudinal configurado en el bimestre
+				IF((SUM(ca.puntos_sumados) - SUM(ca.puntos_restados)) IS NULL, puntosActitudinal_bim_2, SUM(ca.puntos_sumados) - SUM(ca.puntos_restados))
+			FROM
+				control_actitudinal ca 
+			WHERE 
+				ca.id_alumno = idAlumno -- El ID del alumno
+				AND ca.id_bimestre = idBimestre_2 -- id bimestre
+				AND ca.id_materia = m.id_materia 
+		), 0) +
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				evaluacion e  ON e.id_evaluacion  = dc.id_evaluacion  
+			JOIN
+				materia m2 ON m2.id_materia = e.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_2 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_evaluacion  IS NOT NULL -- que no sea null, significa que es evaluacion
+		), 0) bimestre_2,
+		
+		-- PARA TERCER BIMESTRE
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				actividad a ON a.id_actividad = dc.id_actividad 
+			JOIN
+				materia m2 ON m2.id_materia = a.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_3 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_actividad IS NOT NULL -- que no sea null, significa que es calificacion de actividad
+		), 0) +
+		COALESCE((
+			SELECT
+				-- si no hay registros, devolver el 100% de actitudinal configurado en el bimestre
+				IF((SUM(ca.puntos_sumados) - SUM(ca.puntos_restados)) IS NULL, puntosActitudinal_bim_3, SUM(ca.puntos_sumados) - SUM(ca.puntos_restados))
+			FROM
+				control_actitudinal ca 
+			WHERE 
+				ca.id_alumno = idAlumno -- El ID del alumno
+				AND ca.id_bimestre = idBimestre_3 -- id bimestre
+				AND ca.id_materia = m.id_materia 
+		), 0) +
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				evaluacion e  ON e.id_evaluacion  = dc.id_evaluacion  
+			JOIN
+				materia m2 ON m2.id_materia = e.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_3 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_evaluacion  IS NOT NULL -- que no sea null, significa que es evaluacion
+		), 0) bimestre_3,
+		
+		
+		-- PARA CUARTO BIMESTRE
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				actividad a ON a.id_actividad = dc.id_actividad 
+			JOIN
+				materia m2 ON m2.id_materia = a.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_4 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_actividad IS NOT NULL -- que no sea null, significa que es calificacion de actividad
+		), 0) +
+		COALESCE((
+			SELECT
+				-- si no hay registros, devolver el 100% de actitudinal configurado en el bimestre
+				IF((SUM(ca.puntos_sumados) - SUM(ca.puntos_restados)) IS NULL, puntosActitudinal_bim_4, SUM(ca.puntos_sumados) - SUM(ca.puntos_restados))
+			FROM
+				control_actitudinal ca 
+			WHERE 
+				ca.id_alumno = idAlumno -- El ID del alumno
+				AND ca.id_bimestre = idBimestre_4 -- id bimestre
+				AND ca.id_materia = m.id_materia 
+		), 0) +
+		COALESCE((
+			SELECT
+				SUM(dc.puntos_obtenidos)
+			FROM
+				detalle_calificacion dc 
+			JOIN 
+				evaluacion e  ON e.id_evaluacion  = dc.id_evaluacion  
+			JOIN
+				materia m2 ON m2.id_materia = e.id_materia 
+			WHERE 
+				dc.id_alumno = idAlumno -- El ID del alumno
+				AND dc.id_bimestre = idBimestre_4 -- id bimestre
+				AND m2.id_materia = m.id_materia 
+				AND dc.id_evaluacion  IS NOT NULL -- que no sea null, significa que es evaluacion
+		), 0) bimestre_4
+	FROM
+		materia m 
+	WHERE
+		m.id_grado = (SELECT s.id_grado FROM alumno a JOIN seccion s on a.id_seccion = s.id_seccion WHERE a.id_alumno = idAlumno ) -- El ID del alumno
+		AND m.estado = 1; -- que no este eliminado
+
+	
+END$$
+DELIMITER ;
+
+
 DROP PROCEDURE IF EXISTS proc_reporte_notas_por_bimestre;
 DELIMITER $$
 CREATE PROCEDURE proc_reporte_notas_por_bimestre(

@@ -49,9 +49,7 @@
 
 
                     $(win.document.body).prepend(
-                        $('#encabezado')
-                            .addClass('is-shadowless')
-                            .html()
+                        $('#encabezado').html()
                     );
 
                     $(win.document.body).find('table')

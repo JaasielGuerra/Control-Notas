@@ -22,20 +22,22 @@
                         <h4 class="title has-text-centered is-4">GENERAR REPORTE DE NOTAS FINALES</h4>
                         <hr class="dropdown-divider mb-6">
 
-                        <form th:action="@{/alumno/consultar}" method="get">
+                        <form th:action="@{/reportes/notas-finales}" method="get" id="form-parametros-reporte">
                             <div class="columns">
-                                <div class="column is-4">
+                                <div class="column is-2 is-offset-3">
                                     <label>Código alumno:</label>
                                     <div class="control">
-                                        <input class="input is-small" type="text" name="codigo">
+                                        <input class="input is-small" type="text" name="codAlumno">
                                     </div>
                                 </div>
-                                <div class="column is-5">
+                                <div class="column is-2">
                                     <label>Ciclo:</label>
                                     <div class="control">
                                         <div class="select is-small is-fullwidth">
                                             <select name="ciclo">
-                                                <option disabled selected>- Seleccione -</option>
+                                                <option th:each="c: ${ciclos}" th:value="${c.id}"
+                                                        th:text="${c.anio}">
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -49,126 +51,135 @@
                             </div>
                         </form>
 
+
                     </div>
                 </div>
             </div>
 
-            <!-- ENCABEZADO -->
-            <div class="card mb-4">
+            <div class="card mb-4" th:if="${mensaje}">
                 <div class="card-content">
-                    <div class="content has-text-centered">
-                        <p class="title is-5 pb-2">REPORTE DE NOTAS FINALES</p>
-                        <p class="subtitle is-7 is-uppercase">
-                            [[${institucion.nombre}]]
-                            <br>
-                            [[${institucion.direccion}]]
-                            <br>
-                            [[${institucion.codigo}]]
-                            <br>
-                            [[${institucion.nombreDirector}]]
+                    <div class="content">
+                        <section class="section is-medium">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered" th:text="${mensaje}">
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="print-report" th:if="${reporte ne null}">
+                <!-- ENCABEZADO -->
+                <div class="card mb-4 is-shadowless">
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="is-flex is-justify-content-center is-flex-direction-row">
+                                <figure class="image is-96x96">
+                                    <img th:src="${'/img/logo.png'}">
+                                </figure>
+                                <div class="has-text-centered">
+                                    <p class="title is-5 pb-2">REPORTE DE NOTAS FINALES</p>
+                                    <p class="subtitle is-6">
+                                        [[${institucion.nombre}]]
+                                        <br>
+                                        [[${institucion.direccion}]]
+                                        <br>
+                                        [[${institucion.codigo}]]
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 is-shadowless">
+                    <header class="card-header is-shadowless has-background-warning">
+                        <p class="card-header-title is-size-6">
+                            DATOS DEL ALUMNO
                         </p>
+                    </header>
+
+                    <div class="card-content">
+                        <table class="table is-fullwidth is-narrow">
+                            <tbody>
+                            <tr>
+                                <td class="is-size-7 title">Nombre:</td>
+                                <td class="is-size-7 is-uppercase" th:text="${reporte.nombreAlumno}"></td>
+                            </tr>
+                            <tr>
+                                <td class="is-size-7 title">Apellido:</td>
+                                <td class="is-size-7 is-uppercase" th:text="${reporte.apellidoAlumno}"></td>
+                            </tr>
+                            <tr>
+                                <td class="is-size-7 title">Código:</td>
+                                <td class="is-size-7 is-uppercase" th:text="${reporte.codigoAlumno}"></td>
+                            </tr>
+                            <tr>
+                                <td class="is-size-7 title">Dirección:</td>
+                                <td class="is-size-7 is-uppercase" th:text="${reporte.direccionAlumno}"></td>
+                            </tr>
+                            <tr>
+                                <td class="is-size-7 title">Grado:</td>
+                                <td class="is-size-7 is-uppercase" th:text="${reporte.gradoSeccionAlumno}"></td>
+                            </tr>
+                            <tr>
+                                <td class="is-size-7 title">Ciclo:</td>
+                                <td class="is-size-7 is-uppercase" th:text="${reporte.ciclo}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
+
+                </div>
+
+
+                <div class="card mb-4 is-shadowless">
+                    <header class="card-header is-shadowless has-background-warning">
+                        <p class="card-header-title is-size-6">
+                            PROMEDIO DE NOTAS
+                        </p>
+                    </header>
+
+                    <div class="card-content">
+                        <table class="table is-fullwidth is-narrow is-bordered">
+
+                            <thead class="has-background-white-ter">
+                            <tr>
+                                <th class="is-size-7 has-text-centered">Materia</th>
+                                <th class="is-size-7 has-text-centered">BIM I</th>
+                                <th class="is-size-7 has-text-centered">BIM II</th>
+                                <th class="is-size-7 has-text-centered">BIM III</th>
+                                <th class="is-size-7 has-text-centered">BIM IV</th>
+                                <th class="is-size-7 has-text-centered">Promedio</th>
+                            </tr>
+                            </thead>
+
+                            <tbody class="is-uppercase">
+                            <tr th:each="i: ${reporte.detallesNotaFinal}">
+                                <td class="is-size-7" th:text="${i.materia}"></td>
+                                <td class="is-size-7 has-text-centered"
+                                    th:text="${#numbers.formatDecimal(i.bimestre1, 1, 2)}"></td>
+                                <td class="is-size-7 has-text-centered"
+                                    th:text="${#numbers.formatDecimal(i.bimestre2, 1, 2)}"></td>
+                                <td class="is-size-7 has-text-centered"
+                                    th:text="${#numbers.formatDecimal(i.bimestre3, 1, 2)}"></td>
+                                <td class="is-size-7 has-text-centered"
+                                    th:text="${#numbers.formatDecimal(i.bimestre4, 1, 2)}"></td>
+                                <td class="is-size-7 has-text-centered"
+                                    th:text="${#numbers.formatDecimal(i.promedio, 1, 2)}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="card mb-4">
-                <header class="card-header is-shadowless has-background-warning">
-                    <p class="card-header-title is-size-6">
-                        DATOS DEL ALUMNO
-                    </p>
-                </header>
-
-                <div class="card-content">
-                    <table class="table is-fullwidth is-narrow">
-                        <tbody>
-                        <tr>
-                            <td class="is-size-7 title">Nombre:</td>
-                            <td class="is-size-7 is-uppercase">Perez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7 title">Apellido:</td>
-                            <td class="is-size-7 is-uppercase">Perez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7 title">Código:</td>
-                            <td class="is-size-7 is-uppercase">Perez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7 title">Dirección:</td>
-                            <td class="is-size-7 is-uppercase">Perez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7 title">Grado:</td>
-                            <td class="is-size-7 is-uppercase">Perez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7 title">Ciclo:</td>
-                            <td class="is-size-7 is-uppercase">Perez</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-
-            <div class="card mb-4">
-                <header class="card-header is-shadowless has-background-warning">
-                    <p class="card-header-title is-size-6">
-                        PROMEDIO DE NOTAS
-                    </p>
-                </header>
-
-                <div class="card-content">
-                    <table class="table is-fullwidth is-narrow is-bordered">
-
-                        <thead class="has-background-white-ter">
-                        <tr>
-                            <th class="is-size-7 has-text-centered" rowspan="2">Materia</th>
-                            <th class="is-size-7 has-text-centered" colspan="2">Puntajes</th>
-                        </tr>
-                        <tr>
-                            <th class="is-size-7 has-text-centered">En números</th>
-                            <th class="is-size-7 has-text-centered">En letras</th>
-                        </tr>
-                        </thead>
-
-                        <tbody class="is-uppercase">
-                        <tr>
-                            <td class="is-size-7">Matematica</td>
-                            <td class="is-size-7 has-text-centered">10</td>
-                            <td class="is-size-7">Diez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7">comunicacion y lenguaje</td>
-                            <td class="is-size-7 has-text-centered">10</td>
-                            <td class="is-size-7">Diez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7">Ciencias Naturales</td>
-                            <td class="is-size-7 has-text-centered">10</td>
-                            <td class="is-size-7">Diez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7">Ciencias Sociales</td>
-                            <td class="is-size-7 has-text-centered">10</td>
-                            <td class="is-size-7">Diez</td>
-                        </tr>
-                        <tr>
-                            <td class="is-size-7">Educacion Fisica</td>
-                            <td class="is-size-7 has-text-centered">10</td>
-                            <td class="is-size-7">Diez</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-
-            <div class="buttons is-centered">
-                <button class="button is-info is-large"><i class="fas fa-print mr-1"></i>IMPRIMIR REPORTE</button>
+            <div class="buttons is-centered" th:if="${reporte ne null}">
+                <button class="button is-info is-large" id="btn-print"><i class="fas fa-print mr-1"></i>IMPRIMIR REPORTE</button>
             </div>
 
         </div>
@@ -183,6 +194,9 @@
 
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/jquery-printme.min.js"></script>
+<script src="/js/reporte-notas-finales.js"></script>
 
 </body>
 </html>

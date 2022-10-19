@@ -57,23 +57,30 @@
             </div>
 
             <!-- ENCABEZADO -->
-            <div class="card mb-4" th:if="${alumnos ne null}" id="encabezado">
+            <div class="card mb-4 is-shadowless" th:if="${alumnos ne null}" id="encabezado">
                 <div class="card-content">
-                    <div class="content has-text-centered">
-                        <p class="title is-5 pb-2">REPORTE DE ALUMNOS</p>
-                        <p class="subtitle is-6">
-                            [[${institucion.nombre}]]
-                            <br>
-                            [[${institucion.direccion}]]
-                            <br>
-                            [[${institucion.codigo}]]
-                        </p>
+                    <div class="content">
+                        <div class="is-flex is-justify-content-center is-flex-direction-row">
+                            <figure class="image is-96x96">
+                                <img th:src="${'data:image/png;base64,'+logoBase64}" alt="logo institucion">
+                            </figure>
+                            <div class="has-text-centered">
+                                <p class="title is-5 pb-2">REPORTE DE ALUMNOS</p>
+                                <p class="subtitle is-6">
+                                    [[${institucion.nombre}]]
+                                    <br>
+                                    [[${institucion.direccion}]]
+                                    <br>
+                                    [[${institucion.codigo}]]
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
 
-            <div class="card mb-4" th:if="${alumnos ne null}">
+            <div class="card mb-4 is-shadowless" th:if="${alumnos ne null}">
 
                 <div class="card-content">
 
