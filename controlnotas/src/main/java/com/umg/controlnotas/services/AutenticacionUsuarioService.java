@@ -3,6 +3,7 @@ package com.umg.controlnotas.services;
 import com.umg.controlnotas.model.AsignacionMateria;
 import com.umg.controlnotas.model.Bimestre;
 import com.umg.controlnotas.model.CicloEscolar;
+import com.umg.controlnotas.model.Usuario;
 import com.umg.controlnotas.model.dto.AsignacionUsuarioDto;
 import com.umg.controlnotas.repository.AsignacionMateriaRepository;
 import com.umg.controlnotas.repository.CicloEscolarRepository;
@@ -49,7 +50,7 @@ public class AutenticacionUsuarioService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 
-        var usuario = usuarioRepository.findUsuarioByUser(username);
+        var usuario = usuarioRepository.findUsuarioByUserAndEstado(username, Usuario.ESTADO_ACTIVO);
 
         if (usuario == null) {
             throw new UsernameNotFoundException(username);

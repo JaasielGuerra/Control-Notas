@@ -47,15 +47,17 @@
                                         <span class="tag is-danger" th:if="${i.estado eq 0}">INACTIVO</span>
                                     </td>
                                     <td>
-                                        <a class="button is-warning is-small" th:href="@{/usuarios/editar}">
+                                        <button class="button is-warning is-small" th:href="@{/usuarios/editar}">
                                             <i class="fas fa-eye mr-1"></i>Visualizar
-                                        </a>
+                                        </button>
 
-                                        <a class="button is-success is-small">
+                                        <button class="button is-success is-small btn-activar" th:data-id="${i.id}"
+                                                th:if="${i.estado eq 0}">
                                             <i class="far fa-save mr-1"></i>Activar
-                                        </a>
+                                        </button>
 
-                                        <button class="button is-danger is-small">
+                                        <button class="button is-danger is-small btn-desactivar" th:data-id="${i.id}"
+                                                th:if="${i.estado eq 1}">
                                             <i class="fas fa-trash-alt mr-1"></i>Desactivar
                                         </button>
                                     </td>
@@ -78,8 +80,8 @@
     <footer th:replace="layout/footer :: footer"></footer>
 
 </main>
-<div th:replace="configuraciones/dialogo-usuario/activar:: activar"></div>
-<div th:replace="configuraciones/dialogo-usuario/desactivar:: desactivar"></div>
+<div th:replace="configuraciones/dialogo-usuario/activar:: modal-activar"></div>
+<div th:replace="configuraciones/dialogo-usuario/desactivar:: modal-desactivar"></div>
 
 
 <!-- aqui va el script de jquery-->
@@ -87,9 +89,11 @@
 
 <script src="/js/modal.js"></script>
 <script src="/js/datatables.min.js"></script>
+<script src="/js/bulma-toast.min.js"></script>
+<script src="/js/utilidades.js"></script>
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    (function () {
         $('#tbl-usuarios').DataTable({
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros por página",
@@ -107,9 +111,97 @@
             },
             "order": []
         });
-    });
+
+        $('.btn-activar').on('click', function () {
+            $('#btn-confirmar-activar').attr('data-id', $(this).closest('tr').find('td').eq(0).text());
+            $('#modal-activar').addClass('is-active');
+        });
+
+        $('.btn-desactivar').on('click', function () {
+            $('#btn-confirmar-desactivar').attr('data-id', $(this).closest('tr').find('td').eq(0).text());
+            $('#modal-desactivar').addClass('is-active');
+        });
+
+        $('#btn-confirmar-activar').on('click', function () {
+            let id = $(this).attr('data-id');
+            activarUsuario(id);
+        });
+
+        $('#btn-confirmar-desactivar').on('click', function () {
+            let id = $(this).attr('data-id');
+            desactivarUsuario(id);
+        });
+
+        function desactivarUsuario(id) {
+            $.ajax({
+                url: '/usuarios/' + id,
+                type: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+
+                    //si el code es 1
+                    if (data.code === 1) {
+
+                        //guardar mensaje de exito en el local storage
+                        localStorage.setItem('messageSuccess', data.message);
+                        location.reload();
+                    }
+                    //si el code es 0
+                    else if (data.code === 0) {
+                        showMessageError(data.message);
+                        //recorrer los errores, concatenarlos
+                        let errores = '';
+                        $.each(data.errors, function (i, error) {
+                            errores += error + '<br>';
+                        });
+                        //mostrar errores
+                        showMessageError(errores);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    showMessageError('Se produjo un error en el servidor ' + xhr.responseText);
+                }
+            });
+        }
+
+        function activarUsuario(id) {
+            $.ajax({
+                url: '/usuarios/' + id,
+                type: 'PUT',
+                dataType: 'json',
+                success: function (data) {
+
+                    //si el code es 1
+                    if (data.code === 1) {
+
+                        //guardar mensaje de exito en el local storage
+                        localStorage.setItem('messageSuccess', data.message);
+                        location.reload();
+                    }
+                    //si el code es 0
+                    else if (data.code === 0) {
+                        showMessageError(data.message);
+                        //recorrer los errores, concatenarlos
+                        let errores = '';
+                        $.each(data.errors, function (i, error) {
+                            errores += error + '<br>';
+                        });
+                        //mostrar errores
+                        showMessageError(errores);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    showMessageError('Se produjo un error en el servidor ' + xhr.responseText);
+                }
+            });
+        }
+
+    })();
 
 </script>
+<script src="/js/show-message-localStorage.js"></script>
 
 </body>
 </html>
