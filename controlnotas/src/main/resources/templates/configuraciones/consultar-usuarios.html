@@ -17,50 +17,45 @@
                 <div class="card-content">
                     <div class="content">
 
-                        <h4 class="title has-text-centered is-4">CONSULTAR USUARIO</h4>
+                        <h4 class="title has-text-centered is-4">GESTIONAR USUARIOS</h4>
                         <hr class="dropdown-divider">
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
-                        <h5 class="title is-5">Usuarios registrados </h5>
+                        <h5 class="title is-5 my-6">Usuarios registrados </h5>
 
 
-                        <div class="columns ">
-                            <div class="column is-3 is-offset-8">
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Buscar" >
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="columns">
-                            <table class="table display">
+                        <div class="table-container">
+                            <table class="table display" id="tbl-usuarios">
                                 <thead class="is-bordered">
                                 <tr>
+                                    <th>#</th>
                                     <th>Nombre</th>
                                     <th>Usuario</th>
+                                    <th>Rol</th>
                                     <th>Estado</th>
                                     <th>Operaciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Anabel chew</td>
-                                    <td>anable86</td>
+                                <tr th:each="i:${usuarios}">
+                                    <td th:text="${i.id}"></td>
+                                    <td th:text="${i.nombreCompleto}"></td>
+                                    <td th:text="${i.user}"></td>
+                                    <td th:text="${i.idRolDescripcion}"></td>
                                     <td>
-                                        <span class="tag is-success">Activo</span>
-                                        <span class="tag is-danger">Inactivo</span>
+                                        <span class="tag is-success" th:if="${i.estado eq 1}">ACTIVO</span>
+                                        <span class="tag is-danger" th:if="${i.estado eq 0}">INACTIVO</span>
                                     </td>
                                     <td>
                                         <a class="button is-warning is-small" th:href="@{/usuarios/editar}">
                                             <i class="fas fa-eye mr-1"></i>Visualizar
                                         </a>
 
-                                        <a class="button is-success is-small" data-target="Activar" onclick="Activar()">
+                                        <a class="button is-success is-small">
                                             <i class="far fa-save mr-1"></i>Activar
                                         </a>
 
-                                        <button class="button is-danger is-small"  data-target="Desactivar" onclick="Desactivar()">
+                                        <button class="button is-danger is-small">
                                             <i class="fas fa-trash-alt mr-1"></i>Desactivar
                                         </button>
                                     </td>
@@ -91,20 +86,28 @@
 <script th:replace="layout/scripts :: script"></script>
 
 <script src="/js/modal.js"></script>
+<script src="/js/datatables.min.js"></script>
 <script type="text/javascript">
 
-    function Activar() {
-
-        //abrir modal
-        openModal('activar');
-    }
-
-    function Desactivar() {
-
-        //abrir modal
-        openModal('desactivar');
-    }
-
+    $(document).ready(function () {
+        $('#tbl-usuarios').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se encontraron registros",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(filtrado de _TOTAL_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "order": []
+        });
+    });
 
 </script>
 

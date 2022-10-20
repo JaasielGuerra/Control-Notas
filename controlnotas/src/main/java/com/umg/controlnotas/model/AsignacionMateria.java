@@ -27,4 +27,8 @@ public class AsignacionMateria {
     @Column(name = "estado", nullable = false)
     private Integer estado;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_seccion", nullable = false)
+    private Seccion idSeccion;
+
 }

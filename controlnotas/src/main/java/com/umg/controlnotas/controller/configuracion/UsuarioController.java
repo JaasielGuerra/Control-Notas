@@ -9,18 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UsuarioController {
 
     @GetMapping(value = "/nuevo")
-    public String NuevoUsuario(){
+    public String NuevoUsuario() {
         return "configuraciones/registrar-usuario";
     }
 
 
-    @GetMapping(value = "/consultar")
-    public String ConsultarUsuarios(){
-        return "configuraciones/consultar-usuarios";
-    }
-
     @GetMapping(value = "/editar")
-    public String EditarUsuario(){
+    public String EditarUsuario() {
         return "configuraciones/editar-usuario";
     }
 }
