@@ -15,4 +15,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Modifying
     @Query("update Usuario u set u.estado = ?1 where u.id = ?2")
     void updateEstadoUsuario(Integer estado, Long id);
+
+    Usuario findByUser(String user);
+
+    boolean existsByUser(String user);
 }

@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface UsuarioService {
+    @Transactional
+    ResponseDataDto registrarUsuario(UsuarioDto usuarioDto);
+
     List<UsuarioDto> consultarUsuarios();
 
     ResponseDataDto desactivarUsuario(Long id);

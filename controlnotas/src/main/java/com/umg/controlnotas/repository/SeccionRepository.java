@@ -15,7 +15,8 @@ public interface SeccionRepository extends JpaRepository<Seccion, Long> {
     @Query("SELECT " +
             "s.descripcion AS descripcionSeccion, " +
             "g.descripcion AS descripcionGrado, " +
-            "s.id AS idSeccion " +
+            "s.id AS idSeccion, " +
+            "g.id AS idGrado " +
             "FROM " +
             "Seccion s " +
             "JOIN " +
@@ -23,4 +24,6 @@ public interface SeccionRepository extends JpaRepository<Seccion, Long> {
             "WHERE " +
             "g.estado = ?1")
     List<GradoSeccion> findGradosSeccionesByEstadoGrado(int e);
+    @Query("SELECT s.idGrado.id FROM Seccion s WHERE s.id = ?1")
+    Long obtenerIdGradoPorIdSeccion(Long idSeccion);
 }

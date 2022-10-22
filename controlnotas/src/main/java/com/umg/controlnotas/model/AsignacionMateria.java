@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "asignacion_materia")
 public class AsignacionMateria {
     public static final int ACTIVO = 1;
+    public static final int INACTIVO = 0;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asignacion_materia", nullable = false)
