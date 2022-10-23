@@ -64,7 +64,8 @@ public class AutenticacionUsuarioService implements UserDetailsService {
                     var asignacionMateria = new AsignacionUsuarioDto();
                     asignacionMateria.setIdMateria(m.getIdMateriaId());
                     asignacionMateria.setDescripcionMateria(m.getIdMateriaDescripcion());
-                    asignacionMateria.setDescripcionGrado(m.getIdMateriaIdGradoDescripcion());
+                    asignacionMateria.setDescripcionGrado(m.getIdSeccionIdGradoDescripcion());
+                    //TODO: agregar seccion asignada al usuario
                     return asignacionMateria;
                 })
                 .collect(Collectors.toList());

@@ -67,7 +67,7 @@ public class UsuarioController {
         } catch (Exception ex) {
             log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
             throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al registrar evaluacion " + ex.getMessage(), ex
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al registrar usuario " + ex.getMessage(), ex
             );
         }
 
@@ -75,8 +75,87 @@ public class UsuarioController {
     }
 
 
-    @GetMapping(value = "/editar")
-    public String EditarUsuario() {
+    @GetMapping(value = "/editar/{id}")
+    public String EditarUsuario(@PathVariable("id") Long id, Model model) {
+
+
+        try {
+
+            model.addAttribute("usuario", usuarioService.obtenerUsuarioEditar(id));
+
+            List<GradoSeccion> gradosSecciones = seccionRepository.findGradosSeccionesByEstadoGrado(Grado.ACTIVO);
+
+            model.addAttribute("roles", rolRepository.findByEstado(Rol.ESTADO_ACTIVO));
+            model.addAttribute("grados", gradosSecciones);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "No existe el recurso solicitado"
+            );
+        }
+
         return "configuraciones/editar-usuario";
+    }
+
+    @GetMapping(value = "/editar-contrasenia/{id}")
+    public String actualizarContrasenia(@PathVariable("id") Long id, Model model) {
+
+        try {
+
+            model.addAttribute("idUsuario", id);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "No existe el recurso solicitado"
+            );
+        }
+
+        return "configuraciones/actualizar-contrasenia";
+    }
+
+    @PutMapping(value = "/actualizar/{id}")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> actualizarUsuario(@PathVariable("id") Long id, @RequestBody UsuarioDto usuarioDto) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Actualizando usuario...");
+
+        try {
+
+            responseDataDto = usuarioService.actualizarUsuario(id , usuarioDto);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar usuario " + ex.getMessage(), ex
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
+    }
+
+    @PatchMapping(value = "/actualizar-contrasenia/{id}")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> actualizarContrasenia(@PathVariable("id") Long id, @RequestBody UsuarioDto usuarioDto) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Actualizando contraseña...");
+
+        try {
+
+            responseDataDto = usuarioService.actualizarContrasenia(id , usuarioDto);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar contraseña " + ex.getMessage(), ex
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
     }
 }

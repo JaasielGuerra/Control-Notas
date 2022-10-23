@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" class="has-background-light has-navbar-fixed-top">
+
+<!-- aqui va el head -->
+<head th:replace="layout/head :: head"></head>
+
+<body>
+<main>
+    <div th:replace="layout/pageloader :: #pageloader"></div>
+
+    <!-- aqui va el nav -->
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+
+                        <h4 class="title has-text-centered is-4">CAMBIAR CONTRASEÑA</h4>
+                        <hr class="dropdown-divider">
+
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+                        <p class="subtitle is-5 has-text-danger">* Indica un campo obligatorio</p>
+
+                        <form id="form-usuario">
+                            <h5 class="title is-5 my-6">Cambiar la contraseña</h5>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <label>*Nueva Contraseña</label>
+                                    <div class="control">
+                                        <input class="input" name="password" type="password" placeholder="Contraseña"
+                                               required id="password">
+                                        <input type="hidden" name="id" th:value="${idUsuario}">
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <label>*Repetir Contraseña</label>
+                                    <div class="control">
+                                        <input class="input" name="repetirPassword" type="password"
+                                               placeholder="Contraseña"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column is-3 is-offset-3 ">
+                                    <button class="button  is-success is-large is-fullwidth" type="submit"
+                                            id="btn-submit">
+                                        <i class="far fa-save mr-1"></i> Guardar
+                                    </button>
+                                </div>
+                                <div class="column is-3 ">
+                                    <a class="button  is-light is-large is-fullwidth" th:href="@{/usuarios}">
+                                        <i class="fas fa-database mr-1"></i> Consultar
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- aqui va el footer-->
+    <footer th:replace="layout/footer :: footer"></footer>
+
+</main>
+
+
+<!-- aqui va el script de jquery-->
+<script th:replace="layout/scripts :: script"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/bulma-toast.min.js"></script>
+<script src="/js/utilidades.js"></script>
+<script src="/js/cambiar-contrasenia.js"></script>
+
+</body>
+</html>

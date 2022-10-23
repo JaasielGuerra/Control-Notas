@@ -54,9 +54,12 @@
                                         <span class="tag is-danger" th:if="${i.estado eq 0}">INACTIVO</span>
                                     </td>
                                     <td>
-                                        <button class="button is-warning is-small" th:href="@{/usuarios/editar}">
-                                            <i class="fas fa-eye mr-1"></i>Visualizar
-                                        </button>
+                                        <a class="button is-warning is-small" th:href="@{/usuarios/editar/{id}(id=*{i.id})}">
+                                            <i class="fas fa-pencil-alt mr-1"></i>Editar
+                                        </a>
+                                        <a class="button is-link is-small" th:href="@{/usuarios/editar-contrasenia/{id}(id=*{i.id})}">
+                                            <i class="fas fa-pencil-alt mr-1"></i>Contraseña
+                                        </a>
 
                                         <button class="button is-success is-small btn-activar" th:data-id="${i.id}"
                                                 th:if="${i.estado eq 0}">

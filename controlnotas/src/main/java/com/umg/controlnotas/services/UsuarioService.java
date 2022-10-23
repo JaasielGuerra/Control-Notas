@@ -16,4 +16,11 @@ public interface UsuarioService {
 
     @Transactional
     ResponseDataDto activarUsuario(Long id);
+
+    @Transactional (readOnly = true)
+    UsuarioDto obtenerUsuarioEditar(Long id);
+
+    ResponseDataDto actualizarUsuario(Long id, UsuarioDto usuarioDto);
+
+    ResponseDataDto actualizarContrasenia(Long id, UsuarioDto usuarioDto);
 }
