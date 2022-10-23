@@ -43,8 +43,8 @@
         let data = formToJSON(form);
 
         $.ajax({
-            type: "PUT",
-            url: "/usuarios/",
+            type: "PATCH",
+            url: "/usuarios/actualizar-contrasenia/" + data.id,
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: "json",

@@ -11,6 +11,7 @@ import com.umg.controlnotas.repository.*;
 import com.umg.controlnotas.util.EncriptarPassword;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private MateriaRepository materiaRepository;
     @Autowired
     private SeccionRepository seccionRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     /**
@@ -298,6 +301,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public ResponseDataDto actualizarContrasenia(Long id, UsuarioDto usuarioDto) {
+
+        var usuario = usuarioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No existe el usuario con id: " + id));
+        usuario.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
+        usuarioRepository.save(usuario);
 
         return ResponseDataDto.builder()
                 .code(ResponseDataDto.SUCCESS)

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping(value = "/usuarios")
@@ -103,7 +104,7 @@ public class UsuarioController {
 
         try {
 
-            model.addAttribute("idUsuario", id);
+            model.addAttribute("usuario", usuarioService.obtenerUsuarioEditar(id));
 
         } catch (Exception ex) {
             log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
@@ -151,6 +152,13 @@ public class UsuarioController {
 
         } catch (Exception ex) {
             log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+
+            if(ex instanceof NoSuchElementException){
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, ex.getMessage()
+                );
+            }
+
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar contraseña " + ex.getMessage(), ex
             );
