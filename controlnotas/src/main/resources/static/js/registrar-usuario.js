@@ -174,7 +174,7 @@
             id: 'asignacion-' + idSeccion + '-' + idMateria,
             html: '<td>' + gradoSeccion + '</td>' +
                 '<td>' + materia + '</td>' +
-                '<td><button class="button is-danger is-small" onclick="eliminarAsignacion(' + idSeccion + ',' + idMateria + ')"><i class="fas fa-trash-alt mr-1"></i>Eliminar</button></td>'
+                '<td><button class="button is-danger is-small" type="button" onclick="eliminarAsignacion(' + idSeccion + ',' + idMateria + ')"><i class="fas fa-trash-alt mr-1"></i>Eliminar</button></td>'
         }));
 
     });

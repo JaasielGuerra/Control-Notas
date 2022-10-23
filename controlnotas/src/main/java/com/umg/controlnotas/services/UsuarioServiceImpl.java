@@ -52,7 +52,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (existsByUser) {
             return ResponseDataDto.builder()
                     .code(ResponseDataDto.ERROR)
-                    .message("El nombre de usuario ya existe, por favor ingrese otro")
+                    .message("El nombre de usuario <strong>" + usuarioDto.getUser() + "</strong> ya existe, por favor ingrese otro")
+                    .build();
+        }
+
+        //validar que el usuario tenga asignaciones materia
+        if (usuarioDto.getAsignaciones().isEmpty()) {
+            return ResponseDataDto.builder()
+                    .code(ResponseDataDto.ERROR)
+                    .message("El usuario debe tener asignaciones de materias")
                     .build();
         }
 
