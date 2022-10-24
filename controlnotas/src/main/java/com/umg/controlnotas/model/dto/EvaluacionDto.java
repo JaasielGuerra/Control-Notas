@@ -20,6 +20,7 @@ public class EvaluacionDto implements Serializable {
     private Double ponderacion;
     private Integer idTipoEvaluacionId;
     private Long idMateriaId;
+    private Long idGradoId;
     private String tipoEvaluacionDescripcion;
     private String materiaDescripcion;
     private String gradoDescripcion;

@@ -9,5 +9,6 @@ public class AsignacionUsuarioDto implements Serializable {
     private Long idMateria;
     private String descripcionMateria;
     private String descripcionGrado;
-    //TODO: agregar idSeccion
+    private Long idSeccion;
+    private Long idGrado;
 }

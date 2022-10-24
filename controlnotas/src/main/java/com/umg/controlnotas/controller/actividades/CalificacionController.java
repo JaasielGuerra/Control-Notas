@@ -87,8 +87,8 @@ public class CalificacionController {
             log.info("valor: " + actividad.getValorActividad());
             log.info("id: " + actividad.getId());
 
-            //obtener la plantilla para calificar actividades TODO: filtrar por secciones asignadas de la session del usuario
-            List<CalificacionAlumnoDto> plantilla = actividadesServicio.obtenerPlantillaCalificarActividad(idActividad, Arrays.asList(2L, 3L));
+            List<Long> seccionesUsuario = userFacade.obtenerIdsSecciones(actividad.getIdGrado());
+            List<CalificacionAlumnoDto> plantilla = actividadesServicio.obtenerPlantillaCalificarActividad(idActividad, seccionesUsuario);
 
             //poner los datos en el modelo para mostrarlos en la vista
             model.addAttribute("actividad", actividad);

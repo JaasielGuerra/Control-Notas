@@ -6,6 +6,7 @@ public interface ConsultaActividadCalificar {
     Double getValorActividad();
     Long getId();
     String getDescripcionMateria();
+    Long getIdGrado();
 
 
 }

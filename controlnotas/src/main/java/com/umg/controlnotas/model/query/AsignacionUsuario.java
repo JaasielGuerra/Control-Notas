@@ -9,5 +9,6 @@ public interface AsignacionUsuario {
     String getIdSeccionIdGradoDescripcion();
     Long getIdSeccionId();
     String getIdSeccionDescripcion();
+    Long getIdSeccionIdGradoId();
 
 }
