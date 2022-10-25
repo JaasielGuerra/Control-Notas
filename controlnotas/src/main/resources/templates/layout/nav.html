@@ -24,16 +24,16 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" th:href="@{/alumno/consultar}">
+                    <a sec:authorize="hasRole('ROLE_DIRECTOR')" class="navbar-item" th:href="@{/alumno/consultar}">
                         Consultar alumnos
                     </a>
-                    <a class="navbar-item" th:href="@{/alumno/nuevo}">
+                    <a sec:authorize="hasRole('ROLE_DIRECTOR')" class="navbar-item" th:href="@{/alumno/nuevo}">
                         Registrar alumno
                     </a>
-                    <a class="navbar-item" th:href="@{/conducta/consultar}">
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/conducta/consultar}">
                         Conducta
                     </a>
-                    <a class="navbar-item" th:href="@{/asistencia}">
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/asistencia}">
                         Asistencia
                     </a>
                 </div>
@@ -45,10 +45,10 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" th:href="@{/control-lectura}">
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/control-lectura}">
                         Control de lectura
                     </a>
-                    <a class="navbar-item" th:href="@{/libros}">
+                    <a sec:authorize="hasRole('ROLE_DIRECTOR')" class="navbar-item" th:href="@{/libros}">
                         Catálogo de libros
                     </a>
                 </div>
@@ -60,13 +60,13 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" th:href="@{/plan-trabajo/nuevo}">
+                    <a sec:authorize="hasRole('ROLE_DIRECTOR')" class="navbar-item" th:href="@{/plan-trabajo/nuevo}">
                         Nuevo plan de trabajo
                     </a>
-                    <a class="navbar-item" th:href="@{/plan-trabajo/consultar}">
+                    <a sec:authorize="hasRole('ROLE_DIRECTOR')" class="navbar-item" th:href="@{/plan-trabajo/consultar}">
                         Consultar plan de trabajo
                     </a>
-                    <a class="navbar-item" th:href="@{/actividades}" >
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/actividades}" >
                         Calificar actividades
                     </a>
                 </div>
@@ -78,19 +78,19 @@
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" th:href="@{/evaluacion/crear}">
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/evaluacion/crear}">
                         Crear evaluación
                     </a>
-                    <a class="navbar-item" th:href="@{/evaluacion/consultar}">
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/evaluacion/consultar}">
                         Consultar evaluaciones
                     </a>
-                    <a class="navbar-item" th:href="@{/evaluacion/calificar}">
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/evaluacion/calificar}">
                         Calificar evaluación
                     </a>
 
                 </div>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item has-dropdown is-hoverable" sec:authorize="hasRole('ROLE_DIRECTOR')">
                 <a class="navbar-link ">
                     <i class="fas fa-file-invoice mr-1"></i>
                     Reportes
@@ -111,7 +111,7 @@
                     </a>
                 </div>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div sec:authorize="hasRole('ROLE_DIRECTOR')" class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link ">
                     <i class="fas fa-cog mr-1"></i>
                     Configuración
