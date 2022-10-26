@@ -33,6 +33,7 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
 
     /**
      * Obtiene el ciclo escolar actual
+     *
      * @return CicloEscolarDto
      */
     @Override
@@ -47,12 +48,12 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
             return new CicloEscolarDto();
         }
 
-        var bimestre = bimestreRepository.findByEstado(Bimestre.ACTIVO);
+        var bimestre = bimestreRepository.findByEstadoAndIdCicloEscolar(Bimestre.ACTIVO, ciclo);
 
         //refrescar el bimestre en la sesion del usuario
         userFacade.refreshBimestre(bimestre);
 
-        if(bimestre == null){
+        if (bimestre == null) {
             return CicloEscolarDto.builder()
                     .id(ciclo.getId())
                     .anio(ciclo.getAnio())
@@ -82,24 +83,25 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
         List<CicloEscolar> ciclos = cicloEscolarRepository.findCicloEscolarsByEstadoInOrderByIdDesc(List.of(CicloEscolar.CERRADO, CicloEscolar.APERTURADO));
 
         return ciclos.stream().map(ciclo -> CicloEscolarDto.builder()
-                .id(ciclo.getId())
-                .anio(ciclo.getAnio())
-                .estado(ciclo.getEstado())
-                .fechaApertura(ciclo.getFechaApertura())
-                .fechaCierre(ciclo.getFechaCierre())
-                .diasBaseAsistencia(ciclo.getDiasBaseAsistencia())
-                .build())
+                        .id(ciclo.getId())
+                        .anio(ciclo.getAnio())
+                        .estado(ciclo.getEstado())
+                        .fechaApertura(ciclo.getFechaApertura())
+                        .fechaCierre(ciclo.getFechaCierre())
+                        .diasBaseAsistencia(ciclo.getDiasBaseAsistencia())
+                        .build())
                 .collect(Collectors.toList());
     }
 
     /**
      * cerra el ciclo escolar
+     *
      * @param id id del ciclo escolar
      * @return ResponseDataDto
      */
     @Override
     @Transactional
-    public ResponseDataDto cerrarCiclo(Long id){
+    public ResponseDataDto cerrarCiclo(Long id) {
 
         cicloEscolarRepository.updateEstado(CicloEscolar.CERRADO, id);
 
@@ -117,7 +119,7 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
     public ResponseDataDto aperturarCiclo(CicloEscolarDto cicloEscolarDto) {
 
         //validar que el año no sea mayor ni menor al actual
-        if(cicloEscolarDto.getAnio() < LocalDate.now().getYear() || cicloEscolarDto.getAnio() > LocalDate.now().getYear()){
+        if (cicloEscolarDto.getAnio() < LocalDate.now().getYear() || cicloEscolarDto.getAnio() > LocalDate.now().getYear()) {
             log.warning("El año del ciclo escolar no es valido");
             return ResponseDataDto.builder()
                     .code(0)
@@ -126,9 +128,9 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
         }
 
         //validar que la fecha de apertura no sea mayor a la fecha actual
-        log.info("fecha apertura "+cicloEscolarDto.getFechaApertura() + " , fecha actual "+LocalDate.now()+ " , timezone "+TimeZone.getDefault().getDisplayName());
-        if(cicloEscolarDto.getFechaApertura().isAfter(LocalDate.now())){
-            log.warning("La fecha de apertura no es valida, fecha apertura "+cicloEscolarDto.getFechaApertura() + " , fecha actual "+LocalDate.now());
+        log.info("fecha apertura " + cicloEscolarDto.getFechaApertura() + " , fecha actual " + LocalDate.now() + " , timezone " + TimeZone.getDefault().getDisplayName());
+        if (cicloEscolarDto.getFechaApertura().isAfter(LocalDate.now())) {
+            log.warning("La fecha de apertura no es valida, fecha apertura " + cicloEscolarDto.getFechaApertura() + " , fecha actual " + LocalDate.now());
             return ResponseDataDto.builder()
                     .code(0)
                     .message("La fecha de apertura no puede ser mayor a la fecha actual")
@@ -137,8 +139,8 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
 
         //validar que no exista un ciclo escolar aperturado
         var existe = cicloEscolarRepository.existsByEstadoAndAnio(CicloEscolar.APERTURADO, cicloEscolarDto.getAnio());
-        if(existe){
-            log.warning("Ya existe un ciclo escolar aperturado para el año "+cicloEscolarDto.getAnio());
+        if (existe) {
+            log.warning("Ya existe un ciclo escolar aperturado para el año " + cicloEscolarDto.getAnio());
             return ResponseDataDto.builder()
                     .code(0)
                     .message("Ya existe un ciclo escolar aperturado para el año " + cicloEscolarDto.getAnio())

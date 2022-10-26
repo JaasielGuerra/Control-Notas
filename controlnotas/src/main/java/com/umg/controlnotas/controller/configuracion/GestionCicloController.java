@@ -27,7 +27,17 @@ public class GestionCicloController {
     @GetMapping(value = "/ciclo")
     public String GestionarCiclo(Model model) {
 
-        model.addAttribute("cicloActual", cicloEscolarService.obtenerCicloActual());
+        var cicloActual = cicloEscolarService.obtenerCicloActual();
+
+        if (cicloActual.getId() == null) {
+            model.addAttribute("modalAyuda", 1); //modal ciclo
+        }
+
+        if (cicloActual.getId() != null && cicloActual.getIdBimestreActual() == null) {
+            model.addAttribute("modalAyuda", 2); //modal bimestre
+        }
+
+        model.addAttribute("cicloActual", cicloActual);
         model.addAttribute("bimestres", bimestreService.obtenerTodosBimestres());
 
         return "configuraciones/gestionar-ciclo";

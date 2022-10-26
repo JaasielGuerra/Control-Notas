@@ -1203,3 +1203,17 @@ BEGIN
 	ORDER BY ca.fecha DESC;
 
 END
+
+
+-- changeset liquibase:jaasiel-69
+set foreign_key_checks=0;
+ALTER TABLE `db_control_notas`.`asignacion_materia`
+ADD COLUMN `id_seccion` BIGINT NOT NULL AFTER `estado`,
+ADD INDEX `fk_asignacion_materia_seccion1_idx` (`id_seccion` ASC) ;
+ALTER TABLE `db_control_notas`.`asignacion_materia`
+    ADD CONSTRAINT `fk_asignacion_materia_seccion1`
+        FOREIGN KEY (`id_seccion`)
+            REFERENCES `db_control_notas`.`seccion` (`id_seccion`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
+set foreign_key_checks=1;

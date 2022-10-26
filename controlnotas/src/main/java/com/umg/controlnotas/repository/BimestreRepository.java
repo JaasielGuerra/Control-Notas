@@ -1,6 +1,7 @@
 package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Bimestre;
+import com.umg.controlnotas.model.CicloEscolar;
 import com.umg.controlnotas.model.query.ConsultaBimestresCiclo;
 import com.umg.controlnotas.model.query.RubricaUltimoBimestre;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public interface BimestreRepository extends JpaRepository<Bimestre, Long> {
     Bimestre findByEstado(int estado);
+    Bimestre findByEstadoAndIdCicloEscolar(int estado, CicloEscolar idCicloEscolar);
     RubricaUltimoBimestre findTopByOrderByIdDesc();
     boolean existsByEstado(int estado);
 

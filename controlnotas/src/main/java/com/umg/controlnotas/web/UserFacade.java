@@ -8,7 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.security.PublicKey;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Fachada para recuperar al usuario en sesion
@@ -41,5 +43,12 @@ public class UserFacade {
 
     public List<AsignacionUsuarioDto> getAsignacionesUsuario(){
         return getUserSession().getAsignacionesUsuario();
+    }
+
+    public List<Long> obtenerIdsSecciones(Long idGrado){
+        return getUserSession().getAsignacionesUsuario().stream()
+                .filter(asignacionUsuarioDto -> asignacionUsuarioDto.getIdGrado().equals(idGrado))
+                .map(AsignacionUsuarioDto::getIdSeccion)
+                .collect(Collectors.toList());
     }
 }

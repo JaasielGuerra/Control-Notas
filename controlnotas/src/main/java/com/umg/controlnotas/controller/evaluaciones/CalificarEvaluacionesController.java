@@ -88,8 +88,8 @@ public class CalificarEvaluacionesController {
             log.info("ponderacion: " + evaluacion.getPonderacion());
             log.info("id: " + evaluacion.getId());
 
-            //obtener la plantilla para calificar actividades TODO: filtrar por secciones asignadas de la session del usuario
-            List<CalificacionAlumnoDto> plantilla = evaluacionService.obtenerPlantillaCalificarEvaluacion(idEvaluacion, Arrays.asList(2L, 3L));
+            List<Long> seccionesUsuario = userFacade.obtenerIdsSecciones(evaluacion.getIdGradoId());
+            List<CalificacionAlumnoDto> plantilla = evaluacionService.obtenerPlantillaCalificarEvaluacion(idEvaluacion, seccionesUsuario);
 
             //poner los datos en el modelo para mostrarlos en la vista
             model.addAttribute("evaluacion", evaluacion);

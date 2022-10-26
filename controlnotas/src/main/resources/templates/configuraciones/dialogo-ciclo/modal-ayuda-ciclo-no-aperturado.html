@@ -1,0 +1,32 @@
+<!-- MOdal -->
+<div class="modal" th:classappend="${modalAyuda eq 1 ? 'is-active' : ''}" xmlns:th="http://www.thymeleaf.org" th:fragment="ayuda-ciclo" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+
+            <h4 class="modal-card-title title has-text-centered is-4">CICLO NO APERTURADO</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p class="mb-6">
+                Estimado usuario <strong sec:authentication="principal.nombreCompleto">_NOMBRE_USUARIO_</strong>, no existe un ciclo aperturado para el año actual; para poder operar en
+                el sistema, se requiere que aperture el ciclo, indicando los datos correspondientes. Tome las siguientes
+                <strong>imágenes</strong> como guía para aperturarlo.
+            </p>
+
+            <p class="is-italic">Paso 1, de click en el botón "Aperturar".</p>
+            <figure class="image mb-4">
+                <img th:src="${'/img/apertura-ciclo-1.png'}">
+            </figure>
+
+            <p class="is-italic"> Paso 2, ingrese los datos correspondientes y de click en el botón "Aperturar".</p>
+            <figure class="image">
+                <img th:src="${'/img/apertura-ciclo-2.png'}">
+            </figure>
+        </section>
+        <footer class="modal-card-foot ">
+            <button class="button is-success"><i class="fas fa-check mr-1"></i> Entendido
+            </button>
+        </footer>
+    </div>
+</div>

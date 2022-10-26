@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface PlanTrabajoService {
-    List<MateriaDescripcionId> obtenerMateriasPorGrado(long id_grado);
+    List<MateriaDescripcionId> obtenerMateriasPorGrado(Long id_grado, Long id_seccion);
 
     ResponseDataDto guardarPlanTrabajo(PlanTrabajoDto planTrabajoDto);
 

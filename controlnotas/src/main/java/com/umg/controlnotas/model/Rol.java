@@ -12,6 +12,10 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "rol")
 public class Rol {
+
+    public static int ESTADO_ACTIVO = 1;
+    public static int ESTADO_INACTIVO = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol", nullable = false)

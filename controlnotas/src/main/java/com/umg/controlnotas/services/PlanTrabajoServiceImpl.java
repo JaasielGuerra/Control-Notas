@@ -37,17 +37,22 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private GradoRepository gradoRepository;
+    @Autowired
+    private SeccionRepository seccionRepository;
 
     /**
-     * Obtener las materias por grado
+     * Obtener las materias por grado o por seccion
      */
     @Override
-    public List<MateriaDescripcionId> obtenerMateriasPorGrado(long id_grado) {
+    public List<MateriaDescripcionId> obtenerMateriasPorGrado(Long id_grado, Long id_seccion) {
+
+        if (id_grado == null) {
+            Long idGrado = seccionRepository.obtenerIdGradoPorIdSeccion(id_seccion);
+            return materiaRepository.findByIdGradoId(idGrado);
+        }
 
         //obtener materias por grado
-        List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(id_grado);
-
-        return materias;
+        return materiaRepository.findByIdGradoId(id_grado);
     }
 
 

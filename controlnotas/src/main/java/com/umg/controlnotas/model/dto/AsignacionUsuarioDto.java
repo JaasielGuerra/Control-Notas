@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class AsignacionUsuarioDto implements Serializable {
     private Long idMateria;
     private String descripcionMateria;
-    private Long IdGrado;
     private String descripcionGrado;
+    private Long idSeccion;
+    private Long idGrado;
 }

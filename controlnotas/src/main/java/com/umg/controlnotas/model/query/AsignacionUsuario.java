@@ -6,6 +6,9 @@ public interface AsignacionUsuario {
 
     Long getIdMateriaId();
     String getIdMateriaDescripcion();
-    String getIdMateriaIdGradoDescripcion();
+    String getIdSeccionIdGradoDescripcion();
+    Long getIdSeccionId();
+    String getIdSeccionDescripcion();
+    Long getIdSeccionIdGradoId();
 
 }

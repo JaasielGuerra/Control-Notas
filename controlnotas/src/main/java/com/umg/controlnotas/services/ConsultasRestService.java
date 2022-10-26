@@ -48,14 +48,18 @@ public class ConsultasRestService {
      */
     @GetMapping(value = "/materias")
     @ResponseBody
-    public ResponseEntity<List<MateriaDescripcionId>> obtenerMateriasPorGrado(@RequestParam("grado") long id_grado) {
+    public ResponseEntity<List<MateriaDescripcionId>> obtenerMateriasPorGrado(
+            @RequestParam(name = "grado", required = false) Long id_grado,
+            @RequestParam(name = "seccion", required = false) Long id_seccion
+    ) {
 
-        log.info("obtenerMateriasPorGrado: " + id_grado);
+        log.info("obtenerMateriasPor Grado: " + id_grado);
+        log.info("obtenerMateriasPor Seccion: " + id_seccion);
 
         List<MateriaDescripcionId> materias;
         try {
             //obtener materias por grado
-            materias = planTrabajoService.obtenerMateriasPorGrado(id_grado);
+            materias = planTrabajoService.obtenerMateriasPorGrado(id_grado, id_seccion);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
