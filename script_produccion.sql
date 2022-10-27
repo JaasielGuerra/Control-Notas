@@ -1782,8 +1782,9 @@ BEGIN
 			bimestre b
 		SET
 			b.estado = NEW.estado
-		WHERE
-			b.id_ciclo_escolar = NEW.id_ciclo_escolar;
+		 WHERE
+      b.id_ciclo_escolar = NEW.id_ciclo_escolar
+      AND b.estado = 1; 
 	END IF;
 	
 END$$

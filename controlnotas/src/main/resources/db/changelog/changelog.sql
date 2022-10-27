@@ -1217,3 +1217,24 @@ ALTER TABLE `db_control_notas`.`asignacion_materia`
             ON DELETE NO ACTION
             ON UPDATE NO ACTION;
 set foreign_key_checks=1;
+
+-- changeset liquibase:jaasiel-70 endDelimiter:\nDELIMITER $$
+DROP TRIGGER IF EXISTS db_control_notas.trig_cerrar_bimestres;
+
+-- changeset liquibase:jaasiel-71 endDelimiter:$$\nDELIMITER ;
+CREATE TRIGGER trig_cerrar_bimestres
+    AFTER UPDATE
+    ON ciclo_escolar FOR EACH ROW
+BEGIN
+
+    IF NEW.estado = 2 THEN
+        UPDATE
+            bimestre b
+        SET
+            b.estado = NEW.estado
+        WHERE
+            b.id_ciclo_escolar = NEW.id_ciclo_escolar
+            AND b.estado = 1; -- que esta abierto
+    END IF;
+
+END
