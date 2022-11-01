@@ -36,7 +36,7 @@
                                         <div class="select is-small is-fullwidth">
                                             <select name="ciclo">
                                                 <option th:each="c: ${ciclos}" th:value="${c.id}"
-                                                        th:text="${c.anio}">
+                                                        th:text="${'[# ' + c.id + '] - ' + c.anio}">
                                                 </option>
                                             </select>
                                         </div>

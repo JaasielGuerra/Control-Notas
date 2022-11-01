@@ -5,16 +5,19 @@ import com.umg.controlnotas.model.query.*;
 import com.umg.controlnotas.repository.AlumnoRepository;
 import com.umg.controlnotas.web.UserFacade;
 import liquibase.repackaged.org.apache.commons.lang3.math.NumberUtils;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Log
 public class ReportesServiceImpl implements ReportesService {
 
     @Autowired
@@ -147,12 +150,22 @@ public class ReportesServiceImpl implements ReportesService {
 
         //obtener los ids de los bimestres del ciclo
         List<Long> idsBimestre = bimestreService.obtenerIdsBimestre(idCiclo);
+        log.info("recuento bimestres: " + idsBimestre.size());
 
         //validar que existan 4 bimestres
-        if (idsBimestre.size() != 4) {
+        if (idsBimestre.size() < 4) {
             return ResponseDataDto.builder()
                     .code(0)
-                    .message("No se pueden calcular las notas finales, el ciclo actual aún no ha culminado con 4 bimestres.")
+                    .message("Las notas finales no se pueden calcular, porque actualmente sólo hay " + idsBimestre.size()
+                            + " bimestre(s). Para llevar a cabo el cálculo, deben existir 4 bimestres para el ciclo que se seleccione.")
+                    .build();
+        }
+
+        if (idsBimestre.size() > 4) {
+            return ResponseDataDto.builder()
+                    .code(0)
+                    .message("Error en cálculo de notas finales, hay " + idsBimestre.size() + " bimestres para el ciclo seleccionado, lo cual " +
+                            "sobre pasa lo establecido, siendo 4 lo correcto. Por favor contacte al administrador.")
                     .build();
         }
 
