@@ -30,7 +30,7 @@
                     <a sec:authorize="hasRole('ROLE_DIRECTOR')" class="navbar-item" th:href="@{/alumno/nuevo}">
                         Registrar alumno
                     </a>
-                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/conducta/consultar}">
+                    <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/conducta}">
                         Conducta
                     </a>
                     <a sec:authorize="hasAnyRole('ROLE_DIRECTOR', 'ROLE_DOCENTE')" class="navbar-item" th:href="@{/asistencia}">
