@@ -1238,3 +1238,43 @@ BEGIN
     END IF;
 
 END
+
+-- changeset liquibase:jaasiel-72 endDelimiter:\nDELIMITER $$
+DROP FUNCTION IF EXISTS db_control_notas.func_obtener_puntos_conducta_alumno;
+
+-- changeset liquibase:jaasiel-73 endDelimiter:$$\nDELIMITER ;
+CREATE FUNCTION func_obtener_puntos_conducta_alumno(
+	idBimestre BIGINT,
+	idAlumno BIGINT,
+	idMateria BIGINT
+)
+RETURNS INT
+BEGIN
+
+RETURN(
+SELECT
+	-- si no hay registros, devolver el 100% de actitudinal configurado en el bimestre
+			IF(
+				(SUM(ca.puntos_sumados) - SUM(ca.puntos_restados)) IS NULL,
+				(  -- consultar los puntos actitudinal configurados en el bimestre
+					SELECT
+						b.puntos_actitudinal
+					FROM
+						bimestre b
+					WHERE
+						b.id_bimestre = idBimestre),
+
+	SUM(ca.puntos_sumados) - SUM(ca.puntos_restados)
+			)
+FROM
+			control_actitudinal ca
+WHERE
+			ca.id_alumno = idAlumno
+	-- El ID del alumno
+	AND ca.id_bimestre = idBimestre
+	-- id bimestre
+	AND ca.id_materia = idMateria
+
+);
+
+END
