@@ -158,4 +158,14 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
 
     @Query(value="CALL proc_reporte_actitudinal_alumno(?1, ?2)", nativeQuery = true)
     List<ConsultaReporteActitudinalAlumno> consultarReporteActitudinalAlumno(Long idBimestre, Long idAlumno);
+
+    @Query(value = "SELECT " +
+            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido " +
+            "FROM " +
+            "alumno a " +
+            "WHERE " +
+            "a.estado = 1 " +
+            "AND " +
+            "a.id_seccion = ?1", nativeQuery = true)
+    public List<AlumnoConsultar> findAlumnosActivosBySeccion(Long seccion);
 }

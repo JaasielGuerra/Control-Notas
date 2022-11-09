@@ -22,61 +22,83 @@
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
 
-                        <div class="columns">
-                            <div class="column is-2 is-offset-2">
-                                <label>Grado y sección</label>
-                            </div>
-                            <div class="column is-3">
-                                <div class="select  is-fullwidth">
-                                    <select id="grado-seccion" name="gradoseccion">
-                                        <option >
-                                            PRIMERO
-                                        </option>
-                                        <option >SEGUNDO</option>
-
-                                        <option >
-                                            TERCERO
-                                        </option>
-                                    </select>
+                        <form th:action="@{/conducta}" method="get">
+                            <section class="section">
+                                <div class="columns">
+                                    <div class="column is-2 is-offset-2">
+                                        <label for="grado-seccion">Grado y sección:</label>
+                                    </div>
+                                    <div class="column is-4">
+                                        <div class="select is-small is-fullwidth">
+                                            <select id="grado-seccion" name="gradoseccion">
+                                                <option th:each="s: ${gradosSecciones}" th:value="${s.idSeccion}"
+                                                        th:text="${s.descripcionGrado +' '+ s.descripcionSeccion}"
+                                                        th:attrappend="selected=${seleccion eq s.idSeccion ? 'selected' : ''}">
+                                                </option>
+                                            </select>
+                                            <p class="help is-info">** Grados y secciones que usted tiene asignadas</p>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <button class="button is-link is-small is-rounded" title="Consultar alumnos"
+                                                type="submit">
+                                            <i class="fas fa-list mr-1"></i>Listar alumnos
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
+                        </form>
 
-                            <div class="column">
-                                <button class="button is-link is-small is-rounded" title="Listar alumnos"
-                                        type="submit">
-                                    <i class="fas fa-list mr-1"></i>Listar alumnos
-                                </button>
+                        <section class="section is-medium" th:if="${alumnos eq null}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                Seleccione un grado y sección que imparte y luego presione el botón <strong>Listar
+                                alumnos</strong>
+                            </p>
+                        </section>
+
+                        <section class="section is-medium" th:if="${alumnos?.isEmpty()}">
+                            <figure class="image is-128x128" style="margin: auto">
+                                <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                            </figure>
+                            <p class="subtitle has-text-centered">
+                                No hay alumnos registrados en el grado y sección seleccionado
+                            </p>
+                        </section>
+
+                        <div th:if="${alumnos ne null and not alumnos.isEmpty()}" id="tbl-container">
+                            <h5 class="title is-5 my-6">Control de conducta</h5>
+                            <div class="table-container">
+                                <table class="table display" style="width:100%" id="tbl-alumnos">
+                                    <thead class="is-narrow">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Código</th>
+                                        <th>Nombre completo</th>
+                                        <th>Operaciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="a: ${alumnos}">
+                                        <td th:text="*{a.id}"></td>
+                                        <td th:text="*{a.codigo}"></td>
+                                        <td th:text="*{a.nombre +' '+a.apellido}"></td>
+                                        <td>
+                                            <a class="button is-info is-small" data-target="conducta"
+                                               onclick="Historial()">
+                                                <i class="fas fa-list-alt mr-1"></i>Historial</a>
+                                            <a class="button is-success is-small" data-target="conducta"
+                                               onclick="Conducta()">
+                                                <i class="fas fa-book-reader mr-1"></i>Conducta</a>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
-                        <h5>Control de conducta</h5>
-                        <div class="columns">
-                            <table class="table display">
-                                <thead  class="is-narrow">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Código</th>
-                                    <th>Nombre completo</th>
-                                    <th>Operaciones</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>HGH443</td>
-                                    <td>Juan antonio posdasas mirbel </td>
-                                    <td>
-                                        <a class="button is-info is-small" data-target="conducta" onclick="Historial()">
-                                            <i class="fas fa-list-alt mr-1"></i>Historial</a>
-                                        <a class="button is-success is-small" data-target="conducta" onclick="Conducta()">
-                                            <i class="fas fa-book-reader mr-1"></i>Conducta</a>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-
 
                         <!-- AQUI VA EL CONTENIDO DE CAMBIA -->
 
@@ -98,21 +120,8 @@
 <!-- aqui va el script de jquery-->
 <script th:replace="layout/scripts :: script"></script>
 <script src="/js/modal.js"></script>
-
-<script type="text/javascript">
-
-    function Historial() {
-
-        //abrir modal
-        openModal('historial');
-    }
-
-    function Conducta() {
-
-        //abrir modal
-        openModal('conducta');
-    }
-</script>
+<script src="/js/datatables.min.js"></script>
+<script src="/js/control-conducta.js"></script>
 
 </body>
 </html>

@@ -51,4 +51,12 @@ public class UserFacade {
                 .map(AsignacionUsuarioDto::getIdSeccion)
                 .collect(Collectors.toList());
     }
+
+
+    public List<Long> obtenerTodosIdsSecciones(){
+        return getUserSession().getAsignacionesUsuario()
+                .stream()
+                .map(AsignacionUsuarioDto::getIdSeccion)
+                .collect(Collectors.toList());
+    }
 }
