@@ -1248,7 +1248,7 @@ CREATE FUNCTION func_obtener_puntos_conducta_alumno(
 	idAlumno BIGINT,
 	idMateria BIGINT
 )
-RETURNS INT
+RETURNS DOUBLE(16,2)
 BEGIN
 
 RETURN(
