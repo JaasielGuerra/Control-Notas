@@ -26,6 +26,7 @@ function resetForm(form) {
     $formAlumno.get(0).reset()
     $formAlumno.find(".is-danger").not(".button").removeClass("is-danger");
     $formAlumno.find(".is-success").not(".button").removeClass("is-success");
+    $formAlumno.find("p.help").remove();
 }
 
 //funcion para mostrar mensaje de success

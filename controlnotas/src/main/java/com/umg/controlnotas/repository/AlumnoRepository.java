@@ -160,9 +160,11 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     List<ConsultaReporteActitudinalAlumno> consultarReporteActitudinalAlumno(Long idBimestre, Long idAlumno);
 
     @Query(value = "SELECT " +
-            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido " +
+            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido , s.id_grado AS idGrado " +
             "FROM " +
             "alumno a " +
+            "LEFT JOIN " +
+            "seccion s ON s.id_seccion = a.id_seccion " +
             "WHERE " +
             "a.estado = 1 " +
             "AND " +

@@ -86,12 +86,12 @@
                                         <td th:text="*{a.codigo}"></td>
                                         <td th:text="*{a.nombre +' '+a.apellido}"></td>
                                         <td>
-                                            <a class="button is-info is-small" data-target="conducta"
-                                               onclick="Historial()">
-                                                <i class="fas fa-list-alt mr-1"></i>Historial</a>
-                                            <a class="button is-success is-small" data-target="conducta"
-                                               onclick="Conducta()">
-                                                <i class="fas fa-book-reader mr-1"></i>Conducta</a>
+                                            <button class="button is-info is-small btn-historial" th:data-id="${a.id}">
+                                                <i class="fas fa-list-alt mr-1"></i>Historial
+                                            </button>
+                                            <button class="button is-success is-small btn-conducta" th:data-id="${a.id+','+a.idGrado}">
+                                                <i class="fas fa-book-reader mr-1"></i>Conducta
+                                            </button>
                                         </td>
                                     </tr>
 
@@ -121,6 +121,8 @@
 <script th:replace="layout/scripts :: script"></script>
 <script src="/js/modal.js"></script>
 <script src="/js/datatables.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/utilidades.js"></script>
 <script src="/js/control-conducta.js"></script>
 
 </body>
