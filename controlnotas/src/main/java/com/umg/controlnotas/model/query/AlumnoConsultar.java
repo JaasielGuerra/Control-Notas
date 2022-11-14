@@ -10,5 +10,6 @@ public interface AlumnoConsultar {
     String getDescripcionGradoSeccion();
     String getEstadoExpediente();
     Double getPorcentajeAsistencia();
+    Long getIdGrado();
 
 }

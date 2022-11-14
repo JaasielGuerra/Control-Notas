@@ -1,71 +1,51 @@
-<div class="modal" id="historial" xmlns:th="http://www.thymeleaf.org" th:fragment="historial">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <h4 class="modal-card-title title has-text-centered is-4">HISTORIAL ACTITUDINAL</h4>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
+<div class="modal" id="modal-historial" xmlns:th="http://www.thymeleaf.org" th:fragment="historial">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title title has-text-centered is-4">HISTORIAL ACTITUDINAL</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
 
-      <div class="columns">
-        <div class="column is-2 is-offset-2">
-          <label>Materia:</label>
-        </div>
-        <div class="column is-5">
-          <div class="select  is-fullwidth">
-            <select id="grado-seccion" name="gradoseccion">
-              <option >
-                Mátematicas
-              </option>
+            <form id="form-consultar-historial">
+                <div class="columns">
+                    <div class="column is-2">
+                        <label for="materias">Materia:</label>
+                    </div>
+                    <div class="column is-7">
+                        <div class="select is-fullwidth is-small">
+                            <input type="hidden" id="id-alumno" name="alumno">
+                            <select id="materias" name="materia">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <button class="button is-link is-small is-rounded" title="Consultar actitudinal"
+                                type="submit" id="btn-consultar-historial">
+                            <i class="fas fa-list mr-1"></i>Consultar
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-              <option >
-                Español
-              </option>
-            </select>
-          </div>
-        </div>
+            <section class="section" id="msj-ayuda">
+                <figure class="image is-64x64" style="margin: auto">
+                    <img th:src="${'/img/undraw_No_data.png'}" alt="No hay datos">
+                </figure>
+                <p class="subtitle has-text-centered is-6">
+                    Seleccione una materia y pulse <strong>Consultar</strong> para ver el historial actitudinal del
+                    alumno
+                </p>
+            </section>
 
-        <div class="column">
-          <button class="button is-link is-small is-rounded" title="Listar alumnos"
-                  type="submit">
-            <i class="fas fa-list mr-1"></i>Consultar
-          </button>
-        </div>
-      </div>
-      <p class="subtitle is-4">Alumno</p>
-
-          <label >Juan antonio posadas</label><br>
-          <label >10 puntos</label><br> <br>
+            <div id="container-historial">
 
 
-      <p class="subtitle is-4">Historial</p>
-      <div class="columns" >
-        <table class="table display" style="width: 100%" >
-          <thead  class="is-bordered">
-          <tr>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Puntos restados</th>
-            <th>Puntos sumados</th>
-            <th>Puntos actuales</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>Se portovxcvcx vcxvxcvxcvxcv mal</td>
-            <td>27/09/2022</td>
-            <td>2</td>
-            <td>4</td>
-            <td>8</td>
-          </tr>
+            </div>
 
-          </tbody>
-        </table>
-      </div>
-
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button  is-danger" type="button"> <i class="fas fa-window-close mr-1"></i>Cerrar</button>
-    </footer>
-  </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button  is-danger" type="button"><i class="fas fa-window-close mr-1"></i>Cerrar</button>
+        </footer>
+    </div>
 </div>

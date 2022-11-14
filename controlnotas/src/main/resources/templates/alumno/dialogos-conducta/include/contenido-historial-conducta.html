@@ -1,0 +1,62 @@
+<div class="card has-background-grey mt-6">
+    <div class="card-content">
+        <p class="title is-5 has-text-centered is-underlined is-italic has-text-white">
+            Alumno
+        </p>
+        <div class="columns is-multiline">
+            <div class="column is-3 py-0">
+                <p class="title is-6 is-italic has-text-white">Código:</p>
+            </div>
+            <div class="column is-9 py-0">
+                <p class="subtitle is-6 is-italic has-text-white"
+                   th:text="${alumno?.codigoAlumno}"></p>
+            </div>
+            <div class="column is-3 py-0">
+                <p class="title is-6 is-italic has-text-white">Nombre:</p>
+            </div>
+            <div class="column is-9 py-0">
+                <p class="subtitle is-6 is-italic has-text-white"
+                   th:text="${alumno?.nombre + ' ' +alumno?.apellido}"></p>
+            </div>
+            <div class="column is-3 py-0">
+                <p class="title is-6 is-italic has-text-white">Grado:</p>
+            </div>
+            <div class="column is-9 py-0">
+                <p class="subtitle is-6 is-italic has-text-white"
+                   th:text="${alumno?.descripcionGradoSeccion}"></p>
+            </div>
+            <div class="column is-3 py-0">
+                <p class="title is-6 is-italic has-text-white">Ptos. Actuales:</p>
+            </div>
+            <div class="column is-9 py-0">
+                <p class="subtitle is-6 is-italic has-text-white">[[${alumno?.puntosConducta}]] / [[${puntosBimestre}]]</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-container is-size-7  mt-6">
+    <table id="tbl-actitudinal" class="table display" style="width:100%">
+        <thead class="is-narrow">
+        <tr>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Puntos restados (-)</th>
+            <th>Puntos sumados (+)</th>
+            <th>Puntos actuales</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="i: ${historialConducta}">
+            <td th:text="*{i.descripcion}"></td>
+            <td th:text="*{#temporals.format(i.fecha, 'dd/MM/yyyy')}"></td>
+            <td th:text="${#numbers.formatDecimal(i.puntosRestados, 0, 2)}">100</td>
+            <td th:text="${#numbers.formatDecimal(i.puntosSumados, 0, 2)}">100</td>
+            <td th:text="${#numbers.formatDecimal(i.puntosActuales, 0, 2)}">100</td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>

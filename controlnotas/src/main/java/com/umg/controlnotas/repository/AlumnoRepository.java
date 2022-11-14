@@ -2,9 +2,7 @@ package com.umg.controlnotas.repository;
 
 import com.umg.controlnotas.model.Alumno;
 import com.umg.controlnotas.model.Seccion;
-import com.umg.controlnotas.model.dto.AlumnoLecturaDto;
 import com.umg.controlnotas.model.query.*;
-import liquibase.pro.packaged.Q;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -156,16 +154,33 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     @Query(value="CALL proc_reporte_notas_finales(?1,?2, ?3, ?4, ?5)", nativeQuery = true)
     List<ConsultaReporteNotaFinal> consultarReporteNotasFinales(Long idBimestre1, Long idBimestre2, Long idBimestre3, Long idBimestre4, Long idAlumno);
 
-    @Query(value="CALL proc_reporte_actitudinal_alumno(?1, ?2)", nativeQuery = true)
-    List<ConsultaReporteActitudinalAlumno> consultarReporteActitudinalAlumno(Long idBimestre, Long idAlumno);
+    @Query(value="CALL proc_reporte_actitudinal_alumno(?1, ?2, ?3)", nativeQuery = true)
+    List<ConsultaReporteActitudinalAlumno> consultarReporteActitudinalAlumno(Long idBimestre, Long idAlumno, Long idMateria);
 
     @Query(value = "SELECT " +
-            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido " +
+            "a.id_alumno AS id, a.codigo_alumno AS codigo,a.nombre AS nombre,a.apellido AS apellido , s.id_grado AS idGrado " +
             "FROM " +
             "alumno a " +
+            "LEFT JOIN " +
+            "seccion s ON s.id_seccion = a.id_seccion " +
             "WHERE " +
             "a.estado = 1 " +
             "AND " +
             "a.id_seccion = ?1", nativeQuery = true)
     public List<AlumnoConsultar> findAlumnosActivosBySeccion(Long seccion);
+
+    @Query(value = "SELECT " +
+            "a.id_alumno AS idAlumno, " +
+            "a.nombre AS nombre, " +
+            "a.apellido AS apellido, " +
+            "CONCAT(g.descripcion, ' ', s.descripcion) AS descripcionGradoSeccion, " +
+            "a.codigo_alumno AS codigoAlumno," +
+            "func_obtener_puntos_conducta_alumno(?2, a.id_alumno, ?3) AS puntosConducta " +
+            "FROM alumno a " +
+            "LEFT JOIN " +
+            "seccion s ON s.id_seccion = a.id_seccion " +
+            "LEFT JOIN " +
+            "grado g ON g.id_grado = s.id_grado " +
+            "WHERE a.id_alumno = ?1", nativeQuery = true)
+    ConsultaAlumnoActitudinal obtenerDatosBasicosAlumno(Long idAlumno, Long idBimestre, Long idMateria);
 }

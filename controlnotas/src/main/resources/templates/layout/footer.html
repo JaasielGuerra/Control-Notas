@@ -1,7 +1,7 @@
 <footer class="footer has-background-light" xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
     <div class="content has-text-centered">
         <p class="has-text-centered is-italic">
-            Software Control Notas v[[ #{app.version}]]
+            Software Control Notas v[[${@environment.getProperty('info.app.version')}]]
         </p>
     </div>
 </footer>

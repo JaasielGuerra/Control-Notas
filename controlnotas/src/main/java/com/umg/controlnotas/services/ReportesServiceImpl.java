@@ -235,7 +235,7 @@ public class ReportesServiceImpl implements ReportesService {
         }
 
         //consultar el reporte actitudinal del alumno
-        List<ConsultaReporteActitudinalAlumno> actitudinalAlumno = alumnoRepository.consultarReporteActitudinalAlumno(idBimestre, datosAlumno.getId());
+        List<ConsultaReporteActitudinalAlumno> actitudinalAlumno = alumnoRepository.consultarReporteActitudinalAlumno(idBimestre, datosAlumno.getId(), null);
 
         //si no hay datos retornar mensaje
         if (actitudinalAlumno.isEmpty()) {

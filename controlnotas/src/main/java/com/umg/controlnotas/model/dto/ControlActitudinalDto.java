@@ -21,4 +21,6 @@ public class ControlActitudinalDto implements Serializable {
     private Double puntosRestados;
     private Double puntosActuales;
     private LocalDate fecha;
+    private String operacion;
+    private Double puntos;
 }
