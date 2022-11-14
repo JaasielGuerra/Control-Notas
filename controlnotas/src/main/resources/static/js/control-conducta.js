@@ -161,9 +161,93 @@
         });
     }
 
-
+    /**
+     * Levantar modal para ver historial de actiudinal del alumno
+     */
     $('.btn-historial').click(function () {
-        openModal('modal-historial');
+        //get id data split by comma
+        const idAlumno = $(this).data('id').split(',')[0];
+        const idGrado = $(this).data('id').split(',')[1];
+
+        //set id alumno en modal
+        $('#modal-historial').find("#id-alumno").val(idAlumno);
+        //msj-ayuda visible
+        $('#msj-ayuda').removeClass('is-hidden');
+
+        $.ajax({
+            url: '/consultas/materias?grado=' + idGrado,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+
+                cargarMaterias(data);
+
+                //clean container-historial
+                $('#container-historial').empty();
+
+                openModal('modal-historial');
+
+            }, error: function (xhr, status) {
+                showMessageError('Error al cargar las materias ' + xhr.responseText);
+            }
+        });
+
+        // cargar materias al select materia
+        function cargarMaterias(data) {
+
+            //recorrer materias con each y agregarlas al select con id materias
+            let $materia = $('#modal-historial').find('#materias');
+            $materia.empty();
+            $.each(data, function (i, item) {
+                $materia.append($('<option>', {
+                    value: item.id, text: item.descripcion
+                }));
+            });
+        }
+    });
+
+    /**
+     * Consultar el historial de conducta del alumno, por materia
+     */
+    $("#form-consultar-historial").submit(function (event) {
+
+        event.preventDefault();
+
+        //send ajax request
+        $.ajax({
+            url: '/conducta/historial',
+            type: 'GET',
+            data: $(this).serialize(),
+            dataType: 'html',
+            success: function (data) {
+
+                $('#modal-historial').find('#container-historial').html(data);
+
+                //msj-ayuda hidden
+                $('#msj-ayuda').addClass('is-hidden');
+
+                //inicializar datatable
+                $('#tbl-actitudinal').DataTable({
+                    lengthMenu: [5, 10, 20], language: {
+                        lengthMenu: "Mostrar _MENU_ registros",
+                        search: "Buscar: _INPUT_",
+                        emptyTable: "No hay registros para mostrar",
+                        sZeroRecords: "No se encontron resultados",
+                        paginate: {
+                            previous: "Página anterior", next: "Página siguiente"
+                        },
+                        info: "Mostrando _START_ al _END_ de _TOTAL_ registros",
+                        infoEmpty: "_TOTAL_ registros",
+                    },
+                    order: [1, 'asc'],
+                });
+
+                showMessageSuccess('Se cargaron los datos correctamente');
+            },
+            error: function (xhr, status) {
+                showMessageError('Error al cargar historial actitudinal ' + xhr.responseText);
+            }
+        });
     });
 
 

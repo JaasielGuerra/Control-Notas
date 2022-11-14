@@ -1278,3 +1278,56 @@ WHERE
 );
 
 END
+
+-- changeset liquibase:jaasiel-74 endDelimiter:\nDELIMITER $$
+DROP PROCEDURE IF EXISTS db_control_notas.proc_reporte_actitudinal_alumno;
+
+-- changeset liquibase:jaasiel-75 endDelimiter:$$\nDELIMITER ;
+CREATE PROCEDURE `proc_reporte_actitudinal_alumno`(
+    idBimestre BIGINT,
+    idAlumno BIGINT,
+    idMateria BIGINT
+)
+BEGIN
+
+    -- por materia
+    IF idMateria IS NOT NULL THEN
+
+        SELECT
+            ca.descripcion descripcion ,
+            ca.fecha fecha,
+            m.descripcion materia,
+            ca.puntos_restados puntosRestados,
+            ca.puntos_sumados puntosSumados,
+            ca.puntos_actuales puntosActuales
+        FROM
+            control_actitudinal ca
+                JOIN materia m ON
+                    m.id_materia = ca.id_materia
+        WHERE
+                ca.id_alumno = idAlumno
+          AND ca.id_bimestre = idBimestre
+          AND m.id_materia = idMateria
+        ORDER BY ca.fecha DESC;
+
+        -- todos los registros
+    ELSE
+
+        SELECT
+            ca.descripcion descripcion ,
+            ca.fecha fecha,
+            m.descripcion materia,
+            ca.puntos_restados puntosRestados,
+            ca.puntos_sumados puntosSumados,
+            ca.puntos_actuales puntosActuales
+        FROM
+            control_actitudinal ca
+                JOIN materia m ON
+                    m.id_materia = ca.id_materia
+        WHERE
+                ca.id_alumno = idAlumno
+          AND ca.id_bimestre = idBimestre
+        ORDER BY ca.fecha DESC;
+
+    END IF;
+END

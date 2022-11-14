@@ -2,9 +2,9 @@ package com.umg.controlnotas.services;
 
 import com.umg.controlnotas.model.ControlActitudinal;
 import com.umg.controlnotas.model.dto.ControlActitudinalDto;
+import com.umg.controlnotas.model.dto.ReporteDetalleActitudinalDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
-import com.umg.controlnotas.model.query.AlumnoConsultar;
-import com.umg.controlnotas.model.query.GradoSeccion;
+import com.umg.controlnotas.model.query.*;
 import com.umg.controlnotas.repository.*;
 import com.umg.controlnotas.web.UserFacade;
 import lombok.extern.java.Log;
@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Log
@@ -190,5 +191,45 @@ public class ConductaServiceImpl implements ConductaService {
                 .code(ResponseDataDto.SUCCESS)
                 .message("Calificación de conducta registrada correctamente")
                 .build();
+    }
+
+    /**
+     * Obtener el historial de actitudinal de un alumno en una materia
+     *
+     * @param idAlumno
+     * @param idMateria
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReporteDetalleActitudinalDto> obtenerHistorialActitudinal(Long idAlumno, Long idMateria) {
+
+        List<ConsultaReporteActitudinalAlumno> actitudinalAlumno = alumnoRepository.consultarReporteActitudinalAlumno(userFacade.getBimestreActual().getId(), idAlumno, idMateria);
+
+        //mapear reporte a detalles de actitudinal
+        return actitudinalAlumno.stream()
+                .map(r -> ReporteDetalleActitudinalDto.builder()
+                        .descripcion(r.getDescripcion())
+                        .fecha(r.getFecha())
+                        .materia(r.getMateria())
+                        .puntosRestados(r.getPuntosRestados())
+                        .puntosSumados(r.getPuntosSumados())
+                        .puntosActuales(r.getPuntosActuales())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * Obtener los datos de un alumno y su punteo actual de actitudinal
+     *
+     * @param idAlumno
+     * @param idMateria
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public ConsultaAlumnoActitudinal obtenerDatosAlumnoActitudinal(Long idAlumno, Long idMateria) {
+        return alumnoRepository.obtenerDatosBasicosAlumno(idAlumno, userFacade.getBimestreActual().getId(), idMateria);
     }
 }

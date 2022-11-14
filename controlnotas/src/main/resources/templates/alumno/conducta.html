@@ -86,7 +86,7 @@
                                         <td th:text="*{a.codigo}"></td>
                                         <td th:text="*{a.nombre +' '+a.apellido}"></td>
                                         <td>
-                                            <button class="button is-info is-small btn-historial" th:data-id="${a.id}">
+                                            <button class="button is-info is-small btn-historial" th:data-id="${a.id+','+a.idGrado}">
                                                 <i class="fas fa-list-alt mr-1"></i>Historial
                                             </button>
                                             <button class="button is-success is-small btn-conducta" th:data-id="${a.id+','+a.idGrado}">
