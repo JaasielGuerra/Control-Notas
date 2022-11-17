@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.umg</groupId>
     <artifactId>controlnotas</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>controlnotas</name>
     <description>Herramienta de software control notas</description>
     <properties>
