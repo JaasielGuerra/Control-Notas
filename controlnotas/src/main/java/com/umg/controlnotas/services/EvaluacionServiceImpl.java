@@ -372,6 +372,7 @@ public class EvaluacionServiceImpl implements EvaluacionService {
                 .materiaDescripcion(actividad.getDescripcionMateria())
                 .id(actividad.getId())
                 .idGradoId(actividad.getIdGrado())
+                .descripcionGrado(actividad.getDescripcionGrado())
                 .build();
     }
 
