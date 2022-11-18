@@ -132,6 +132,7 @@ public class ActividadesServicioImpl implements ActividadesServicio {
                 .descripcionMateria(actividad.getDescripcionMateria())
                 .id(actividad.getId())
                 .idGrado(actividad.getIdGrado())
+                .descripcionGrado(actividad.getDescripcionGrado())
                 .build();
     }
 
