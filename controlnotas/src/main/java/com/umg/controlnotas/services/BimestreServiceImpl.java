@@ -49,6 +49,12 @@ public class BimestreServiceImpl implements BimestreService {
             errores.add("Ya existe un bimestre aperturado y activo");
         }
 
+        //validar que no se haya el máximo de 4 bimestres para el ciclo actual
+        int numeroBimestres = bimestreRepository.countByIdCicloEscolarIdAndEstadoNot(userFacade.getCicloActual().getId(), Bimestre.ELIMINADO);
+        if (numeroBimestres >= 4) {
+            errores.add("No se puede aperturar un bimestre porque ya se alcanzó el máximo de 4 bimestres para el ciclo actual");
+        }
+
         //validar que el punteo base sea igual a la suma de los puntos de rubrica
         double sumatoriaRubrica = bimestreDto.getPuntosActividades()
                 + bimestreDto.getPuntosActitudinal()
