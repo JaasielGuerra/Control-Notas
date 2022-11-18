@@ -32,9 +32,11 @@ public interface ActividadRepository extends JpaRepository<Actividad, Long> {
     @Query("SELECT a.descripcionActividad AS descripcionActividad, " +
             " a.valorActividad AS valorActividad, a.id AS id, " +
             "m.descripcion AS descripcionMateria, " +
-            "m.idGrado.id AS idGrado " +
+            "g.id AS idGrado, " +
+            "g.descripcion AS descripcionGrado " +
             "FROM Actividad a " +
             "JOIN Materia m ON m.id = a.idMateria.id " +
+            "JOIN Grado g ON g.id = m.idGrado.id " +
             "WHERE a.id = ?1")
     Optional<ConsultaActividadCalificar> obtenerActividadCalificarById(Long id);
 }

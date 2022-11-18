@@ -17,6 +17,7 @@ public class ActividadDto implements Serializable {
     private Double valorActividad;
     private Long idMateria;
     private Long idGrado;
+    private String descripcionGrado;
     private Integer estado;
     private Long id;
     private String descripcionMateria;

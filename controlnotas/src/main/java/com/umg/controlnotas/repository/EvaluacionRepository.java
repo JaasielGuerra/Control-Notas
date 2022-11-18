@@ -56,9 +56,11 @@ public interface EvaluacionRepository extends JpaRepository<Evaluacion, Long> {
     @Query("SELECT a.descripcion AS descripcion, " +
             " a.ponderacion AS ponderacion, a.id AS id, " +
             "m.descripcion AS descripcionMateria," +
-            "m.idGrado.id AS idGrado " +
+            "m.idGrado.id AS idGrado, " +
+            "g.descripcion AS descripcionGrado " +
             "FROM Evaluacion a " +
             "JOIN Materia m ON m.id = a.idMateria.id " +
+            "JOIN Grado g ON g.id = m.idGrado.id " +
             "WHERE a.id = ?1")
     Optional<ConsultaEvaluacionCalificar> obtenerEvaluacionCalificarById(Long id);
 }

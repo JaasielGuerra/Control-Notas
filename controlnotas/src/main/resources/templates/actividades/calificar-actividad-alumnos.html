@@ -50,6 +50,14 @@
                                         <p class="subtitle is-6 is-italic has-text-white">
                                             [[${actividad.descripcionMateria}]]</p>
                                     </div>
+
+                                    <div class="column is-2 py-0">
+                                        <p class="title is-6 is-italic has-text-white">Grado:</p>
+                                    </div>
+                                    <div class="column is-10 py-0">
+                                        <p class="subtitle is-6 is-italic has-text-white">
+                                            [[${actividad.descripcionGrado}]]</p>
+                                    </div>
                                 </div>
 
                                 <hr class="dropdown-divider">
@@ -79,7 +87,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Alumno</th>
-                                <th>Grado</th>
+                                <th>Grado y sección</th>
                                 <th>Punteo</th>
                             </tr>
                             </thead>
@@ -141,7 +149,8 @@
                 infoEmpty: "Mostrando 0 de 0 de 0 registros",
                 infoFiltered: "(filtrado de _MAX_ registros totales)",
                 searchPlaceholder: "Buscar alumno",
-            }
+            },
+            order: [1, "asc"]
         });
 
         //evento para cambiar el valor del punteo obtenido
