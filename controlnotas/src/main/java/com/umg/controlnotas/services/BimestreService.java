@@ -9,6 +9,9 @@ import java.util.List;
 public interface BimestreService {
 
     @Transactional
+    ResponseDataDto activarBimestre(Long idBimestre);
+
+    @Transactional
     ResponseDataDto aperturarBimestre(BimestreDto bimestreDto);
 
     BimestreDto obtenerUltimoBimestre();
