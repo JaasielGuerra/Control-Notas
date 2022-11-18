@@ -22,4 +22,5 @@ public interface BimestreRepository extends JpaRepository<Bimestre, Long> {
     List<Long> findIdBimestreByIdCicloEscolarId(Long idCicloEscolar, int estado);
 
     List<ConsultaBimestresCiclo> findBimestresByIdCicloEscolarIdAndEstadoNot(Long idCicloEscolar, int estado);
+    int countByIdCicloEscolarIdAndEstadoNot(Long idCicloEscolar, int estado);
 }
