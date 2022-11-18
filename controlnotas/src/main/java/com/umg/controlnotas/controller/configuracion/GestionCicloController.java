@@ -160,4 +160,26 @@ public class GestionCicloController {
         return ResponseEntity.ok(responseDataDto);
     }
 
+    @PatchMapping("/activar-bimestre/{idBimestre}")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> activarBimestre(@PathVariable Long idBimestre) {
+
+        ResponseDataDto responseDataDto;
+
+        log.info("Activando bimestre...");
+
+        try {
+
+            responseDataDto = bimestreService.activarBimestre(idBimestre);
+
+        } catch (Exception ex) {
+            log.log(java.util.logging.Level.SEVERE, "error: " + ex.getMessage(), ex);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al activar bimestre " + ex.getMessage(), ex
+            );
+        }
+
+        return ResponseEntity.ok(responseDataDto);
+    }
+
 }

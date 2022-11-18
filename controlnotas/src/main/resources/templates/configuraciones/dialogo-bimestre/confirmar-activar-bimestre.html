@@ -1,0 +1,20 @@
+<!-- MOdal -->
+<div class="modal" id="confirmar-activar-bimestre" xmlns:th="http://www.thymeleaf.org" th:fragment="confirmar-activar-bimestre">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title title has-text-centered is-4">CONFIRMACIÓN</h4>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <p>Al activar este bimestre, automáticamente se cerrará el bimestre activo actual (en caso exista uno
+                activo), y se cambiará a este bimestre que se está activando. ¿Está de acuerdo?</p>
+        </section>
+        <footer class="modal-card-foot ">
+            <button class="button is-success" id="btn-confirmar-activar-bimestre"><i class="fas fa-check mr-1"></i>Estoy
+                de acuerdo
+            </button>
+            <button class="button is-danger"><i class="fas fa-times mr-1"></i>Cancelar operación</button>
+        </footer>
+    </div>
+</div>

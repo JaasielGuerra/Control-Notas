@@ -32,6 +32,33 @@ public class BimestreServiceImpl implements BimestreService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Override
+    @Transactional
+    public ResponseDataDto activarBimestre(Long idBimestre) {
+        var bimestre = bimestreRepository.findById(idBimestre).orElseThrow();
+        if (bimestre.getEstado() == 1) {
+            return ResponseDataDto.builder()
+                    .code(ResponseDataDto.ERROR)
+                    .message("El bimestre ya se encuentra activo")
+                    .build();
+        }
+
+        //desactivar bimestre activo
+        bimestreRepository.updateEstadoByEstado(Bimestre.CERRADO, Bimestre.ACTIVO);
+
+        //activar bimestre seleccionado
+        bimestre.setEstado(Bimestre.ACTIVO);
+        bimestreRepository.save(bimestre);
+
+        //refrescar el bimestre en la sesion del usuario
+        userFacade.refreshBimestre(bimestre);
+
+        return ResponseDataDto.builder()
+                .code(ResponseDataDto.SUCCESS)
+                .message("Bimestre activado correctamente, se ha cambiado a " + bimestre.getDescripcion())
+                .build();
+    }
+
     /**
      * @param bimestreDto bimestre a aperturar
      * @return ResponseDataDto con mensaje de error o exito

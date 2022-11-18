@@ -67,6 +67,16 @@
         cerrarBimestre(idBimestre);
     });
 
+    $('.btn-pre-activar-bimestre').click(function () {
+        let idBimestre = $(this).attr('data-id-bimestre');
+        $('#btn-confirmar-activar-bimestre').attr('data-id-bimestre', idBimestre);
+        openModal('confirmar-activar-bimestre');
+    });
+
+    $('#btn-confirmar-activar-bimestre').click(function () {
+        activarBimestre($(this).attr('data-id-bimestre'));
+    });
+
     $('#form-apertura-bimestre').validate({
         errorClass: 'is-danger',
         validClass: 'is-success',
@@ -278,7 +288,6 @@
                 }
 
 
-
             },
             error: function (XMLHttpRequest, status, error) {
                 showMessageError("Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText);
@@ -386,6 +395,40 @@
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 showMessageError("Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText);
                 removeLoadingBtn('#btn-modal-ciclos-anteriores');
+            }
+        });
+    }
+
+    function activarBimestre(idBimestre) {
+        $.ajax({
+            url: '/institucion/activar-bimestre/' + idBimestre,
+            type: 'PATCH',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (data) {
+
+                //si el code es 1
+                if (data.code === 1) {
+                    //guardar mensaje de exito en el local storage
+                    localStorage.setItem('messageSuccess', data.message);
+                    location.reload();
+                }
+                //si el code es 0
+                else if (data.code === 0) {
+                    showMessageError(data.message);
+                    //recorrer los errores, concatenarlos
+                    let errores = '';
+                    $.each(data.errors, function (i, error) {
+                        errores += error + '<br>';
+                    });
+                    //mostrar errores
+                    showMessageError(errores);
+                }
+
+            },
+            error: function (XMLHttpRequest, status, error) {
+                showMessageError("Error " + XMLHttpRequest.status + ", respuesta del servidor: " + XMLHttpRequest.responseText);
+                removeLoadingBtn($('#form-apertura-ciclo').find('button[type="submit"]'));
             }
         });
     }
