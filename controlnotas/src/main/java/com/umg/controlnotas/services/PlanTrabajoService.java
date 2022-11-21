@@ -19,4 +19,6 @@ public interface PlanTrabajoService {
 
     @Transactional
     ResponseDataDto eliminarPlanTrabajo(long idPlan);
+
+    ResponseDataDto validarActividades(List<ActividadDto> actividades);
 }

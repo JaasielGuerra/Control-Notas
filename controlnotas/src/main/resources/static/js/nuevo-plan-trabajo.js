@@ -105,6 +105,8 @@ function addItemActividad() {
     //volver foco al campo materia
     $idMateria.focus();
 
+    validarActividades(actividadesItems);
+
 }
 
 // funcion para cargas los items de actividades en la tabla
@@ -130,6 +132,7 @@ function cargarTablaActividades(actividadesItems) {
 function eliminarItemActividad(index) {
     actividadesItems.splice(index, 1);
     cargarTablaActividades(actividadesItems);
+    validarActividades(actividadesItems);
 }
 
 // funcion para limpiar toda la tabla de actividades
@@ -222,6 +225,55 @@ $('#btn-submit-confirmar').click(function () {
 
 
 });
+
+function validarActividades(actividades) {
+
+    $.ajax({
+        url: '/plan-trabajo/validar-actividades',
+        type: 'POST',
+        data: JSON.stringify(actividades),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (data) {
+
+            //si el code es 1
+            if (data.code === 1) {
+                $('#mensaje-actividades')
+                    .addClass('is-hidden')
+                    .html('');
+            }
+            //si el code es 0
+            else if (data.code === 0) {
+
+                //mostrar errores
+                $('#mensaje-actividades')
+                    .removeClass('is-success')
+                    .removeClass('is-hidden')
+                    .addClass('is-warning')
+                    .html(
+                        $('<strong>', {
+                            text: data.message
+                        })
+                    ).append(
+                    $('<ul>', {
+                        html: function () {
+                            let html = '';
+                            $.each(data.errors, function (i, error) {
+                                html += '<li>' + error + '</li>';
+                            });
+                            return html;
+                        }
+                    })
+                );
+            }
+
+        },
+        error: function (xhr, status, error) {
+            showMessageError('Se produjo un error en el servidor ' + xhr.responseText);
+        }
+    });
+
+}
 
 
 
