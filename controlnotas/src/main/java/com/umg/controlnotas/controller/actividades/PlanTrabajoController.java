@@ -1,5 +1,6 @@
 package com.umg.controlnotas.controller.actividades;
 
+import com.umg.controlnotas.model.dto.ActividadDto;
 import com.umg.controlnotas.model.dto.PlanTrabajoDto;
 import com.umg.controlnotas.model.dto.ResponseDataDto;
 import com.umg.controlnotas.repository.GradoRepository;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/plan-trabajo")
@@ -39,7 +42,6 @@ public class PlanTrabajoController {
     }
 
 
-
     /**
      * guardar plan trabajo
      *
@@ -59,6 +61,26 @@ public class PlanTrabajoController {
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error al guardar el plan de trabajo " + e.getMessage()
+            );
+        }
+
+        return ResponseEntity.ok().body(responseDataDto);
+    }
+
+    @PostMapping(value = "/validar-actividades")
+    @ResponseBody
+    public ResponseEntity<ResponseDataDto> validarActividades(@RequestBody List<ActividadDto> actividades) {
+
+        log.info("validando ponderacion actividades");
+        ResponseDataDto responseDataDto;
+
+        try {
+            //validar actividades
+            responseDataDto = planTrabajoService.validarActividades(actividades);
+        } catch (Exception e) {
+            log.log(java.util.logging.Level.SEVERE, "error: " + e.getMessage(), e);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error al validar las actividades " + e.getMessage(), e
             );
         }
 

@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,6 +68,24 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         var bimestre = userFacade.getUserSession().getBimestre();
         List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(planTrabajoDto.getIdGrado());
 
+        // contar cuantas materias tiene el plan de trabajo (contar solo las no repetidas)
+        var materiasPlanTrabajo = planTrabajoDto.getActividades()
+                .stream()
+                .map(ActividadDto::getIdMateria)
+                .distinct()
+                .count();
+        log.info("countMaterias: " + materiasPlanTrabajo);
+
+        // validar que el plan de trabajo tenga todas las materias
+        if (materiasPlanTrabajo != materias.size()) {
+            errores.add("El plan de trabajo debe tener todas las materias cargadas como actividades");
+            return ResponseDataDto.builder()
+                    .code(0)
+                    .message("Error al guardar el plan de trabajo para el bimestre " + bimestre.getDescripcion() + " lea los siguientes errores:")
+                    .errors(errores)
+                    .build();
+        }
+
         //recorrer materias para verificar que la suma de actividades sea igual a 60 (puntos configurados en bimestre)
         for (MateriaDescripcionId materia : materias) {
 
@@ -85,18 +101,6 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
             }
         }
 
-        // contar cuantas materias tiene el plan de trabajo (contar solo las no repetidas)
-        var materiasPlanTrabajo = planTrabajoDto.getActividades()
-                .stream()
-                .map(ActividadDto::getIdMateria)
-                .distinct()
-                .count();
-        log.info("countMaterias: " + materiasPlanTrabajo);
-
-        // validar que el plan de trabajo tenga todas las materias
-        if (materiasPlanTrabajo != materias.size()) {
-            errores.add("El plan de trabajo debe tener todas las materias cargadas como actividades");
-        }
 
         //validar que el plan de trabajo no esté registrado para el bimestre y grado
         if (planTrabajoRepository.existsByIdBimestreIdAndIdGradoIdAndEstado(bimestre.getId(), planTrabajoDto.getIdGrado()) > 0) {
@@ -154,6 +158,26 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         var bimestre = userFacade.getUserSession().getBimestre();
         List<MateriaDescripcionId> materias = materiaRepository.findByIdGradoId(planTrabajoRepository.findIdGgradoIdById(idPlan));
 
+        // contar cuantas materias tiene el plan de trabajo (contar solo las no repetidas)
+        var materiasPlanTrabajo = actividadesJson
+                .stream()
+                .filter(actividad -> actividad.getEstado() == Actividad.ACTIVO)// solo con estado activo
+                .map(ActividadDto::getIdMateria)
+                .distinct()
+                .count();
+
+        log.info("countMaterias: " + materiasPlanTrabajo);
+
+        // validar que el plan de trabajo tenga todas las materias
+        if (materiasPlanTrabajo != materias.size()) {
+            errores.add("El plan de trabajo debe tener todas las materias cargadas como actividades");
+            return ResponseDataDto.builder()
+                    .code(0)
+                    .message("Error al guardar el plan de trabajo para el bimestre " + bimestre.getDescripcion() + " lea los siguientes errores:")
+                    .errors(errores)
+                    .build();
+        }
+
         //recorrer materias para verificar que la suma de actividades sea igual a 60 (puntos configurados en bimestre)
         for (MateriaDescripcionId materia : materias) {
 
@@ -168,21 +192,6 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
             if (sumaValorActividadesMateria != bimestre.getPuntosActividades()) {
                 errores.add("La suma de actividades para " + materia.getDescripcion() + " debe ser igual a " + String.format("%.2f", bimestre.getPuntosActividades()) + " puntos");
             }
-        }
-
-        // contar cuantas materias tiene el plan de trabajo (contar solo las no repetidas)
-        var materiasPlanTrabajo = actividadesJson
-                .stream()
-                .filter(actividad -> actividad.getEstado() == Actividad.ACTIVO)// solo con estado activo
-                .map(ActividadDto::getIdMateria)
-                .distinct()
-                .count();
-
-        log.info("countMaterias: " + materiasPlanTrabajo);
-
-        // validar que el plan de trabajo tenga todas las materias
-        if (materiasPlanTrabajo != materias.size()) {
-            errores.add("El plan de trabajo debe tener todas las materias cargadas como actividades");
         }
 
         //si hay errores retornar el arreglo de errores y el estado de la operacion como 0 (fallida)
@@ -230,6 +239,50 @@ public class PlanTrabajoServiceImpl implements PlanTrabajoService {
         return ResponseDataDto.builder()
                 .code(1)
                 .message("¡Plan de trabajo eliminado correctamente!")
+                .build();
+    }
+
+    /**
+     * Validar las actividades del plan de trabajo
+     *
+     * @param actividades
+     * @return
+     */
+    @Override
+    public ResponseDataDto validarActividades(List<ActividadDto> actividades) {
+
+        List<String> errores = new ArrayList<>();
+        var bimestre = userFacade.getUserSession().getBimestre();
+
+        //agrupar las actividades por materia
+        Map<String, List<ActividadDto>> actividadesPorMateria = actividades.stream()
+                .collect(Collectors.groupingBy(ActividadDto::getDescripcionMateria));
+
+        //recorrer materias para verificar que la suma de actividades sea igual a 60 (puntos configurados en bimestre)
+        for (Map.Entry<String, List<ActividadDto>> entry : actividadesPorMateria.entrySet()) {
+
+            var sumaValorActividadesMateria = entry.getValue().stream().mapToDouble(ActividadDto::getValorActividad).sum();
+
+            if (sumaValorActividadesMateria != bimestre.getPuntosActividades()) {
+                errores.add(entry.getKey() + " <strong>"
+                        + String.format("%.2f", sumaValorActividadesMateria)
+                        + "</strong> de <strong>" + String.format("%.2f", bimestre.getPuntosActividades())
+                        + "</strong> puntos");
+            }
+        }
+
+        //si hay errores retornar
+        if (errores.size() > 0) {
+            return ResponseDataDto.builder()
+                    .code(ResponseDataDto.ERROR)
+                    .message("Observe las sumas de actividades de las materias que ha cargado:")
+                    .errors(errores)
+                    .build();
+        }
+
+        return ResponseDataDto.builder()
+                .code(ResponseDataDto.SUCCESS)
+                .message("")
                 .build();
     }
 
