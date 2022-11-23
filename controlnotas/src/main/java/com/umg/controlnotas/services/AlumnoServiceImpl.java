@@ -57,6 +57,7 @@ public class AlumnoServiceImpl implements AlumnoService {
         a.setHoraCommit(LocalTime.now());
         a.setIdSeccion(seccion);
         a.setIdUsuario(usuario);
+        a.setEncargado(alumno.getEncargado());
 
         if (alumno.getExpediente() != null) {
             a.setEstadoExpediente(alumno.getExpediente());
@@ -69,8 +70,8 @@ public class AlumnoServiceImpl implements AlumnoService {
         List<DetalleExpediente> detalleExpedienteList = new ArrayList<>();
 
         // tomar plantillas de checklist y registrar detalle expediente
-        if (alumno.getPlantillaChecklistDtos() != null) {
-            for (PlantillaChecklistDto plantillaChecklistDto : alumno.getPlantillaChecklistDtos()) {
+        if (alumno.getPlantillaChecklists() != null) {
+            for (PlantillaChecklistDto plantillaChecklistDto : alumno.getPlantillaChecklists()) {
                 DetalleExpediente detalleExpediente = new DetalleExpediente();
                 detalleExpediente.setIdAlumno(a);
                 detalleExpediente.setEstado(plantillaChecklistDto.getEstado());
@@ -310,7 +311,8 @@ public class AlumnoServiceImpl implements AlumnoService {
                 .id(expedienteAlumnoEditar.getIdAlumno())
                 .expediente(expedienteAlumnoEditar.getEstadoExpediente())
                 .observacion(expedienteAlumnoEditar.getObservacionExpediente())
-                .plantillaChecklistDtos(plantillaChecklistDtos)
+                .encargado(expedienteAlumnoEditar.getEncargado())
+                .plantillaChecklists(plantillaChecklistDtos)
                 .build();
     }
 
@@ -318,10 +320,10 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Transactional
     public void guardarChecklistExpediente(AlumnoDto alumno) {
 
-        alumnoRepository.updateDatosExpediente(alumno.getExpediente(), alumno.getObservacion(), alumno.getId());
+        alumnoRepository.updateDatosExpediente(alumno.getExpediente(), alumno.getObservacion(), alumno.getId(), alumno.getEncargado());
 
         //recorrer la lista de plantillaChecklists y actualizar estado detalleExpediente
-        alumno.getPlantillaChecklistDtos().forEach(p -> {
+        alumno.getPlantillaChecklists().forEach(p -> {
             detalleExpedienteRepository.updateEstado(p.getEstado(), p.getIdDetalleExpediente());
         } );
 

@@ -24,5 +24,6 @@ public class AlumnoDto implements Serializable {
     private Long seccion;
     private Integer expediente;
     private String observacion;
-    private List<PlantillaChecklistDto> plantillaChecklistDtos;
+    private Integer encargado;
+    private List<PlantillaChecklistDto> plantillaChecklists;
 }
