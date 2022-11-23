@@ -48,7 +48,7 @@ function verExpediente(idAlumno) {
         success: function (data) {
 
             //validar si plantillaChecklist está vacio
-            if ($.isEmptyObject(data['plantillaChecklistDtos'])) {
+            if ($.isEmptyObject(data['plantillaChecklists'])) {
                 bulmaToast.toast({
                     message: "No hay documentos para mostrar.",
                     type: "is-warning",
@@ -88,30 +88,39 @@ function verExpediente(idAlumno) {
         $('#expediente-no').attr('checked', data['expediente'] === 0);
         $('#idAlumno').val(data['id']);
 
+        //iterar option de select y poner el valor seleccionado
+        $('#encargado').find('option').each(function () {
+            console.log($(this).val());
+            console.log(data['encargado'])
+            if ($(this).val() == data['encargado']) {
+                $(this).attr('selected', true);
+            }
+        });
+
         let $items = $('#items-documentos');
         $items.empty();//limpiar contenido
 
-        $.each(data['plantillaChecklistDtos'], function (i, val) {//recorrer data
+        $.each(data['plantillaChecklists'], function (i, val) {//recorrer data
 
 
             $items.append(
                 $('<div>').addClass('column is-6').append(
-                    $('<label>').addClass('label').text(data['plantillaChecklistDtos'][i]['descripcionDocumento']),
+                    $('<label>').addClass('label').text(data['plantillaChecklists'][i]['descripcionDocumento']),
                     $('<div>').addClass('control').append(
                         $('<label>').addClass('radio').append(
                             $('<input>').attr({
                                 type: 'radio',
-                                name: data['plantillaChecklistDtos'][i]['idDetalleExpediente'],
+                                name: data['plantillaChecklists'][i]['idDetalleExpediente'],
                                 value: 1,
-                                checked: data['plantillaChecklistDtos'][i]['estado'] === 1
+                                checked: data['plantillaChecklists'][i]['estado'] === 1
                             }),
                         ).append(' SI '),
                         $('<label>').addClass('radio').append(
                             $('<input>').attr({
                                 type: 'radio',
-                                name: data['plantillaChecklistDtos'][i]['idDetalleExpediente'],
+                                name: data['plantillaChecklists'][i]['idDetalleExpediente'],
                                 value: 0,
-                                checked: data['plantillaChecklistDtos'][i]['estado'] === 0
+                                checked: data['plantillaChecklists'][i]['estado'] === 0
                             }),
                         ).append(' NO ')
                     )
@@ -135,13 +144,16 @@ $('#modal-checklist-expediente').submit(function (e) {
     formDatosExpediente['expediente'] = formJSON['expediente'];
     formDatosExpediente['observacion'] = formJSON['observacion'];
     formDatosExpediente['id'] = formJSON['id'];
+    formDatosExpediente['encargado'] = formJSON['encargado'];
 
     // eliminar expediente y observacion del array formJSON
     delete formJSON['expediente'];
     delete formJSON['observacion'];
     delete formJSON['id'];
+    delete formJSON['encargado'];
 
-    formDatosExpediente['plantillaChecklistDtos'] = llenarPlantillaChecklist(formJSON);
+    // una vez eliminados expediente y observacion, llenar plantillaChecklists
+    formDatosExpediente['plantillaChecklists'] = llenarPlantillaChecklist(formJSON);
 
 
     //poner efecto carga boton submit
@@ -175,7 +187,7 @@ $('#modal-checklist-expediente').submit(function (e) {
 
 });
 
-// funcion para llenar plantillaChecklistDtos
+// funcion para llenar plantillaChecklists
 function llenarPlantillaChecklist(formJSON) {
     let plantilla = [];//limpiar array
     Object.keys(formJSON).forEach(function (key) {

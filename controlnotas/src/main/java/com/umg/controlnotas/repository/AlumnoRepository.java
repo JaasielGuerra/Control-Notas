@@ -112,7 +112,8 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
 
     @Query("SELECT a.id AS idAlumno, " +
             "a.estadoExpediente AS estadoExpediente, " +
-            "a.observacionExpediente AS observacionExpediente " +
+            "a.observacionExpediente AS observacionExpediente," +
+            "a.encargado AS encargado " +
             "FROM Alumno a " +
             "WHERE a.id = ?1")
     DatosExpediente findByIdAlumno(Long id);
@@ -121,10 +122,11 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     @Query("UPDATE " +
             "Alumno a " +
             "SET a.estadoExpediente = ?1 ," +
-            "a.observacionExpediente = ?2 " +
+            "a.observacionExpediente = ?2, " +
+            "a.encargado = ?4 " +
             "WHERE " +
             "a.id = ?3")
-    public void updateDatosExpediente(Integer estadoExpediente, String observacion, Long id);
+    public void updateDatosExpediente(Integer estadoExpediente, String observacion, Long id, Integer encargado);
 
     List<ConsultaAlumnoCalificacion> findByEstadoAndIdSeccionIdIn(int estado, List<Long> secciones);
 

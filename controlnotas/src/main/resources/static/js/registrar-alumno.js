@@ -63,6 +63,9 @@ $("#form-nuevo-alumno").validate({
             maxlength: "Máxino 150 caracteres.",
             required: "Campo requerido."
         },
+        encargado: {
+            required: "Seleccione una opción.",
+        }
     },
     rules: {
         codigo: {
@@ -80,11 +83,14 @@ $("#form-nuevo-alumno").validate({
         observacion: {
             maxlength: 150
         },
+        encargado: {
+            required: true
+        }
     },
-    highlight: function (element, errorClass, validClass) {
-        //cuando la validacion falla, por errorClass (is-danger)
-        $(element).addClass(errorClass).removeClass(validClass);
-        $("p.is-danger").addClass("help");// agregar clase help a mensajes de error
+    errorPlacement: function (error, element) {
+        // Add the `help` class to the error element
+        error.addClass("help");
+        error.insertAfter(element);
     },
     submitHandler: function (form) {
 

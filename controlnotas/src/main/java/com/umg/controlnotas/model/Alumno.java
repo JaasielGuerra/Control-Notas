@@ -17,6 +17,8 @@ public class Alumno {
     public static final int INACTIVO = 0;
     public static final int COMPLETO = 1;
     public static final int INCOMPLETO = 0;
+    public static final int ENCARGADO_PADRE = 1;
+    public static final int ENCARGADO_MADRE = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +62,8 @@ public class Alumno {
 
     @Column(name = "estado_expediente")
     private Integer estadoExpediente;
+    @Column(name = "encargado")
+    private Integer encargado;
 
 
 }

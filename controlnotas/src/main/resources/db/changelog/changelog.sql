@@ -1331,3 +1331,7 @@ BEGIN
 
     END IF;
 END
+
+-- changeset liquibase:jaasiel-76
+ALTER TABLE `db_control_notas`.`alumno`
+ADD COLUMN `encargado` INT NOT NULL COMMENT 'VALORES:\n\n1 = PADRE\n2 = MADRE' AFTER `estado_expediente`;
