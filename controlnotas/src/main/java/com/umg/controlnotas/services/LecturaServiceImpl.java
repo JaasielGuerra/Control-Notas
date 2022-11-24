@@ -94,15 +94,14 @@ public class LecturaServiceImpl implements LecturaService {
      * obtener el detalle de lectura de un alumno
      *
      * @param idAlumno
-     * @param idBimestre
      * @return
      */
     @Override
-    public List<DetalleLecturaDto> obtenerDetalleLectura(long idAlumno, long idBimestre) {
+    public List<DetalleLecturaDto> obtenerDetalleLectura(long idAlumno) {
 
         log.info("obtenerDetalleLectura");
 
-        List<DetalleLecturaDto> detalle = detalleLecturaRepository.findByIdAlumnoIdAndIdBimestreIdOrderByIdDesc(idAlumno, idBimestre)
+        List<DetalleLecturaDto> detalle = detalleLecturaRepository.findByIdAlumnoIdOrderByIdDesc(idAlumno)
                 .stream()
                 .map(DetalleLecturaDto::from)
                 .collect(Collectors.toList());

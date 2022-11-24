@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface DetalleLecturaRepository extends JpaRepository<DetalleLectura, Long> {
 
-    List<ConsultaDetalleLectura> findByIdAlumnoIdAndIdBimestreIdOrderByIdDesc(Long idAlumno, Long idBimestre);
+    List<ConsultaDetalleLectura> findByIdAlumnoIdOrderByIdDesc(Long idAlumno);
 }
