@@ -18,6 +18,11 @@ public class Libro {
 
     public static final int DISPONIBLE = 1;
     public static final int NO_DISPONIBLE = 2;
+
+    public static final int CONDICION_BUEN_ESTADO = 1;
+    public static final int CONDICION_PERDIDO = 2;
+    public static final int CONDICION_DETERIORADO = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_libro", nullable = false)
@@ -44,5 +49,8 @@ public class Libro {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario idUsuario;
+
+    @Column(name = "condicion_libro", nullable = false)
+    private Integer condicionLibro;
 
 }

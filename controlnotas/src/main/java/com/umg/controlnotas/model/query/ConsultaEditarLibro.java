@@ -4,4 +4,5 @@ public interface ConsultaEditarLibro {
     Long getId();
     String getNombre();
     String getDescripcion();
+    Integer getCondicionLibro();
 }

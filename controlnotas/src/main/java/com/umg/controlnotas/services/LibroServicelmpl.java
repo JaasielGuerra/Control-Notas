@@ -45,6 +45,7 @@ public class LibroServicelmpl implements LibroService {
         l.setFechaCommit(LocalDate.now());
         l.setHoraCommit(LocalTime.now());
         l.setIdUsuario(usuarioRepository.getReferenceById(userFacade.getUserSession().getIdUsuario()));
+        l.setCondicionLibro(libroDto.getCondicion());
 
         libroRepository.save(l);
         log.info("Libro registrado correctamente" + l);
@@ -67,6 +68,8 @@ public class LibroServicelmpl implements LibroService {
                             .nombre(libros.getNombre())
                             .descripcion(libros.getDescripcion())
                             .disponibilidad(libros.getDisponibilidad())
+                            .condicion(libros.getCondicionLibro())
+                            .descripcionCondicion(obtenerDescripcionCondicion(libros.getCondicionLibro()))
                             .build()
                     )
                     .collect(Collectors.toList());
@@ -90,6 +93,8 @@ public class LibroServicelmpl implements LibroService {
                         .nombre(libros.getNombre())
                         .descripcion(libros.getDescripcion())
                         .disponibilidad(libros.getDisponibilidad())
+                        .condicion(libros.getCondicionLibro())
+                        .descripcionCondicion(obtenerDescripcionCondicion(libros.getCondicionLibro()))
                         .build()
                 )
                 .collect(Collectors.toList());
@@ -139,6 +144,7 @@ public class LibroServicelmpl implements LibroService {
         Libro libroDb = libroRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontro el libro a actualizar"));
         libroDb.setNombre(libro.getNombre());
         libroDb.setDescripcion(libro.getDescripcion());
+        libroDb.setCondicionLibro(libro.getCondicion());
 
         libroRepository.save(libroDb);
 
@@ -147,5 +153,18 @@ public class LibroServicelmpl implements LibroService {
                 .data(libro)
                 .message("Libro " + libro.getNombre() + " actualizado correctamente! ")
                 .build();
+    }
+
+    private String obtenerDescripcionCondicion(Integer condicion){
+        switch (condicion){
+            case Libro.CONDICION_BUEN_ESTADO:
+                return "BUEN ESTADO";
+            case Libro.CONDICION_PERDIDO:
+                return "PERDIDO";
+            case Libro.CONDICION_DETERIORADO:
+                return "DETERIORADO";
+            default:
+                return "DESCONOCIDO";
+        }
     }
 }

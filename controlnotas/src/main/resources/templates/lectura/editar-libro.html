@@ -28,7 +28,29 @@
                                     <div class="control">
                                         <input class="input" type="text" name="nombre" th:value="${libro.nombre}"
                                                placeholder="Escriba el nombre" required>
-                                            <input type="hidden" id="id-libro" th:value="${libro.id}">
+                                        <input type="hidden" id="id-libro" th:value="${libro.id}">
+                                    </div>
+                                </div>
+                                <div class="column is-4">
+                                    <label for="condicion">*Condicion libro</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="condicion" name="condicion" required>
+                                                <option disabled>- Seleccione -</option>
+                                                <option value="1"
+                                                        th:selected="${libro.condicion eq 1}">
+                                                    BUEN ESTADO
+                                                </option>
+                                                <option value="2"
+                                                        th:selected="${libro.condicion eq 2}">
+                                                    PERDIDO
+                                                </option>
+                                                <option value="3"
+                                                        th:selected="${libro.condicion eq 3}">
+                                                    DETERIORADO
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +58,8 @@
                                 <div class="column is-10">
                                     <label>*Descripción del libro</label>
                                     <div class="control">
-                                        <input class="input" type="text" name="descripcion" th:value="${libro.descripcion}"
+                                        <input class="input" type="text" name="descripcion"
+                                               th:value="${libro.descripcion}"
                                                placeholder="Escribe la descripción" required>
                                     </div>
                                 </div>

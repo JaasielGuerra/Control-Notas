@@ -24,9 +24,22 @@
                             <p class="subtitle is-5 has-text-danger">* Indica un canmpo obligatorio</p>
                             <div class="columns">
                                 <div class="column is-5">
-                                    <label > *Nombre del libro</label>
+                                    <label>*Nombre del libro</label>
                                     <div class="control">
                                         <input class="input" type="text" name="nombre" placeholder="Escriba el nombre" required>
+                                    </div>
+                                </div>
+                                <div class="column is-4">
+                                    <label for="condicion">*Condicion libro</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="condicion" name="condicion" required>
+                                                <option disabled selected>- Seleccione -</option>
+                                                <option value="1">BUEN ESTADO</option>
+                                                <option value="2">PERDIDO</option>
+                                                <option value="3">DETERIORADO</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
