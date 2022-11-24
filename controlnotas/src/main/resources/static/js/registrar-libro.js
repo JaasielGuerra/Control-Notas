@@ -14,6 +14,9 @@
                 required: true,
                 minlength: 5,
                 maxlength: 100
+            },
+            condicion: {
+                required: true
             }
         },
         messages: {
@@ -26,6 +29,9 @@
                 required: "Campo requerido",
                 minlength: "Mínimo 5 caracteres.",
                 maxlength: "Maximo 100 caracteres."
+            },
+            condicion: {
+                required: "Seleccione una opción"
             }
         },
         errorPlacement: function (error, element) {

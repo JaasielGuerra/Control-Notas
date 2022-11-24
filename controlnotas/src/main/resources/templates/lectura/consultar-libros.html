@@ -43,6 +43,7 @@
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Disponibilidad</th>
+                                    <th>Condición libro</th>
                                     <th>Operaciones</th>
 
                                 </tr>
@@ -58,6 +59,14 @@
                                               th:if="*{i.disponibilidad eq 2}">no disponible</span>
                                         <span class="tag is-success"
                                               th:if="*{i.disponibilidad eq 1}">disponible</span>
+                                    </td>
+                                    <td >
+                                        <span class="tag is-link"
+                                              th:if="*{i.condicion eq 1}">BUEN ESTADO</span>
+                                        <span class="tag is-danger"
+                                              th:if="*{i.condicion eq 2}">PERDIDO</span>
+                                        <span class="tag is-warning"
+                                              th:if="*{i.condicion eq 3}">DETERIORADO</span>
                                     </td>
                                     <td>
                                         <a class="button is-warning is-small" th:href="@{/libros/editar/{id}(id=*{i.id})}">

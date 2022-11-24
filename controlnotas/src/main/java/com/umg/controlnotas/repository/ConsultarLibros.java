@@ -7,6 +7,7 @@ public interface ConsultarLibros {
     String getNombre();
     String getDescripcion();
     Integer getDisponibilidad();
+    Integer getCondicionLibro();
 
 
 }

@@ -12,7 +12,7 @@ public interface LecturaService {
     List<AlumnoLecturaDto> obtenerAlumnosLectura(long idGrado);
 
     AlumnoLecturaDto obtenerAlumnoLectura(long idAlumno);
-    List<DetalleLecturaDto> obtenerDetalleLectura(long idAlumno, long idBimestre);
+    List<DetalleLecturaDto> obtenerDetalleLectura(long idAlumno);
 
     @Transactional
     ResponseDataDto registrarDetalleLectura(RegistroDetalleLecturaDto registroDetalleLecturaDto, long idBimestre);

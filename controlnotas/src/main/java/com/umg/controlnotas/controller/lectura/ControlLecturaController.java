@@ -72,10 +72,7 @@ public class ControlLecturaController {
         try {
 
             AlumnoLecturaDto alumno = lecturaService.obtenerAlumnoLectura(idAlumno);
-            List<DetalleLecturaDto> detalleLecturaDtos = lecturaService.obtenerDetalleLectura(
-                    idAlumno,
-                    Objects.requireNonNull(userFacade.getBimestreActual().getId(), "id bimestre no puede ser nulo")
-            );
+            List<DetalleLecturaDto> detalleLecturaDtos = lecturaService.obtenerDetalleLectura(idAlumno);
 
             model.addAttribute("alumno", alumno);
             model.addAttribute("detallesLectura", detalleLecturaDtos);

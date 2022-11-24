@@ -19,12 +19,15 @@ public class LibroDto implements Serializable {
     private String nombre;
     private String descripcion;
     private Integer disponibilidad;
+    private Integer condicion;
+    private String descripcionCondicion;
 
     public static LibroDto from(ConsultaEditarLibro libro) {
         return LibroDto.builder()
                 .id(libro.getId())
                 .nombre(libro.getNombre())
                 .descripcion(libro.getDescripcion())
+                .condicion(libro.getCondicionLibro())
                 .build();
     }
 

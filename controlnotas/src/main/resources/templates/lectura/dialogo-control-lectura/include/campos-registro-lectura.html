@@ -43,7 +43,7 @@
                     <div class="select is-fullwidth is-small">
                         <select id="idLibroNuevo" name="idLibroNuevo" required>
                             <option disabled selected th:if="${libros ne null and libros.isEmpty()}">No hay libros disponibles</option>
-                            <option th:each="i : ${libros}" th:text="${i.nombre}" th:value="${i.id}">Principito</option>
+                            <option th:each="i : ${libros}" th:text="${i.nombre + ' (' + i.descripcionCondicion + ')'}" th:value="${i.id}">Principito</option>
                         </select>
                     </div>
                 </div>

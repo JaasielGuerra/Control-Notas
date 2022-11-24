@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface LibroRepository extends JpaRepository<Libro, Long> {
 
-    @Query("SELECT l.id AS id, l.nombre AS nombre, l.descripcion AS descripcion FROM Libro l WHERE l.id = ?1")
+    @Query("SELECT l.id AS id, l.nombre AS nombre, l.descripcion AS descripcion, l.condicionLibro AS condicionLibro FROM Libro l WHERE l.id = ?1")
     ConsultaEditarLibro obtenerLibroEditar(Long id);
 
 
